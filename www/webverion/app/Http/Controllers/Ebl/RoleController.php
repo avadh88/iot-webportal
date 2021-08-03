@@ -16,7 +16,7 @@ class RoleController extends ApiController
         if(!$add){
             return Redirect::back()->with('');
         }else{
-            return view('roles/role_add');
+            return view('roles/new');
         }
     }
 
@@ -36,7 +36,8 @@ class RoleController extends ApiController
             if ( Session::has('token') ){ 
                 $data['token']     = Session::get('token');
                 $data['role_name'] = $request->role_name;
-        
+                $data['permission'] = $request->permission;
+
                 $response          = $this->getGuzzleRequest('post','/roles/add',$data);
                 $res               = json_decode($response['data']);
 

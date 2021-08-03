@@ -37,22 +37,22 @@ class TempController extends ApiController
 
     public function insertData(Request $request,$id){
 
-        $add = Helper::showBasedOnPermission('permenent.add');   
+        $add = Helper::showBasedOnPermission('permanent.create');   
 
         if(!$add){
             return Redirect::back()->with('');
         }else{
         if ( Session::has('token') ){ 
             $data = Session::get('token');
+            $response = $this->getGuzzleRequest('GET','/list/add/'.$id,$data);
+            $res      = json_decode($response['data']);
+    
+            if($response['status'] == 200){
+                Session::flash('message', $res->message); 
+                Session::flash('alert-class', 'alert-success');
+                return redirect('/temporary/list');
+            }}
         }
-        $response = $this->getGuzzleRequest('GET','/list/add/'.$id,$data);
-        $res      = json_decode($response['data']);
-
-        if($response['status'] == 200){
-            Session::flash('message', $res->message); 
-            Session::flash('alert-class', 'alert-success');
-            return redirect('/temporary/list');
-        }}
     }
     
     public function edit($id){

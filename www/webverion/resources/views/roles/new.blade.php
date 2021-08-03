@@ -1,60 +1,86 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>Edit Permission</title>
+    <title>Add New Role</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1' name='viewport'>
     <link rel="shortcut icon" href="img/favicon.ico"/>
-
-  @include('common/headerlink')
-
+    @include('common/headerlink')
 </head>
-<body class="skin-coreplus nav-fixed">
-<div class="preloader">
-    <div class="loader_img"><img src="{{asset('public/assets/images/loader.gif')}}" alt="loading..." height="64" width="64"></div>
-</div>
 
+<body class="skin-coreplus">
+<div class="preloader">
+    <div class="loader_img"><img src="img/loader.gif" alt="loading..." height="64" width="64"></div>
+</div>
 @include('common/header')
+
 <div class="wrapper row-offcanvas row-offcanvas-left">
     @include('common/sidebar')
-
+  
     <aside class="right-side">
         <section class="content-header fixed_header_menu">
             <h1>
-                Edit Permissions
+                Add New Role
             </h1>
-
             <ol class="breadcrumb">
-                <li class="breadcrumb-item pt-1"><a href="{{ url('roles/list')}}"><i class="fa fa-fw fa-home"></i> Roles</a>
+                <li class="breadcrumb-item pt-1"><a href="{{ url('roles/list')}}"><i class="fa fa-fw fa-home"></i> Role</a>
                 </li>
                 <li class="breadcrumb-item active">
-                   Edit Permissions
+                    <a href="#">Add New Role</a>
                 </li>
             </ol>
         </section>
         <section class="content">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card ">
-                        <div class="card-header bg-primary text-white">
-                            <h3 class="card-title d-inline">
-                                <i class="fa fa-fw fa-crosshairs"></i> Edit Permission
-                            </h3>
-                            <span class="pull-right">
-                                    <i class="fa fa-fw fa-chevron-up clickable"></i>
-                                </span>
-                        </div>
-                        <div class="card-body">
-                            <form  role="form" action="{{ route('roles.update') }}" method="POST">
+            <div>
+                    <div class="card-body">
+                        @if($message = Session::get('message'))
+                            <div class="alert alert-danger alert-block">
+                                <button type="button" class="close" data-dismiss="alert">x</button>
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @endif
+
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach($error->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif 
+                        <div class="card border-primary">
+                            <div class="card-header bg-primary text-white">
+                                <h3 class="card-title d-inline ">
+                                    <i class="fa fa-fw fa-star-half-empty"></i> Add New Role
+                                </h3>
+                                <span class="pull-right">
+                                        <i class="fa fa-fw clickable fa-chevron-up"></i>
+
+                                    </span>
+                            </div>
+                            <div class="card-body" style="display: block;">
+                                @if(isset($data))
+                                    <form id="roleValidation" action="{{ route('roles.update') }}" class="" method="POST">
+                                @else   
+                                    <form id="roleValidation" action="{{ route('roles.insert') }}" class="" method="POST">
+                                @endif
+                                                                
                                 @csrf
-                                <div class="form-group row">
-                                    <label for="input-text" class="col-lg-2 col-md-2  col-sm-12 col-12 col-form-label text-lg-right text-md-right text-left">Role</label>
-                                    <div class="col-lg-10 col-md-10  col-sm-12 col-12 col-sm-12">
-                                        <input name="role" type="text" class="form-control form-control-lg" id="Role"
-                                               placeholder="Role" value="{{ isset($role) ? $role : '' }}">
-                                    </div>
-                                </div>
+                                        <input type="hidden" name="id" @if(isset($data->id)) value="{{ $data->id }}" @endif>
+                                  
+
+
+                                        <div class="form-group row">
+                                            <label class="col-md-4 col-form-label" for="role_name">
+                                                Role Name
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="col-md-6">
+                                                <input type="text" name="role_name" id="role_name" class="form-control input-md" placeholder="Enter New Role" @if(isset($data->role_name)) value="{{ $data->role_name }}" @endif>
+                                            </div>
+                                        </div>
                                 
                                 <div class="form-group row">
                                     <label class="col-lg-2 col-md-2  col-sm-12 col-12 col-form-label m-t-ng-8 text-lg-right text-md-right text-left">User</label>
@@ -69,24 +95,24 @@
                                     <div class="col-lg-4 col-md-4  col-sm-4 col-4">
                                         <div>
                                             <label>
-                                                <input type="checkbox" name="permission[]" id="userCreate" value="user.create" class="checkAllUser" @if(in_array('user.create', $permissions)) checked @endif> Add User
+                                                <input type="checkbox" name="permission[]" id="userCreate" value="user.create" class="checkAllUser" > Add User
                                             </label>
 
 
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="checkbox" name="permission[]" id="userRead" value="user.read" class="checkAllUser" @if(in_array('user.read', $permissions)) checked @endif> View User
+                                                <input type="checkbox" name="permission[]" id="userRead" value="user.read" class="checkAllUser" > View User
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="checkbox" name="permission[]" id="userDelete" value="user.delete" class="checkAllUser" @if(in_array('user.delete', $permissions)) checked @endif> Delete User
+                                                <input type="checkbox" name="permission[]" id="userDelete" value="user.delete" class="checkAllUser" > Delete User
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="checkbox" name="permission[]" id="userUpdate" value="user.update" class="checkAllUser" @if(in_array('user.update', $permissions)) checked @endif> Update User
+                                                <input type="checkbox" name="permission[]" id="userUpdate" value="user.update" class="checkAllUser" > Update User
                                             </label>
                                         </div>
                                     </div>
@@ -105,22 +131,22 @@
                                     <div class="col-lg-4 col-md-4  col-sm-4 col-4">
                                         <div>
                                             <label>
-                                                <input type="checkbox" name="permission[]" id="roleCreate" value="role.create" class="checkAllRole" @if(in_array('role.create', $permissions)) checked @endif> Add Role
+                                                <input type="checkbox" name="permission[]" id="roleCreate" value="role.create" class="checkAllRole" > Add Role
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="checkbox" name="permission[]" id="roleRead" value="role.read" class="checkAllRole" @if(in_array('role.read', $permissions)) checked @endif> View Role
+                                                <input type="checkbox" name="permission[]" id="roleRead" value="role.read" class="checkAllRole" > View Role
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="checkbox" name="permission[]" id="roleDelete" value="role.delete" class="checkAllRole" @if(in_array('role.delete', $permissions)) checked @endif> Delete Role
+                                                <input type="checkbox" name="permission[]" id="roleDelete" value="role.delete" class="checkAllRole" > Delete Role
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="checkbox" name="permission[]" id="roleUpdate" value="role.update" class="checkAllRole" @if(in_array('role.update', $permissions)) checked @endif> Update Role
+                                                <input type="checkbox" name="permission[]" id="roleUpdate" value="role.update" class="checkAllRole" > Update Role
                                             </label>
                                         </div>
                                     </div>
@@ -138,30 +164,26 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-4  col-sm-4 col-4">
-                                        <!-- <div>
-                                            <label>
-                                                <input type="checkbox" name="permission[]" id="create" value="temporary.create" class="checkAllTemp" @if(in_array('temporary.create', $permissions)) checked @endif> Add Temporary Device
-                                            </label>
-                                        </div> -->
+                                   
                                         <div>
                                             <label>
-                                                <input type="checkbox" name="permission[]" id="temporaryRead" value="temporary.read" class="checkAllTemp" @if(in_array('temporary.read', $permissions)) checked @endif> View Temporary Devices
+                                                <input type="checkbox" name="permission[]" id="temporaryRead" value="temporary.read" class="checkAllTemp" > View Temporary Devices
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="checkbox" name="permission[]" id="temporaryDelete" value="temporary.delete" class="checkAllTemp" @if(in_array('temporary.delete', $permissions)) checked @endif> Delete Temporary Device
+                                                <input type="checkbox" name="permission[]" id="temporaryDelete" value="temporary.delete" class="checkAllTemp" > Delete Temporary Device
                                             </label>
                                         </div>
                                         <div>
                                             <label>
-                                                <input type="checkbox" name="permission[]" id="temporaryUpdate" value="temporary.update" class="checkAllTemp" @if(in_array('temporary.update', $permissions)) checked @endif> Update Temporary Device
+                                                <input type="checkbox" name="permission[]" id="temporaryUpdate" value="temporary.update" class="checkAllTemp" > Update Temporary Device
                                             </label>
                                         </div>
 
                                         <div>
                                             <label>
-                                                <input type="checkbox" name="permission[]" id="permanentCreate" value="permanent.create" class="checkAllTemp" @if(in_array('permanent.create', $permissions)) checked @endif> Add To Permanent Device
+                                                <input type="checkbox" name="permission[]" id="permanentCreate" value="permanent.create" class="checkAllTemp" > Add To Permanent Device
                                             </label>
                                         </div>
                                     </div>
@@ -181,37 +203,45 @@
                                        
                                         <div>
                                             <label>
-                                                <input type="checkbox" name="permission[]" id="permanentRead" value="permanent.read" class="checkAllpermanent" @if(in_array('permanent.read', $permissions)) checked @endif> View Permanent Devices
+                                                <input type="checkbox" name="permission[]" id="permanentRead" value="permanent.read" class="checkAllpermanent" > View Permanent Devices
                                             </label>
                                         </div>
                                        
                                         <div>
                                             <label>
-                                                <input type="checkbox" name="permission[]" id="permanentUpdate" value="permanent.update" class="checkAllpermanent" @if(in_array('permanent.update', $permissions)) checked @endif> Edit Permanent Device
+                                                <input type="checkbox" name="permission[]" id="permanentUpdate" value="permanent.update" class="checkAllpermanent" > Edit Permanent Device
                                             </label>
                                         </div>
 
                                         <div>
                                             <label>
-                                                <input type="checkbox" name="permission[]" id="permanentDelete" value="permanent.delete" class="checkAllpermanent" @if(in_array('permanent.delete', $permissions)) checked @endif> Delete Permanent Device
+                                                <input type="checkbox" name="permission[]" id="permanentDelete" value="permanent.delete" class="checkAllpermanent" > Delete Permanent Device
                                             </label>
                                         </div>
 
                                     </div>
                                 </div>
-
-                                <button class="btn btn-default" type="submit">submit</button>
-                            </form>
+  
+                                                            
+                                    <div class="form-group form-actions">
+                                        <div>
+                                            <button type="submit" class="btn btn-effect-ripple btn-primary">Submit</button>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                
+                            </div>
                         </div>
+                        
                     </div>
-                </div>
             </div>
-
         </section>
     </aside>
 </div>
 
 @include('common/footerlink')
+
 </body>
 
 </html>

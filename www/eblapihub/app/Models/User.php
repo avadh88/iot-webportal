@@ -48,11 +48,10 @@ class User extends Authenticatable
     }
 
     public function assignRoles($role){
-
         if(is_string($role)){
             $role = Role::whereName($role)->firstOrFail();
         }
-        return $this->roles()->sync($role,false);
+        return $this->roles()->sync($role,true);
     }
 
     public function permission(){
@@ -126,9 +125,12 @@ class User extends Authenticatable
         $userModel->phone_number     = $data['phone_number'];
         $userModel->role             = $data['role'];
 
+        $assignRole = Role::where('role_name', $data['role'])->value('id');
+
 
         if($userModel->save()){
-            return $userModel;
+            $userModel->assignRoles($assignRole);
+            return $data;
         }else{
             return false;
         }

@@ -3,13 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\ApiController;
-use App\Models\Api\Permission;
-use App\Models\Api\Role;
-use App\Models\Api\UserModel;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator as FacadesValidator;
 
 class UserController extends ApiController
@@ -77,18 +73,10 @@ class UserController extends ApiController
 
     public function logout(Request $request){
         
-        // $token = $request->user()->token();
-        // $token->revoke();
-        try {
-            $token = $request->user()->token();
+            $token =  $request->user()->token();
             $token->revoke();
             $response = ['message' => 'You have been successfully logged out!'];
-            return response($response, 200);
-    
-            
-        } catch (\Throwable $th) {
-            //throw $th;
-        }
+            return response($token, 200);
     }
 
     /**
@@ -250,7 +238,7 @@ class UserController extends ApiController
 
 
             if(($userData)){
-                $response['message'] = trans('api.messages.user.create');
+                $response['message'] = trans('api.messages.user.update');
                 $response['data']    = $userData;
                 return $this->respond($response);
             }else{

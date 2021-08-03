@@ -29,7 +29,6 @@ class RoleController extends ApiController
         ]);
         
 
-
         if($validator->fails()){
             $response['message'] = trans('api.messages.user.failed');
             return $this->respondUnauthorized($response);
@@ -114,7 +113,6 @@ class RoleController extends ApiController
 
         $roleModel = new Role();
         $data = $roleModel->fetchPermissionById($id);
-        // return $this->respond($data);
 
         if($data){
             $response['message'] = trans('api.messages.fetch.success');

@@ -26,6 +26,7 @@ return [
         ],
         'user' => [
             'create'      => 'User Created Successfully',
+            'update'      => 'User Updated Successfully',
             'failed'      => 'Something Went Wrong',
             'delete'      => 'Deleted Successfully',
         ],

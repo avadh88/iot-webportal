@@ -31,7 +31,7 @@
 
         </section>
             
-                <section class="content">
+            <section class="content">
                 @if( Helper::showBasedOnPermission( 'role.create' ) )
 
                     <div class="row mb-2">
@@ -124,7 +124,7 @@
                     </div>
                 @endif
                 
-                </section>
+            </section>
     </aside>
 </div>
 

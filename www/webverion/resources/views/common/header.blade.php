@@ -50,6 +50,7 @@
                         <li ></li>
                       
                         <li  class="dropdown-divider"></li>
+                        <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
                                 <a href="lockscreen.html">

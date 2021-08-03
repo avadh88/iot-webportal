@@ -4,10 +4,11 @@ namespace App\Models\Api;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Passport\HasApiTokens;
 
 class TempDeviceModel extends Model
 {
-    use HasFactory;
+    use HasFactory,HasApiTokens;
 
     protected $connection = 'mysql2';
     protected $table = 'temp_devices';

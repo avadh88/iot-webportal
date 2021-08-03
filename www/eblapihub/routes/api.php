@@ -27,7 +27,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/temp',[TempDeviceController::class,'insertTempData']);
 Route::post('/check-device',[TempDeviceController::class,'checkTempData']);
-// Route::post('/check-device',[TempDeviceController::class,'checkTempData']);
 
 
 Route::post('web/login/verify', [UserController::class,'verify']);
@@ -58,8 +57,6 @@ Route::middleware('auth:api')->prefix('web')->group(function () {
 
     Route::get('/temporary/edit/{id}', [TempDeviceController::class,'edit']);
     Route::get('/temporary/delete/{id}', [TempDeviceController::class,'delete']);
-    Route::post('/temporary/update', [TempDeviceController::class,'update']);
-
-    
+    Route::post('/temporary/update', [TempDeviceController::class,'update']);    
 });
 

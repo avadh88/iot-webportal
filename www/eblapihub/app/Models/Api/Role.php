@@ -52,7 +52,6 @@ class Role extends Model
 
     public function givePermission($data){
 
-
         $userId   = Role::where('role_name', $data['role'])->value('id');
         $role     = Role::find($userId);
         $roleuser = User::find($userId);
@@ -63,8 +62,8 @@ class Role extends Model
                 $permissions[$i]   = Permission::where('permission_name', $permission)->value('id');
                 $i++;
             }
-            $role->allowTo($permissions);
         }
+        $role->allowTo($permissions);
         
         return $role;
     }
@@ -77,13 +76,20 @@ class Role extends Model
     }
 
     public function addRole($data){
-     
-        
         $userModel                   = new Role();
-
         $userModel->role_name         = $data['role_name'];
 
         if($userModel->save()){
+            $permissions = [];
+            $i = 0;
+            if(isset($data['permission'])){
+                foreach($data['permission'] as $permission){
+                    $permissions[$i]   = Permission::where('permission_name', $permission)->value('id');
+                    $i++;
+                }
+            }
+            $userModel->allowTo($permissions);
+
             return $userModel;
         }else{
             return false;

@@ -11,7 +11,11 @@ use Illuminate\Support\Facades\Session;
 class UserController extends ApiController
 {
     public function index(){
-        return view("login");
+        if(Session::has('token')){
+            return redirect()->back();
+        }else{
+            return view("/login");
+        }
     }
 
     /**
@@ -61,14 +65,14 @@ class UserController extends ApiController
             $response      = $this->getGuzzleRequest('post','/logout',$data);
             $res           = json_decode($response['data']);
 
+            if($response['status'] == 200){
+                $request->session()->flush();
+                return redirect('/login');
+            }
             if($response['status'] == 401){
-                Session::flush();
                 return redirect('/login');
             }
         }
-        return redirect('/login');
-
-
     }
 
     /**
@@ -116,7 +120,6 @@ class UserController extends ApiController
     }
 
     public function add(Request $request){
-        dd("**");
         $add = Helper::showBasedOnPermission('user.create');   
 
         if(!$add){
@@ -250,7 +253,6 @@ class UserController extends ApiController
                 
                 $response = $this->getGuzzleRequest('post','/user/update',$data);
                 $res = json_decode($response['data']);
-
 
                 if($response['status'] == 200){    
                     
