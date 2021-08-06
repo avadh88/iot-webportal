@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Api\Company;
 use App\Models\Api\Role;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\URL;
 use Laravel\Passport\HasApiTokens;
 use RangeException;
 
@@ -47,6 +49,10 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class)->withTimestamps();
     }
 
+    public function compnies(){
+        return $this->belongsToMany(Company::class)->withTimestamps();
+    }
+
     public function assignRoles($role){
         if(is_string($role)){
             $role = Role::whereName($role)->firstOrFail();
@@ -59,20 +65,39 @@ class User extends Authenticatable
     }
     
     public function getPermissionById($id){
+
         $data =  User::find($id);
         $datas = $data->permission();
         return $datas;
     }
 
+    public function getCompanyDetails($company_id){
+        
+        $data = Company::where('id',$company_id)
+                    ->pluck('company_logo')->first();
+        if($data == ""){
+            $data = URL::to('/resources/images/ebllogo.png');
+        }else{
+            $data = URL::to('/public/uploads/').'/'.$data;
+        }
+
+        
+        return $data;
+    }
+
 
     public function verify($data){
 
-        $userModel = User::select('id','username','email','password','role')->where('email', $data['username'])->orwhere('username',$data['username'])->first();
+        $userModel = User::select('id','username','email','password','role_id','company_id')->where('email', $data['username'])->orwhere('username',$data['username'])->first();
         return $userModel;
     }
 
     public function userList(){
-        $data = User::select('id','username','email','role')->get();
+        // $data = User::select('id','username','email','role_id')->get();
+        $data = User::join('roles', 'roles.id', '=', 'users.role_id')
+        ->join('companies', 'companies.id', '=', 'users.company_id')
+               ->get(['users.id','users.username','users.email', 'roles.role_name','companies.company_name']);
+        
         return $data;
     }
 
@@ -86,15 +111,18 @@ class User extends Authenticatable
         $userModel->last_name        = $data['last_name'];
         $userModel->email            = $data['email'];
         $userModel->phone_number     = $data['phone_number'];
-        $userModel->role             = $data['role'];
+        $userModel->role_id          = $data['role_id'];
+        $userModel->company_id       = $data['company_id'];
         $userModel->password         = Hash::make($data['password']);
         $userModel->repeat_password  = Hash::make($data['repeat_password']);
 
-        $assignRole = Role::where('role_name', $data['role'])->value('id');
+        $assignRole = Role::where('id', $data['role_id'])->value('id');
         
         if($userModel->save()){
+            $datas = User::where('users.id',$data['company_id'])->join('companies', 'companies.id', '=', 'users.company_id')
+            ->get('companies.company_email')->first();
             $userModel->assignRoles($assignRole);
-            return $userModel;
+            return $datas;
         }else{
             return false;
         }
@@ -109,7 +137,7 @@ class User extends Authenticatable
     public function getUserById($id){
         
         if($id){
-            $userModel = User::select('id','username','first_name','last_name','email','phone_number','role')->where('id',$id)->first();
+            $userModel = User::select('id','username','first_name','last_name','email','phone_number','role_id','company_id')->where('id',$id)->first();
             return $userModel;
         }
     }
@@ -123,10 +151,10 @@ class User extends Authenticatable
         $userModel->last_name        = $data['last_name'];
         $userModel->email            = $data['email'];
         $userModel->phone_number     = $data['phone_number'];
-        $userModel->role             = $data['role'];
+        $userModel->role_id          = $data['role_id'];
+        $userModel->company_id       = $data['company_id'];
 
-        $assignRole = Role::where('role_name', $data['role'])->value('id');
-
+        $assignRole = Role::where('id', $data['role_id'])->value('id');
 
         if($userModel->save()){
             $userModel->assignRoles($assignRole);

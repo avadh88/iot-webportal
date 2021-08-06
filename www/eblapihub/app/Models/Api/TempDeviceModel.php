@@ -12,7 +12,7 @@ class TempDeviceModel extends Model
 
     protected $connection = 'mysql2';
     protected $table = 'temp_devices';
-    protected $fillable = ['company_name','device_name','serial_number'];
+    protected $fillable = ['company_id','device_name','serial_number'];
 
     public function list($data){
         
@@ -25,7 +25,7 @@ class TempDeviceModel extends Model
 
     public function checkDevice($datas){
 
-        $results = TempDeviceModel::where('company_name', $datas['company_name'])
+        $results = TempDeviceModel::where('company_id', $datas['company_id'])
                                 ->where('device_name', $datas['device_name'])
                                 ->where('serial_number', $datas['serial_number'])->exists();
 
@@ -37,7 +37,7 @@ class TempDeviceModel extends Model
 
             $data                = new TempDeviceModel();
 
-            $data->company_name  = $datas['company_name'];
+            $data->company_id  = $datas['company_id'];
             $data->device_name   = $datas['device_name'];
             $data->serial_number = $datas['serial_number'];
         

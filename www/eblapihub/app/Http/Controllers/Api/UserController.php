@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\UserRegisteredEvent;
 use App\Http\Controllers\Api\ApiController;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -35,21 +36,22 @@ class UserController extends ApiController
         {
             $userModel = new User();
             $userData  = $userModel->verify($data);
-          
+
             if($userData){
 
                 if(Hash::check($data['password'],$userData->password)){
                     
-                    $datas['user_role'] = $userData->role;
+                    $datas['user_role']       = $userData->role_id;
                     $datas['user_permission'] = $userModel->getPermissionById($userData->id);
+                    $datas['company_logo']    = $userModel->getCompanyDetails($userData->company_id);
 
                     // $role = Role::firstOrCreate(['role_name'=>'administartor']);
                     // $permission = Permission::firstOrCreate(['permission_name'=>'create']);
                     // $role->allowTo($permission);
                     // $roleuser = User::find(1);
 
-                    // $roleuser->assignRoles($role);
                     // $roleuser->permission();
+                    // $roleuser->assignRoles($role);
 
                     $response             = [];
                     $response['token']    = $userData->createToken('authToken')->accessToken;
@@ -124,7 +126,8 @@ class UserController extends ApiController
             'last_name'         => 'required',
             'email'             => 'required',
             'phone_number'      => 'required',
-            'role'              => 'required',
+            'role_id'           => 'required',
+            'company_id'        => 'required',
             'password'          => 'required',
             'repeat_password'   => 'required',
             // 'remember_token'    => 'required',
@@ -141,8 +144,8 @@ class UserController extends ApiController
             $userData  =  $userModel->addUser($data);
             $response = [];
 
-
             if(($userData)){
+                event( new UserRegisteredEvent($userData->company_email) );
                 $response['message'] = trans('api.messages.user.create');
                 $response['data']    = $userData;
                 return $this->respond($response);
@@ -221,7 +224,8 @@ class UserController extends ApiController
             'last_name'         => 'required',
             'email'             => 'required',
             'phone_number'      => 'required',
-            'role'              => 'required',
+            'role_id'           => 'required',
+            'company_id'        => 'required',
             // 'remember_token'    => 'required',
         ]);
         

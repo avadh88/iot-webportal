@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Session;
 
 class RoleController extends ApiController
 {
+    /**
+     * Show role form
+     *
+     * @return void
+     */
     public function new(){
         $add = Helper::showBasedOnPermission('role.create');   
 

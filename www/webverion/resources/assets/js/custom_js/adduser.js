@@ -77,36 +77,18 @@ $(document).ready(function () {
                     }
                 }
             },
-            bio: {
+            phone_number: {
                 validators: {
                     notEmpty: {
-                        message: 'Bio is required and cannot be empty'
+                        message: 'The number is required and cannot be empty'
+                    },
+                    regexp: {
+                        regexp: /^\d{10}$/,
+                        message: 'The phone number can only consist of 10 numbers'
                     }
-                },
-                minlength: 20
+                }
             },
 
-            gender: {
-                validators: {
-                    notEmpty: {
-                        message: 'Please select a gender'
-                    }
-                }
-            },
-            activate: {
-                validators: {
-                    notEmpty: {
-                        message: 'Please check the checkbox to activate'
-                    }
-                }
-            },
-            group: {
-                validators: {
-                    notEmpty: {
-                        message: 'You must select a group'
-                    }
-                }
-            }
         }
     });
 

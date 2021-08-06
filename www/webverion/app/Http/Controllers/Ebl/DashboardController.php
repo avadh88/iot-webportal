@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Session;
 
 class DashboardController extends ApiController
 {
+    /**
+     * Show Dashboard
+     *
+     * @return void
+     */
     public function view(){
         return view('dashboard/dashboard');
     }

@@ -76,7 +76,6 @@
                                                                     <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" style="width: 43.25px;">
                                                                         Serial Name
                                                                     </th>
-                                                                    <!-- permenent.add -->
 
                                                                     <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" style="width: 43.25px;">
                                                                         Action
@@ -102,7 +101,8 @@
                                                                             <a href="{{ url('temporary/delete/'.$temp->id) }}" data-toggle="modal" data-target="#delete"><i class="fa fa-fw fa-times text-danger actions_icon" title="Delete User"></i></a>
                                                                         @if( Helper::showBasedOnPermission( 'permanent.create' ) )
                                                                         
-                                                                            <a href="{{ url('insert/'.$temp->id) }}"><i class="fa fa-fw fa-save" style="color:green" title="save Device"></i></a>
+                                                                            <!-- <a href="{{ url('insert/'.$temp->id) }}"><i class="fa fa-fw fa-save" style="color:green" title="save Device"></i></a> -->
+                                                                            <a href="{{ url('permanent/insert/'.$temp->id) }}"><i class="fa fa-fw fa-save" style="color:green" title="save Device"></i></a>
                                                                         @endif
                                                                         </td>
                                                                     </tr>

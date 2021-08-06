@@ -69,7 +69,7 @@
                                 @csrf
                                     <input type="hidden" name="id" @if(isset($data->id)) value="{{ $data->id }}" @endif>
 
-                                    <div class="form-group row">
+                                    <!-- <div class="form-group row">
                                             <label class="col-md-4 col-form-label" for="company_name">
                                                 Company Name
                                                 <span class="text-danger">*</span>
@@ -77,7 +77,24 @@
                                             <div class="col-md-6">
                                                 <input type="text" name="company_name" id="company_name" class="form-control input-md" placeholder="Company Name" @if(isset($data->company_name)) value="{{ $data->company_name }}" @endif >
                                             </div>
+                                        </div> -->
+                                        <div class="form-group row" >
+                                        <label for="company_id" class="col-md-4 col-form-label">
+                                        Company Name
+                                                <span class="text-danger">*</span>
+                                        </label>
+                                        <div class="col-md-6">
+                                            <select id="company_id" name="company_id" class="form-control select2" style="width:100%">
+
+                                                    @if (isset($compnies))
+                                                        @foreach($compnies as $company)
+                                                        <option value="{{ $company->id }}"  @if (isset($data->company_id)) @if($company->id == $data->company_id) selected="selected" @endif @endif> {{ $company->company_name }}</option>
+                                                        @endforeach
+                                                    @endif
+
+                                            </select>
                                         </div>
+                                    </div>
 
 
                                         <div class="form-group row">

@@ -37,6 +37,15 @@
                     </li>
                     @endif
 
+                    @if( Helper::showBasedOnPermission( 'company.read' ) )
+                    <li>
+                        <a href="{{ url('company/list') }}">
+                            <i class="menu-icon fa fa-fw fa-home"></i>
+                            <span class="mm-text ">Company</span>
+                        </a>
+                    </li>
+                    @endif
+
                 </ul>
             </div>
         </section>

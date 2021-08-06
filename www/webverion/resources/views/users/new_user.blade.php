@@ -67,24 +67,43 @@
                                 @endif
                                                                 
                                 @csrf
-                                                <input type="hidden" name="id" @if(isset($data->id)) value="{{ $data->id }}" @endif>
+                                <input type="hidden" name="id" @if(isset($data->id)) value="{{ $data->id }}" @endif>
                                     <div class="form-group row">
-                                            <label class="col-md-4 col-form-label" for="role">
+                                            <label class="col-md-4 col-form-label" for="role_id">
                                                 Role
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <div class="col-md-6">
-                                                <select id="role" name="role" class="form-control">
+                                                <select id="role_id" name="role_id" class="form-control">
 
                                                     <option value=""> Please select </option>
                                                     @if (isset($roles))
                                                         @foreach($roles as $role)
-                                                        <option value="{{ $role->role_name }}"  @if (isset($data->role)) @if($role->role_name == $data->role) selected="selected" @endif @endif> {{ $role->role_name }}</option>
+                                                        <option value="{{ $role->id }}"  @if (isset($data->role_id)) @if($role->id == $data->role_id) selected="selected" @endif @endif> {{ $role->role_name }}</option>
                                                         @endforeach
                                                     @endif
                                                 </select>
                                             </div>
                                         </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-md-4 col-form-label" for="company_id">
+                                                Company
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="col-md-6">
+                                                <select id="company_id" name="company_id" class="form-control">
+
+                                                    <option value=""> Please select </option>
+                                                    @if (isset($compnies))
+                                                        @foreach($compnies as $company)
+                                                        <option value="{{ $company->id }}"  @if (isset($data->company_id)) @if($company->id == $data->company_id) selected="selected" @endif @endif> {{ $company->company_name }}</option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
+                                            </div>
+                                        </div>
+
 
                                         <div class="form-group row">
                                             <label class="col-md-4 col-form-label" for="first_name">

@@ -200,6 +200,45 @@
                                     </div>
                                 </div>
 
+                                <div class="form-group row">
+                                    <label class="col-lg-2 col-md-2  col-sm-12 col-12 col-form-label m-t-ng-8 text-lg-right text-md-right text-left">Company</label>
+                                    <div class="col-lg-2 col-md-2  col-sm-2 col-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="selectAllCompany">
+                                        <label class="form-check-label" for="selectAllCompany">
+                                            Select All
+                                        </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4  col-sm-4 col-4">
+                                       
+                                        <div>
+                                            <label>
+                                                <input type="checkbox" name="permission[]" id="companyCreate" value="company.create" class="checkAllcompany" @if(in_array('company.create', $permissions)) checked @endif> Add New Company
+                                            </label>
+                                        </div>
+
+                                        <div>
+                                            <label>
+                                                <input type="checkbox" name="permission[]" id="companyRead" value="company.read" class="checkAllcompany" @if(in_array('company.read', $permissions)) checked @endif> View Company
+                                            </label>
+                                        </div>
+
+                                        <div>
+                                            <label>
+                                                <input type="checkbox" name="permission[]" id="companyDelete" value="company.delete" class="checkAllcompany" @if(in_array('company.delete', $permissions)) checked @endif> Delete Company
+                                            </label>
+                                        </div>
+
+                                        <div>
+                                            <label>
+                                                <input type="checkbox" name="permission[]" id="companyUpdate" value="company.update" class="checkAllcompany" @if(in_array('company.update', $permissions)) checked @endif> Edit Company
+                                            </label>
+                                        </div>
+                                    
+                                    </div>
+                                </div>
+
                                 <button class="btn btn-default" type="submit">submit</button>
                             </form>
                         </div>

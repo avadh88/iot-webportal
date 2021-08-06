@@ -86,6 +86,9 @@ class PermanentController extends ApiController
         if (Session::has('token')){
             $data     = Session::get('token');
 
+            $response = $this->getGuzzleRequest('GET','/company/compnaylist',$data);
+            $compnies      = json_decode($response['data']);
+
             $response = $this->getGuzzleRequest('GET','/permanent/edit/'.$id,$data);
             $res      = json_decode($response['data']);
         
@@ -94,7 +97,7 @@ class PermanentController extends ApiController
                 
                 // Session::flash('message', $res->message); 
                 Session::flash('alert-class', 'alert-success');
-                return view('permanent/edit',['data'=>$res->data]);
+                return view('permanent/edit',['data'=>$res->data,'compnies'=>$compnies->data]);
 
             }else if($response['status'] == 401){
                 
@@ -109,6 +112,13 @@ class PermanentController extends ApiController
 
     }
 
+    /**
+     * Send Request for update device data
+     *
+     * @param Request $request
+     * 
+     * @return Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request){
 
         $update = Helper::showBasedOnPermission('permanent.update');   
@@ -119,7 +129,7 @@ class PermanentController extends ApiController
             if (Session::has('token')){
                 $data['token']           = Session::get('token');
                 $data['id']              = $request->id;
-                $data['company_name']    = $request->company_name;
+                $data['company_id']      = $request->company_id;
                 $data['device_name']     = $request->device_name;
                 $data['serial_number']   = $request->serial_number;
                 

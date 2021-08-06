@@ -76,6 +76,9 @@
                                                                 Role
                                                             </th>
                                                             <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" style="width: 43.25px;">
+                                                                Company
+                                                            </th>
+                                                             <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" style="width: 43.25px;">
                                                                 Action
                                                             </th>
                                                         </tr>
@@ -91,7 +94,9 @@
                                                                 <td>{{ $i++}}</td>
                                                                 <td>{{ $user->username }}</td>
                                                                 <td>{{ $user->email }}</td>
-                                                                <td>{{ $user->role }}</td>
+                                                                <td>{{ $user->role_name }}</td>
+                                                                <td>{{ $user->company_name }}</td>
+                                                                
                                                                 <td>
                                                                     @if( Helper::showBasedOnPermission( 'user.update' ) )
                                                                     <a href="{{ url('user/edit/'.$user->id) }}"><i class="fa fa-fw fa-pencil text-primary actions_icon" title="Edit User"></i></a>
@@ -118,6 +123,8 @@
                                                             </th>
                                                             <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" style="width: 43.25px;">
                                                                 Role
+                                                            </th> <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" style="width: 43.25px;">
+                                                                Company
                                                             </th>
                                                             <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" style="width: 43.25px;">
                                                                 Action

@@ -13,7 +13,7 @@ class UserModel extends Model
     protected $connection = 'mysql';
     protected $table = 'users';
     protected $primaryKey = 'id';
-    protected $fillable = ['username','email','first_name','last_name','role','password','repeat_password'];
+    protected $fillable = ['username','email','first_name','last_name','role_id','password','repeat_password'];
 
     public function roles(){
         return $this->belongsToMany(Role::class)->withTimestamps();
@@ -35,7 +35,7 @@ class UserModel extends Model
     }
 
     public function userList(){
-        $data = UserModel::select('id','username','email','role')->get();
+        $data = UserModel::select('id','username','email','role_id')->get();
         return $data;
     }
 }

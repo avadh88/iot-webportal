@@ -75,6 +75,13 @@ class TempDeviceController extends ApiController
         }
     }
 
+    /**
+     * fetch data for efit
+     *
+     * @param int $id
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function edit($id){
         $tempModel = new TempDeviceModel();
         $tempData  = $tempModel->getDeviceById($id);
@@ -90,6 +97,13 @@ class TempDeviceController extends ApiController
         }
     }
 
+    /**
+     * Update temp data
+     *
+     * @param Request $request
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(Request $request){
 
         $data = json_decode($request->getContent(),true);
@@ -124,6 +138,12 @@ class TempDeviceController extends ApiController
         }
     }
 
+    /**
+     * Delete temp data
+     *
+     * @param [type] $id
+     * @return void
+     */
     public function delete($id){
         $tempModel = new TempDeviceModel();
         $tempData  = $tempModel->deleteById($id);

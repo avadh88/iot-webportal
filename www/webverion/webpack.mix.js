@@ -34,7 +34,7 @@ mix.combine(
         'resources/assets/css/layouts.css',
         'resources/assets/css/custom_css/wizard.css',
 
-        'resources/assets/css/custom_css/dashboard1.css',
+        // 'resources/assets/css/custom_css/dashboard1.css',
 
 
 
@@ -46,7 +46,7 @@ mix.combine(
         'resources/assets/vendors/datatables/css/scroller.bootstrap4.css',
         'resources/assets/css/custom_css/datatables_custom.css',
         'resources/assets/css/fontawesome_icons.css',
-        'resources/assets/vendors/jasny-bootstrap/css/jasny-bootstrap.css',
+        // 'resources/assets/vendors/jasny-bootstrap/css/jasny-bootstrap.css',
         'resources/assets/vendors/select2/css/select2.min.css',
         'resources/assets/vendors/select2/css/select2-bootstrap.css',
         'resources/assets/vendors/bootstrapvalidator/css/bootstrapValidator.min.css',
@@ -57,12 +57,12 @@ mix.combine(
         'resources/assets/css/buttons_sass.css',
         'resources/assets/vendors/hover/css/hover-min.css',
 
-        'resources/assets/vendors/jasny-bootstrap/css/jasny-bootstrap.css',
+        // 'resources/assets/vendors/jasny-bootstrap/css/jasny-bootstrap.css',
         'resources/assets/css/custom_css/form2.css',
         'resources/assets/css/custom_css/form3.css',
 
         'resources/assets/vendors/prettycheckable/css/prettyCheckable.css',
-
+        'resources/assets/css/custom_css/company.css',
     ], destCss + 'app.css');
 
 mix.combine(
@@ -94,8 +94,8 @@ mix.combine(
         'resources/assets/vendors/flotchart/js/jquery.flot.stack.js',
         'resources/assets/vendors/flotchart/js/jquery.flot.tooltip.js',
         'resources/assets/vendors/flotchart/js/jquery.flot.spline.min.js',
-        'resources/assets/vendors/chartist/js/chartist.min.js',
-        'resources/assets/js/dashboard1.js',
+        // 'resources/assets/vendors/chartist/js/chartist.min.js',
+        // 'resources/assets/js/dashboard1.js',
 
 
         'resources/assets/js/custom_js/roles.js',
@@ -108,6 +108,7 @@ mix.combine(
         'resources/assets/vendors/moment/js/moment.min.js',
         'resources/assets/vendors/jasny-bootstrap/js/jasny-bootstrap.js',
         'resources/assets/vendors/select2/js/select2.js',
+        'resources/assets/vendors/select2/js/select2.full.js',
         'resources/assets/vendors/bootstrapwizard/js/jquery.bootstrap.wizard.js',
         'resources/assets/vendors/bootstrapvalidator/js/bootstrapValidator.min.js',
         'resources/assets/vendors/datetimepicker/js/bootstrap-datetimepicker.min.js',
@@ -117,7 +118,6 @@ mix.combine(
         'resources/assets/js/custom_js/datatables_custom.js',
         'resources/assets/js/fontawesome_icons.js',
 
-        'resources/assets/vendors/jasny-bootstrap/js/jasny-bootstrap.js',
         'resources/assets/vendors/bootstrapvalidator/js/bootstrapValidator.min.js',
         'resources/assets/vendors/bootstrap-maxlength/js/bootstrap-maxlength.js',
         'resources/assets/js/custom_js/form1.js',
@@ -126,7 +126,9 @@ mix.combine(
         'resources/assets/js/custom_js/form_validations.js',
 
         'resources/assets/vendors/prettycheckable/js/prettyCheckable.min.js',
-       
+        'resources/assets/js/custom_js/company.js',
+        'resources/assets/js/custom_js/temporary.js',
+
 
     ], destJs + 'app.js');
 
@@ -162,22 +164,15 @@ mix.combine([
 
 ],destJs + 'login.js');
 
+mix.combine([
 
+    'resources/assets/css/custom_css/dashboard1.css',
 
-// mix.combine([
-//     'resources/assets/vendors/toastr/css/toastr.min.css',
-//     'resources/assets/vendors/iCheck/css/minimal/blue.css',
-//     'resources/assets/css/custom_css/toastr_notificatons.css',
     
-// ],destCss + 'toastr.css');
+],destCss + 'dashboard.css');
 
-// mix.combine([
-//     'node_modules/jquery/dist/jquery.min.js',
-//     'node_modules/components-jqueryui/jquery-ui.min.js',
-    
-//     'resources/assets/js/custom_js/toastr_notifications.js',
-//     'resources/assets/vendors/toastr/js/toastr.min.js',
-   
-// ],destJs + 'toastr.js');
+mix.combine([
 
+    'resources/assets/js/dashboard1.js',
 
+],destJs + 'dashboard.js');

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\DeviceCompanyAddEvent;
+use App\Events\DeviceCompanyEditEvent;
+use App\Events\DeviceEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Api\PermanentModel;
 use App\Models\Api\TempDeviceModel;
@@ -36,7 +39,13 @@ class PermanentController extends ApiController
         }
     }
 
-
+    /**
+     * Delete permanent device
+     *
+     * @param int $id
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function delete($id){
         $deviceModel = new PermanentModel();
         $deviceData  = $deviceModel->deleteById($id);
@@ -52,6 +61,12 @@ class PermanentController extends ApiController
         }
     }
 
+    /**
+     * Fetch Data for edit
+     *
+     * @param [type] $id
+     * @return void
+     */
     public function edit($id){
         $deviceModel = new PermanentModel();
         $deviceData  = $deviceModel->getDeviceById($id);
@@ -67,18 +82,24 @@ class PermanentController extends ApiController
         }
     }
 
+    /**
+     * Update permanent device data
+     *
+     * @param Request $request
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(Request $request){
 
 
         $data = json_decode($request->getContent(),true);
 
         $validator = Validator::make($data,[
-            'company_name'       => 'required',
+            'company_id'         => 'required',
             'device_name'        => 'required',
             'serial_number'      => 'required',
         ]);
         
-
 
         if($validator->fails()){
             $response['message'] = trans('api.messages.device.failed');
@@ -88,7 +109,6 @@ class PermanentController extends ApiController
             $permanentModel = new PermanentModel();
             $permanentData  =  $permanentModel->updateDevice($data);
             $response = [];
-
 
             if(($permanentData)){
                 $response['message'] = trans('api.messages.device.update');
@@ -101,5 +121,32 @@ class PermanentController extends ApiController
             }
         }
 
+    }
+
+     /**
+     * Add device to permenent database
+     *
+     * @param Request $request
+     * @param int $id
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function add(Request $request){
+        
+        $data = json_decode($request->getContent(),true);
+
+        $permanentModel = new PermanentModel();
+        $permanentData = $permanentModel->addToPermanent($data);
+      
+        if($permanentData){
+            event( new DeviceCompanyAddEvent($permanentData->company_email) );
+            $response['message'] = trans('api.messages.common.success');
+            $response['data']    = $permanentData;
+            return $this->respond($response);
+        }else{
+            $response['message'] = trans('api.messages.common.failed');
+            $response['data']    = $permanentData;
+            return $this->respond($response);
+        }
     }
 }

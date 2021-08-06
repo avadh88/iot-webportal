@@ -12,7 +12,11 @@ use Illuminate\Support\Facades\Session;
 class TempController extends ApiController
 {
 
-
+    /**
+     * Send Request for fetch temp device list
+     *
+     * @return Illuminate\Http\RedirectResponse
+     */
     public function list(){
 
         $read = Helper::showBasedOnPermission('temporary.read');   
@@ -35,7 +39,14 @@ class TempController extends ApiController
         }
     }
 
-    public function insertData(Request $request,$id){
+    /**
+     * Send Request to insert temp device to permanent device
+     *
+     * @param Request $request
+     * 
+     * @return Illuminate\Http\RedirectResponse
+     */
+    public function insertData(Request $request){
 
         $add = Helper::showBasedOnPermission('permanent.create');   
 
@@ -43,10 +54,15 @@ class TempController extends ApiController
             return Redirect::back()->with('');
         }else{
         if ( Session::has('token') ){ 
-            $data = Session::get('token');
-            $response = $this->getGuzzleRequest('GET','/list/add/'.$id,$data);
+            $data['token'] = Session::get('token');
+
+            $data['company_id']     = $request->company_id;
+            $data['device_name']      = $request->device_name;
+            $data['serial_number']    = $request->serial_number;
+
+            $response = $this->getGuzzleRequest('POST','/permanent/add',$data);
             $res      = json_decode($response['data']);
-    
+
             if($response['status'] == 200){
                 Session::flash('message', $res->message); 
                 Session::flash('alert-class', 'alert-success');
@@ -55,6 +71,13 @@ class TempController extends ApiController
         }
     }
     
+    /**
+     * Send Request to fecth data for update
+     *
+     * @param int $id
+     * 
+     * @return Illuminate\Http\RedirectResponse
+     */
     public function edit($id){
 
         $edit = Helper::showBasedOnPermission('temporary.update');   
@@ -64,16 +87,18 @@ class TempController extends ApiController
         }else{
             if (Session::has('token')){
                 $data     = Session::get('token');
+                
+                $response = $this->getGuzzleRequest('GET','/company/compnaylist',$data);
+                $compnies      = json_decode($response['data']);
 
                 $response = $this->getGuzzleRequest('GET','/temporary/edit/'.$id,$data);
                 $res      = json_decode($response['data']);
-            
 
                 if($response['status'] == 200){    
                     
                     // Session::flash('message', $res->message); 
                     Session::flash('alert-class', 'alert-success');
-                    return view('temporary/edit',['data'=>$res->data]);
+                    return view('temporary/edit',['data'=>$res->data,'compnies'=>$compnies->data]);
 
                 }else if($response['status'] == 401){
                     
@@ -85,6 +110,49 @@ class TempController extends ApiController
         } 
     }
 
+    /**
+     * Fetch Data for inserting device temp to permanent 
+     *
+     * @param int $id
+     * 
+     * @return Illuminate\Http\RedirectResponse
+     */
+    public function permanent($id){
+        // if(!$edit){
+        //     return Redirect::back()->with('');
+        // }else{
+            if (Session::has('token')){
+                $data     = Session::get('token');
+                
+                $response = $this->getGuzzleRequest('GET','/company/compnaylist',$data);
+                $compnies      = json_decode($response['data']);
+
+                $response = $this->getGuzzleRequest('GET','/temporary/edit/'.$id,$data);
+                $res      = json_decode($response['data']);
+
+                if($response['status'] == 200){    
+                    
+                    // Session::flash('message', $res->message); 
+                    Session::flash('alert-class', 'alert-success');
+                    return view('temporary/addpermanent',['data'=>$res->data,'compnies'=>$compnies->data]);
+
+                }else if($response['status'] == 401){
+                    
+                    Session::flash('message', $res->error->message->message); 
+                    Session::flash('alert-class', 'alert-danger');
+                    return redirect('/temporary/addpermanent')->with('error',$res->error->message->message);
+                }
+            }
+        // }
+    }
+
+    /**
+     * Send Request to update temp device data
+     *
+     * @param Request $request
+     * 
+     * @return Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request){
         $update = Helper::showBasedOnPermission('temporary.update');   
 
@@ -117,6 +185,13 @@ class TempController extends ApiController
         }
     }
 
+    /**
+     * Send Request to delete temp device data
+     *
+     * @param int $id
+     *
+     *  @return Illuminate\Http\RedirectResponse
+     */
     public function delete($id){
         $delete = Helper::showBasedOnPermission('temporary.delete');   
 

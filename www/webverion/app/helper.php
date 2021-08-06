@@ -16,7 +16,7 @@ class Helper
     public static function showBasedOnPermission($permission){
 
         $permissions = request()->session()->get('permission');
-// dd($permissions);
+
         if(request()->session()->has('permission'))
         {
             if((in_array($permission,$permissions)))

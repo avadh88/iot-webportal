@@ -69,6 +69,24 @@
                                 @csrf
                                     <input type="hidden" name="id" @if(isset($data->id)) value="{{ $data->id }}" @endif>
 
+                                    <!-- <div class="form-group row" >
+                                        <label for="company_name" class="col-md-4 col-form-label">
+                                        Company Name
+                                                <span class="text-danger">*</span>
+                                        </label>
+                                        <div class="col-md-6">
+                                            <select id="company_name" class="form-control select2" style="width:100%">
+
+                                                    @if (isset($compnies))
+                                                        @foreach($compnies as $compny)
+                                                        <option value="{{ $compny->id }}"  @if (isset($data->company_name)) @if($compny->company_name == $data->company_name) selected="selected" @endif @endif> {{ $compny->company_name }}</option>
+                                                        @endforeach
+                                                    @endif
+
+                                            </select>
+                                        </div>
+                                    </div> -->
+
                                     <div class="form-group row">
                                             <label class="col-md-4 col-form-label" for="company_name">
                                                 Company Name
@@ -121,7 +139,6 @@
 </div>
 
 @include('common/footerlink')
-
 </body>
 
 </html>
