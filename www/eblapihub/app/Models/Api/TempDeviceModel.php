@@ -25,26 +25,26 @@ class TempDeviceModel extends Model
 
     public function checkDevice($datas){
 
-        $results = TempDeviceModel::where('company_id', $datas['company_id'])
+        $results = TempDeviceModel::where('company_name', $datas['company_name'])
                                 ->where('device_name', $datas['device_name'])
                                 ->where('serial_number', $datas['serial_number'])->exists();
 
         if ($results) {
-            $response['message'] = trans('api.messages.device.data_exists');
+            $response = trans('api.messages.tempdevice.data_exists');
         }
        
         else{
 
             $data                = new TempDeviceModel();
 
-            $data->company_id  = $datas['company_id'];
+            $data->company_name  = $datas['company_name'];
             $data->device_name   = $datas['device_name'];
             $data->serial_number = $datas['serial_number'];
         
             if($data->save()){
-                $response['message'] = trans('api.messages.device.success');
+                $response = trans('api.messages.tempdevice.success');
             }else{
-                $response['message'] = trans('api.messages.device.failed');
+                $response = trans('api.messages.tempdevice.failed');
             }
         }     
         return $response;

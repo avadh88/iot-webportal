@@ -1,0 +1,21 @@
+{
+    "/assets/css/app.css": "/assets/css/app.css",
+    "/assets/js/app.js": "/assets/js/app.js",
+    "/assets/images/2.jpg": "/assets/images/2.jpg",
+    "/assets/images/3.jpg": "/assets/images/3.jpg",
+    "/assets/images/4.jpg": "/assets/images/4.jpg",
+    "/assets/images/favicon.ico": "/assets/images/favicon.ico",
+    "/assets/images/light_grey.png": "/assets/images/light_grey.png",
+    "/assets/images/loader.gif": "/assets/images/loader.gif",
+    "/assets/images/logo.png": "/assets/images/logo.png",
+    "/assets/fonts/FontAwesome.otf": "/assets/fonts/FontAwesome.otf",
+    "/assets/fonts/fontawesome-webfont.eot": "/assets/fonts/fontawesome-webfont.eot",
+    "/assets/fonts/fontawesome-webfont.svg": "/assets/fonts/fontawesome-webfont.svg",
+    "/assets/fonts/fontawesome-webfont.ttf": "/assets/fonts/fontawesome-webfont.ttf",
+    "/assets/fonts/fontawesome-webfont.woff": "/assets/fonts/fontawesome-webfont.woff",
+    "/assets/fonts/fontawesome-webfont.woff2": "/assets/fonts/fontawesome-webfont.woff2",
+    "/assets/css/login.css": "/assets/css/login.css",
+    "/assets/js/login.js": "/assets/js/login.js",
+    "/assets/css/dashboard.css": "/assets/css/dashboard.css",
+    "/assets/js/dashboard.js": "/assets/js/dashboard.js"
+}

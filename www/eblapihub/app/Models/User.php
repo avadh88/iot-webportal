@@ -71,6 +71,12 @@ class User extends Authenticatable
         return $datas;
     }
 
+    public function getRoleById($role_id){
+        $data = Role::where('id',$role_id)
+        ->pluck('role_name')->first();
+        return $data;
+    }
+
     public function getCompanyDetails($company_id){
         
         $data = Company::where('id',$company_id)

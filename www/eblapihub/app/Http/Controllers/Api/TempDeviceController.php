@@ -46,7 +46,10 @@ class TempDeviceController extends ApiController
         $tempDevice = new TempDeviceModel();
         $tempData   = $tempDevice->checkDevice($data);
 
-        return response()->json($tempData);
+        $response['message'] = $tempData;
+        return $this->respond($response);
+
+        // return response()->json($tempData);
 
         
     }

@@ -21,7 +21,7 @@ return [
             'delete'       => 'Data Deleted Successfully',
             'update'       => 'Data Updated Successfully', 
         ],
-        'device' => [
+        'tempdevice' => [
             'success'      => 'Device Inserted Successfully',
             'failed'       => 'Something Went Wrong.',
             'data_exists'  => 'Device Already Registered.',  

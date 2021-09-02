@@ -41,7 +41,7 @@ class UserController extends ApiController
 
                 if(Hash::check($data['password'],$userData->password)){
                     
-                    $datas['user_role']       = $userData->role_id;
+                    $datas['user_role']       = $userModel->getRoleById($userData->role_id);
                     $datas['user_permission'] = $userModel->getPermissionById($userData->id);
                     $datas['company_logo']    = $userModel->getCompanyDetails($userData->company_id);
 
