@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateTempDevicesTable extends Migration
 {
-    protected $connection = 'mysql';
+    protected $connection = 'mysql2';
 
     /**
      * Run the migrations.

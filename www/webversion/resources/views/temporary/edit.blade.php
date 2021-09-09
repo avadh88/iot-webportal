@@ -33,7 +33,8 @@
             </ol>
         </section>
         <section class="content">
-            <div>
+            <div class="row">
+                <!-- <div class="col-lg-6 col-md-12 col-sm-12 col-12"> -->
                     <div class="card-body">
                         @if($message = Session::get('message'))
                             <div class="alert alert-danger alert-block">
@@ -60,7 +61,7 @@
                                         <i class="fa fa-fw clickable fa-chevron-up"></i>
                                     </span>
                             </div>
-                            <div class="card-body" style="display: block;">
+                            <div class="card-body">
                                 @if(isset($data))
                                     <form id="form-validation" action="{{ route('temporary.update') }}" class="" method="POST">
                                 @else   
@@ -70,25 +71,7 @@
                                 @csrf
                                     <input type="hidden" name="id" @if(isset($data->id)) value="{{ $data->id }}" @endif>
 
-                                    <!-- <div class="form-group row" >
-                                        <label for="company_name" class="col-md-4 col-form-label">
-                                        Company Name
-                                                <span class="text-danger">*</span>
-                                        </label>
-                                        <div class="col-md-6">
-                                            <select id="company_name" class="form-control select2" style="width:100%">
-
-                                                    @if (isset($compnies))
-                                                        @foreach($compnies as $compny)
-                                                        <option value="{{ $compny->id }}"  @if (isset($data->company_name)) @if($compny->company_name == $data->company_name) selected="selected" @endif @endif> {{ $compny->company_name }}</option>
-                                                        @endforeach
-                                                    @endif
-
-                                            </select>
-                                        </div>
-                                    </div> -->
-
-                                    <div class="form-group row">
+                                    <div class="form-group row" >
                                             <label class="col-lg-3 col-12 col-form-label  text-lg-right text-left" for="company_name">
                                                 Company Name
                                                 <span class="text-danger">*</span>
@@ -121,13 +104,17 @@
                                             </div>
                                         </div>
                                                             
-                                        <div class="form-group form-actions" style="margin-left: -45%;">
-                                            <button type="submit" class="btn btn-effect-ripple btn-primary">Submit</button>
-                                            </button>
-                                        </div>
+                                        <div class="form-group row">
+                                        
+                                            <span class="col-lg-3"></span>
+                                            <div class="col-lg-6 col-12 text-left">
+                                                <button type="submit" class="btn btn-effect-ripple btn-primary input-md">Submit</button>
+                                            </div>    
+                                        
+                                        </div> 
                                 </form>
                 
-                            </div>
+                            <!-- </div> -->
                         </div>
                         
                     </div>

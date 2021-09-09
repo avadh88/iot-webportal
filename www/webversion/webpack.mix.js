@@ -68,7 +68,7 @@ mix.combine(
 
         
         'resources/assets/js/custom_js/fixed.js',
-        'resources/assets/js/custom_js/adduser.js',
+        'resources/assets/js/custom_js/user.js',
 
         'resources/assets/js/backstretch.js',
         'resources/assets/vendors/countupcircle/js/jquery.countupcircle.js',
@@ -112,6 +112,7 @@ mix.combine(
         'resources/assets/vendors/prettycheckable/js/prettyCheckable.min.js',
         'resources/assets/js/custom_js/company.js',
         'resources/assets/js/custom_js/temporary.js',
+        'resources/assets/js/custom_js/permanent.js',
 
 
     ], destJs + 'app.js');

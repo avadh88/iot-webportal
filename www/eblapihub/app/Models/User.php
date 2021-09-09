@@ -84,7 +84,7 @@ class User extends Authenticatable
         if($data == ""){
             $data = URL::to('/resources/images/ebllogo.png');
         }else{
-            $data = URL::to('/public/uploads/').'/'.$data;
+            $data = URL::to('/public/uploads/company/').'/'.$data;
         }
 
         

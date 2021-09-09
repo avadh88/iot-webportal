@@ -48,7 +48,7 @@ class Company extends Model
             if($key['company_logo'] == ""){
                 $key['company_logo'] = URL::to('/resources/images/ebllogo.png');
             }else{
-                $key['company_logo'] = URL::to('/public/uploads/').'/'.$key['company_logo'];
+                $key['company_logo'] = URL::to('/public/uploads/company/').'/'.$key['company_logo'];
             }
             $list[$i] = $key;
             $i++;
@@ -64,8 +64,8 @@ class Company extends Model
     public function deleteById($id){
         $image = Company::find($id);
 
-        if(is_file(public_path('uploads/').$image->company_logo)){
-            unlink(public_path('uploads/').$image->company_logo);
+        if(is_file(public_path('uploads/company/').$image->company_logo)){
+            unlink(public_path('uploads/company/').$image->company_logo);
 
         }
 
@@ -78,7 +78,7 @@ class Company extends Model
         
         if($id){
             $companyModel = Company::select('id','company_name','company_address','company_email','company_mobile','company_status','company_logo')->where('id',$id)->first();
-            $companyModel['company_logo'] = URL::to('/public/uploads/').'/'.$companyModel['company_logo'];
+            $companyModel['company_logo'] = URL::to('/public/uploads/company/').'/'.$companyModel['company_logo'];
             
             return $companyModel;
         }
@@ -99,13 +99,12 @@ class Company extends Model
             $companyModel->company_status = 0;    
         }
         if(isset($data['company_logo'])){
-            if( is_file(public_path('uploads/').$companyModel->company_logo) ){
-                unlink(public_path('uploads/').$companyModel->company_logo);
+            if( is_file(public_path('uploads/company/').$companyModel->company_logo) ){
+                unlink(public_path('uploads/company/').$companyModel->company_logo);
             }
 
             $companyModel->company_logo         = $data['company_logo'];
         }
-        // return $companyModel;
 
         if($companyModel->save()){
             return $companyModel;

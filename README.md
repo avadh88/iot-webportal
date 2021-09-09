@@ -20,4 +20,13 @@
 
 7) run composer install in www/eblapihub folder
 
-8) if setup new project than run php artisan migrate after accessing web-server container from terminal
+8) After that run following command 
+    docker exec -it "container_id_of_ebl_webserver" bash
+
+9) Go to eblapihub and run following commmand
+    php artisan migrate
+    php artisan db:seed --class=UserSeeder
+    php artisan passport:install
+    php artisan key:generate
+
+10) Add .htaccess in both folder (webversion/eblapihub)

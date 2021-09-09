@@ -45,7 +45,7 @@
                         @if ($errors->any())
                             <div class="alert alert-danger">
                                 <ul>
-                                    @foreach($error->all() as $error)
+                                    @foreach($errors->all() as $error)
                                         <li>{{ $error }}</li>
                                     @endforeach
                                 </ul>
@@ -64,7 +64,7 @@
 
                                     </span>
                             </div>
-                            <div class="card-body" style="display: block;">
+                            <div class="card-body">
                                 @if(isset($data))
                                     <form id="companyValidation" action="{{ route('company.update') }}" class="" method="POST" enctype="multipart/form-data"
                                                   class=" form-bordered">
@@ -123,7 +123,7 @@
                                             Status
                                             </label>
                                             
-                                            <div class="col-lg-6 col-12" style="margin-left: -22%;">
+                                            <div class="col-lg-6 col-12">
                                             <label class="switch">
                                                 <input type="checkbox" name="company_status" @if(isset($data->company_status)) {{ ($data->company_status == 1 ) ? 'checked' : ""}}  @endif>
                                                 <span class="slider round"></span>
@@ -137,18 +137,23 @@
                                                 <label class="col-lg-3 col-12 col-form-label  text-lg-right text-left" for="company_logo">
                                                 Company Logo
                                                 </label>
-                                                <div class="col-lg-6 col-12" style="margin-left: -16%;">
+                                                <div class="col-lg-6 col-12">
                                                     <input type="file" id="company_logo" name="company_logo">
                                                 </div>
                                                 @if(isset($data->company_logo))
-                                                <img src="{{ $data->company_logo }}" alt="{{ $data->company_logo }}" style="width: 50px; height: 50px;">
+                                                <img src="{{ $data->company_logo }}" alt="{{ $data->company_logo }}" >
                                                 @endif
                                             </div>
 
-                                    <div class="form-group form-actions" style="margin-left: -45%;">
-                                            <button type="submit" class="btn btn-effect-ripple btn-primary">Submit</button>
-                                            </button>
-                                    </div>
+                                  
+                                    <div class="form-group row">
+                                        
+                                        <span class="col-lg-3"></span>
+                                        <div class="col-lg-6 col-12 text-left">
+                                            <button type="submit" class="btn btn-effect-ripple btn-primary input-md">Submit</button>
+                                        </div>    
+                                    
+                                    </div> 
                                 </form>
                 
                             </div>

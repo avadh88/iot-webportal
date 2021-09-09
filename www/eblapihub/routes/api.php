@@ -71,5 +71,9 @@ Route::middleware('auth:api')->prefix('web')->group(function () {
         Route::get('/compnaylist',[CompanyController::class,'compnaylist']);
         
     });
+
+    Route::prefix('dashboard')->group(function(){
+        Route::get('/info',[DashboardController::class,'info']);
+    });
 });
 

@@ -7,3 +7,10 @@ $(document).ready(function () {
     });
 
 });
+
+
+function deleteTemporaryDevice(e){
+    if(!confirm('Do you want to delete?')){
+        e.preventDefault();
+    }
+}

@@ -1,8 +1,7 @@
 <header class="header">
     <nav class="navbar navbar-expand-md navbar-fixed-top" role="navigation">
         <a href="{{ url('dashboard') }}" class="logo">
-            <!-- <img src="{{asset('public/assets/images/logo.png')}}" alt="logo"/> -->
-            <img src="{{ session('company_logo') }}" alt="logo" style="height: 25px; width: 25px;"/>
+            <img src="{{ session('company_logo') }}" alt="logo"/>
         </a>
         <div>
             <a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button"> <i

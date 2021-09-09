@@ -5,22 +5,22 @@ $(document).ready(function () {
     $('#count-box').CountUpCircle({
         duration: 2500,
         opacity_anim: true,
-        step_divider: 2
+        step_divider: 1
     });
     $('#count-box2').CountUpCircle({
         duration: 2500,
         opacity_anim: true,
-        step_divider: 5
+        step_divider: 1
     });
     $('#count-box3').CountUpCircle({
         duration: 2500,
         opacity_anim: true,
-        step_divider: 7
+        step_divider: 1
     });
     $('#count-box4').CountUpCircle({
         duration: 2500,
         opacity_anim: true,
-        step_divider: 10
+        step_divider: 1
     });
 
     //revenue chart on left side menu to get rid of responsive on toggle
@@ -647,6 +647,8 @@ $(document).ready(function () {
     //         ]
     //     });
     // });
+
+    
 
 });
 

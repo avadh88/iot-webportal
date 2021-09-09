@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use Intervention\Image\Facades\Image;
 
 class CompanyController extends ApiController
 {
@@ -91,9 +92,8 @@ class CompanyController extends ApiController
                 }else{
                     $response      = $this->getGuzzleRequest('POST','/company/add',$data);
                 }
-
+                
                 $res               = json_decode($response['data']);
-
                 if($response['status'] == 200){
 
                     Session::flash('message', $res->message); 

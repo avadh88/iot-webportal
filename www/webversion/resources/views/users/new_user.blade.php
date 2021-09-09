@@ -59,7 +59,7 @@
                                         <i class="fa fa-fw clickable fa-chevron-up"></i>
                                     </span>
                             </div>
-                            <div class="card-body" style="display: block;">
+                            <div class="card-body">
                                 @if(isset($data))
                                     <form id="form-validation" action="{{ route('user.update') }}" class="" method="POST">
                                 @else   
@@ -183,10 +183,15 @@
                                             </div>
                                         </div>
 
-                                    <div class="form-group form-actions" style="margin-left: -45%;">
-                                            <button type="submit" class="btn btn-effect-ripple btn-primary">Submit</button>
-                                            </button>
-                                    </div>
+                                  
+                                        <div class="form-group row">
+                                        
+                                            <span class="col-lg-3"></span>
+                                            <div class="col-lg-6 col-12 text-left">
+                                                <button type="submit" class="btn btn-effect-ripple btn-primary input-md">Submit</button>
+                                            </div>    
+                                        
+                                        </div> 
                                 </form>
                 
                             </div>

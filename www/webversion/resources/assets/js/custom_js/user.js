@@ -134,3 +134,9 @@ $(document).ready(function () {
         }
     });
 });
+
+function deleteUser(e){
+    if(!confirm('Do you want to delete?')){
+        e.preventDefault();
+    }
+}

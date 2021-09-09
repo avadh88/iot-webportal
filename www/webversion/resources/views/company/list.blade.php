@@ -71,20 +71,20 @@
                                                         <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info">
                                                             <thead>
                                                                 <tr role="row">
-                                                                    <th class="sorting_asc" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" style="width: 58.25px;">
+                                                                    <th class="sorting_asc" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                     ID
                                                                     </th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1"  style="width: 42.25px;">
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Company Name
                                                                     </th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1"  style="width: 77.25px;">
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Company Status
                                                                     </th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" style="width: 43.25px;">
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Company Image
                                                                     </th>
 
-                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" style="width: 43.25px;">
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Action
                                                                     </th>
                                                                 
@@ -102,7 +102,7 @@
                                                                         <td>{{ $company->company_name }}</td>
                                                                         <td>{{ ($company->company_status == 1 ) ? 'Active' : 'Disactive'}} </td>
                                                                         <td>
-                                                                            <img src="{{ $company->company_logo }}" alt="{{ $company->company_logo }}" style="width: 50px; height: 50px;">
+                                                                            <img src="{{ $company->company_logo }}" alt="{{ $company->company_logo }}">
                                                                         </td>
                                                                         
                                                                         <td>
@@ -111,7 +111,7 @@
                                                                         @endif
 
                                                                         @if( Helper::showBasedOnPermission( ['company.delete'],'OR' ) )
-                                                                            <a href="{{ url('company/delete/'.$company->id) }}"><i class="fa fa-fw fa-times text-danger actions_icon" title="Delete Device"></i></a>
+                                                                            <a href="{{ url('company/delete/'.$company->id) }}" onclick="deleteCompany(event)"><i class="fa fa-fw fa-times text-danger actions_icon" title="Delete Device"></i></a>
                                                                         @endif
                                                                         </td>
                                                                     </tr>
@@ -120,20 +120,20 @@
                                                             </tbody>
                                                             <tfoot>
                                                             <tr role="row">
-                                                                    <th class="sorting_asc" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" style="width: 58.25px;">
+                                                                    <th class="sorting_asc" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                     ID
                                                                     </th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1"  style="width: 42.25px;">
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Company Name
                                                                     </th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1"  style="width: 77.25px;">
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Company Status
                                                                     </th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" style="width: 43.25px;">
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Company Image
                                                                     </th>
 
-                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" style="width: 43.25px;">
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Action
                                                                     </th>
                                                                 

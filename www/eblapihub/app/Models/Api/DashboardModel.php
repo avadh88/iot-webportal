@@ -9,6 +9,4 @@ use Laravel\Passport\HasApiTokens;
 class DashboardModel extends Model
 {
     use HasFactory,HasApiTokens;
-    
-
 }

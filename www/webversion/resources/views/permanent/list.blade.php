@@ -59,20 +59,20 @@
                                                         <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info">
                                                             <thead>
                                                                 <tr role="row">
-                                                                    <th class="sorting_asc" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" style="width: 58.25px;">
+                                                                    <th class="sorting_asc" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                     ID
                                                                     </th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1"  style="width: 42.25px;">
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Company Name
                                                                     </th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1"  style="width: 77.25px;">
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Device Name
                                                                     </th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" style="width: 43.25px;">
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Serial Name
                                                                     </th>
 
-                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" style="width: 43.25px;">
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Action
                                                                     </th>
                                                                 
@@ -97,7 +97,7 @@
                                                                         @endif
 
                                                                         @if( Helper::showBasedOnPermission( ['permanent.delete'],'OR' ) )
-                                                                            <a href="{{ url('permanent/delete/'.$permanent->id) }}"><i class="fa fa-fw fa-times text-danger actions_icon" title="Delete Device"></i></a>
+                                                                            <a href="{{ url('permanent/delete/'.$permanent->id) }}" onclick="deletePermanent(event)"><i class="fa fa-fw fa-times text-danger actions_icon" title="Delete Device"></i></a>
                                                                         @endif
                                                                         </td>
                                                                     </tr>
@@ -106,19 +106,19 @@
                                                             </tbody>
                                                             <tfoot>
                                                                 <tr role="row">
-                                                                    <th class="sorting_asc" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" style="width: 58.25px;">
+                                                                    <th class="sorting_asc" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                     ID
                                                                     </th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1"  style="width: 42.25px;">
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Company Name
                                                                     </th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1"  style="width: 77.25px;">
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Device Name
                                                                     </th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" style="width: 43.25px;">
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Serial Name
                                                                     </th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" style="width: 43.25px;">
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Action
                                                                     </th>
                                                                 </tr>

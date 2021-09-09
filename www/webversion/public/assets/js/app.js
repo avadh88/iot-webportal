@@ -3548,6 +3548,11 @@ $(document).ready(function () {
     });
 });
 
+function deleteUser(e){
+    if(!confirm('Do you want to delete?')){
+        e.preventDefault();
+    }
+}
 /*! Backstretch - v2.0.4 - 2013-06-19
  * http://srobbin.com/jquery-plugins/backstretch/
  * Copyright (c) 2013 Scott Robbin; Licensed MIT */
@@ -8539,6 +8544,12 @@ jQuery(document).ready(function (){
     });
     
 });
+
+function deleteRole(e){
+    if(!confirm('Do you want to delete?')){
+        e.preventDefault();
+    }
+}
 /*! DataTables 1.10.16
  * ©2008-2017 SpryMedia Ltd - datatables.net/license
  */
@@ -41269,6 +41280,11 @@ $(document).ready(function () {
     });
 });
 
+function deleteCompany(e){
+    if(!confirm('Do you want to delete?')){
+        e.preventDefault();
+    }
+}
 
 $(document).ready(function () {
 
@@ -41278,3 +41294,15 @@ $(document).ready(function () {
     });
 
 });
+
+
+function deleteTemporaryDevice(e){
+    if(!confirm('Do you want to delete?')){
+        e.preventDefault();
+    }
+}
+function deletePermanent(e){
+    if(!confirm('Do you want to delete?')){
+        e.preventDefault();
+    }
+}

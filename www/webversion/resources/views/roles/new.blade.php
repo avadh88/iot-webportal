@@ -7,7 +7,6 @@
     <meta content='width=device-width, initial-scale=1, maximum-scale=1' name='viewport'>
     <link rel="shortcut icon" href="{{asset('public/assets/images/favicon.ico')}}"/>
     @include('common/headerlink')
-    <!-- <link type="text/css" rel="stylesheet" href="{{asset('public/assets/vendors/iCheck/css/all.css')}}"/> -->
 </head>
 
 <body class="skin-coreplus">
@@ -61,7 +60,7 @@
 
                                     </span>
                             </div>
-                            <div class="card-body" style="display: block;">
+                            <div class="card-body">
                                 @if(isset($data))
                                     <form id="roleValidation" action="{{ route('roles.update') }}" class="" method="POST">
                                 @else   
@@ -281,7 +280,6 @@
 </div>
 
 @include('common/footerlink')
-<!-- <script src="{{asset('public/assets/vendors/iCheck/js/icheck.js')}}" type="text/javascript"></script> -->
 
 </body>
 

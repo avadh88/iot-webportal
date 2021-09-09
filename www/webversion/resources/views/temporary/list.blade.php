@@ -14,7 +14,6 @@
 <div class="preloader">
     <div class="loader_img"><img src="{{asset('public/assets/images/loader.gif')}}" alt="loading..." height="64" width="64"></div>
 </div>
-<!-- header logo: style can be found in header-->
 
 @include('common/header')
 <div class="wrapper row-offcanvas row-offcanvas-left">
@@ -64,20 +63,20 @@
                                                         <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info">
                                                             <thead>
                                                                 <tr role="row">
-                                                                    <th class="sorting_asc" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" style="width: 58.25px;">
+                                                                    <th class="sorting_asc" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                     ID
                                                                     </th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1"  style="width: 42.25px;">
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Company Name
                                                                     </th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1"  style="width: 77.25px;">
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Device Name
                                                                     </th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" style="width: 43.25px;">
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Serial Name
                                                                     </th>
 
-                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" style="width: 43.25px;">
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Action
                                                                     </th>
                                                                 
@@ -97,12 +96,10 @@
                                                                         <td>{{ $temp->serial_number }}</td>
                                                                         
                                                                         <td>
-                                                                            <a href="{{ url('temporary/edit/'.$temp->id) }}"><i class="fa fa-fw fa-pencil text-primary actions_icon" title="Edit Role"></i></a>
-                                                                            <a href="{{ url('temporary/delete/'.$temp->id) }}" data-toggle="modal" data-target="#delete"><i class="fa fa-fw fa-times text-danger actions_icon" title="Delete User"></i></a>
+                                                                            <a href="{{ url('temporary/edit/'.$temp->id) }}"><i class="fa fa-fw fa-pencil text-primary actions_icon" title="Edit Temporary Device"></i></a>
+                                                                            <a href="{{ url('temporary/delete/'.$temp->id) }}" onclick="deleteTemporaryDevice(event)"><i class="fa fa-fw fa-times text-danger actions_icon" title="Delete Temporary Device"></i></a>
                                                                         @if( Helper::showBasedOnPermission( ['permanent.create'],'OR' ) )
-                                                                        
-                                                                            <!-- <a href="{{ url('insert/'.$temp->id) }}"><i class="fa fa-fw fa-save" style="color:green" title="save Device"></i></a> -->
-                                                                            <a href="{{ url('permanent/insert/'.$temp->id) }}"><i class="fa fa-fw fa-save" style="color:green" title="save Device"></i></a>
+                                                                            <a href="{{ url('permanent/insert/'.$temp->id) }}"><i class="fa fa-fw fa-save text-success" title="Save Device"></i></a>
                                                                         @endif
                                                                         </td>
                                                                     </tr>
@@ -111,19 +108,19 @@
                                                             </tbody>
                                                             <tfoot>
                                                                 <tr role="row">
-                                                                    <th class="sorting_asc" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" style="width: 58.25px;">
+                                                                    <th class="sorting_asc" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                     ID
                                                                     </th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1"  style="width: 42.25px;">
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Company Name
                                                                     </th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1"  style="width: 77.25px;">
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Device Name
                                                                     </th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" style="width: 43.25px;">
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Serial Name
                                                                     </th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" style="width: 43.25px;">
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Action
                                                                     </th>
                                                                 </tr>
