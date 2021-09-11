@@ -48,9 +48,6 @@ mix.combine(
         'resources/assets/css/buttons_sass.css',
         'resources/assets/vendors/hover/css/hover-min.css',
 
-        'resources/assets/css/custom_css/form2.css',
-        'resources/assets/css/custom_css/form3.css',
-
         'resources/assets/vendors/prettycheckable/css/prettyCheckable.css',
         'resources/assets/css/custom_css/company.css',
     ], destCss + 'app.css');
@@ -104,15 +101,13 @@ mix.combine(
 
         'resources/assets/vendors/bootstrapvalidator/js/bootstrapValidator.min.js',
         'resources/assets/vendors/bootstrap-maxlength/js/bootstrap-maxlength.js',
-        'resources/assets/js/custom_js/form1.js',
-        'resources/assets/js/custom_js/form2.js',
-        'resources/assets/js/custom_js/form3.js',
         'resources/assets/js/custom_js/form_validations.js',
 
         'resources/assets/vendors/prettycheckable/js/prettyCheckable.min.js',
         'resources/assets/js/custom_js/company.js',
         'resources/assets/js/custom_js/temporary.js',
         'resources/assets/js/custom_js/permanent.js',
+        'resources/assets/js/custom_js/sidebar.js'
 
 
     ], destJs + 'app.js');

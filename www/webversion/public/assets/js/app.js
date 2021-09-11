@@ -40769,147 +40769,6 @@ if(""===e)return!0;var f=d.type||this.SUPPORTED_TYPES;a.isArray(f)||(f=f.replace
 "use strict";
 
 $(document).ready(function () {
-    $("input[type=password]").on('keyup', function () {
-        var ucase = new RegExp("[A-Z]+");
-        var lcase = new RegExp("[a-z]+");
-        var num = new RegExp("[0-9]+");
-        var password = $("#password1");
-
-        if (password.val().length >= 8) {
-            $("#8char").removeClass("fa-close").addClass("fa-check").css("color", "#00A41E");
-        } else {
-            $("#8char").removeClass("fa-check").addClass("fa-close").css("color", "#FF0004");
-        }
-
-        if (ucase.test(password.val())) {
-            $("#ucase").removeClass("fa-close").addClass("fa-check").css("color", "#00A41E");
-        } else {
-            $("#ucase").removeClass("fa-check").addClass("fa-close").css("color", "#FF0004");
-        }
-
-        if (lcase.test(password.val())) {
-            $("#lcase").removeClass("fa-close").addClass("fa-check").css("color", "#00A41E");
-        } else {
-            $("#lcase").removeClass("fa-check").addClass("fa-close").css("color", "#FF0004");
-        }
-
-        if (num.test(password.val())) {
-            $("#num").removeClass("fa-close").addClass("fa-check").css("color", "#00A41E");
-        } else {
-            $("#num").removeClass("fa-check").addClass("fa-close").css("color", "#FF0004");
-        }
-
-        if (password.val() == $("#password2").val()) {
-            $("#pwmatch").removeClass("fa-close").addClass("fa-check").css("color", "#00A41E");
-        } else {
-            $("#pwmatch").removeClass("fa-check").addClass("fa-close").css("color", "#FF0004");
-        }
-    });
-});
-"use strict";
-
-$(document).ready(function () {
-
-    $('.input-group input[required], .input-group textarea[required], .input-group select[required]').on('keyup, change', function() {
-        var $group = $(this).closest('.input-group'),
-            $addon = $group.find('.input-group-text'),
-            $icon = $addon.find('span'),
-            state = false;
-
-        if (!$group.data('validate')) {
-            state = $(this).val() ? true : false;
-        }else if ($group.data('validate') == "email") {
-            state = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test($(this).val());
-        }else if($group.data('validate') == 'phone') {
-            state = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/.test($(this).val());
-        }else if ($group.data('validate') == "length") {
-            state = $(this).val().length >= $group.data('length') ? true : false;
-        }else if ($group.data('validate') == "number") {
-            state = !isNaN(parseFloat($(this).val())) && isFinite($(this).val());
-        }
-
-        if (state) {
-            $addon.removeClass('danger');
-            $addon.addClass('success');
-            $icon.attr('class', 'fa fa-check');
-        }else{
-            $addon.removeClass('success');
-            $addon.addClass('danger');
-            $icon.attr('class', 'fa fa-close');
-        }
-    });
-});
-"use strict";
-
-$(document).ready(function () {
-
-    $('.button-checkbox').on('each', function () {
-
-        // Settings
-        var $widget = $(this),
-            $button = $widget.find('button'),
-            $checkbox = $widget.find('input:checkbox'),
-            color = $button.data('color'),
-            settings = {
-                on: {
-                    icon: 'glyphicon glyphicon-check'
-                },
-                off: {
-                    icon: 'glyphicon glyphicon-unchecked'
-                }
-            };
-
-        // Event Handlers
-        $button.on('click', function () {
-            $checkbox.prop('checked', !$checkbox.is(':checked'));
-            $checkbox.triggerHandler('change');
-            updateDisplay();
-        });
-        $checkbox.on('change', function () {
-            updateDisplay();
-        });
-
-        // Actions
-        function updateDisplay() {
-            var isChecked = $checkbox.is(':checked');
-
-            // Set the button's state
-            $button.data('state', (isChecked) ? "on" : "off");
-
-            // Set the button's icon
-            $button.find('.state-icon')
-                .removeClass()
-                .addClass('state-icon ' + settings[$button.data('state')].icon);
-
-            // Update the button's color
-            if (isChecked) {
-                $button
-                    .removeClass('btn-default')
-                    .addClass('btn-' + color + ' active');
-            }
-            else {
-                $button
-                    .removeClass('btn-' + color + ' active')
-                    .addClass('btn-default');
-            }
-        }
-
-        // Initialization
-        function init() {
-
-            updateDisplay();
-
-            // Inject the icon if applicable
-            if ($button.find('.state-icon').length === 0) {
-                $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
-            }
-        }
-        init();
-    });
-});
-"use strict";
-
-$(document).ready(function () {
 
     $('#form-validation').bootstrapValidator({
         fields: {
@@ -41306,3 +41165,12 @@ function deletePermanent(e){
         e.preventDefault();
     }
 }
+"use strict"
+
+$(document).ready(function (){
+
+    $(".navigation").click(function(){
+        
+        console.log("****");
+    })
+})
