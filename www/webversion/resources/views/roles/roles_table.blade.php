@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Roles</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1' name='viewport'>
-    <link rel="shortcut icon" href="img/favicon.ico"/>
+    <link rel="shortcut icon" href="{{asset('public/assets/images/favicon.ico')}}"/>
 
   @include('common/headerlink')
 
@@ -32,7 +32,7 @@
         </section>
             
             <section class="content">
-                @if( Helper::showBasedOnPermission( 'role.create' ) )
+                @if( Helper::showBasedOnPermission( ['role.create'],'OR' ) )
 
                     <div class="row mb-2">
                         <div class="col-md-12">
@@ -42,7 +42,7 @@
                         </div>
                     </div>
                 @endif
-                @if( Helper::showBasedOnPermission( 'role.read' ) )
+                @if( Helper::showBasedOnPermission( ['role.read'],'OR' ) )
 
                     <div class="row">
                         <div class="col-lg-12">
@@ -65,13 +65,13 @@
                                                         <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info">
                                                             <thead>
                                                                 <tr role="row">
-                                                                    <th class="sorting_asc" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" style="width: 58.25px;">
+                                                                    <th class="sorting_asc" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         ID
                                                                     </th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1"  style="width: 42.25px;">
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Name
                                                                     </th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" style="width: 43.25px;">
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Action
                                                                     </th>
                                                                 </tr>
@@ -88,11 +88,11 @@
                                                                         <td>{{ $i++ }}</td>
                                                                         <td>{{ $roles->role_name }}</td>
                                                                         <td>
-                                                                        @if( Helper::showBasedOnPermission( 'role.update' ) )
+                                                                        @if( Helper::showBasedOnPermission( ['role.update'],'OR' ) )
                                                                             <a href="{{ url('roles/edit/'.$roles->id) }}"><i class="fa fa-fw fa-pencil text-primary actions_icon" title="Edit Role"></i></a>
                                                                         @endif
-                                                                            @if( Helper::showBasedOnPermission( 'role.delete' ) )
-                                                                            <a href="{{ url('roles/delete/'.$roles->id) }}" data-toggle="modal" data-target="#delete"><i class="fa fa-fw fa-times text-danger actions_icon" title="Delete User"></i></a>
+                                                                            @if( Helper::showBasedOnPermission( ['role.delete'],'OR' ) )
+                                                                            <a href="{{ url('roles/delete/'.$roles->id) }}" onclick="deleteRole(event)"><i class="fa fa-fw fa-times text-danger actions_icon" title="Delete Role"></i></a>
                                                                         @endif
                                                                         </td>
                                                                     </tr>
@@ -102,13 +102,13 @@
 
                                                             <tfoot>
                                                             <tr role="row">
-                                                                    <th class="sorting_asc" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" style="width: 58.25px;">
+                                                                    <th class="sorting_asc" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         ID
                                                                     </th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1"  style="width: 42.25px;">
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Name
                                                                     </th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" style="width: 43.25px;">
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Action
                                                                     </th>
                                                                 </tr>

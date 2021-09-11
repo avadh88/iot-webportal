@@ -10,8 +10,13 @@ use Illuminate\Support\Facades\Session;
 
 class RoleController extends ApiController
 {
+    /**
+     * Show role form
+     *
+     * @return void
+     */
     public function new(){
-        $add = Helper::showBasedOnPermission('role.create');   
+        $add = Helper::showBasedOnPermission(['role.create'],'OR');   
 
         if(!$add){
             return Redirect::back()->with('');
@@ -28,7 +33,7 @@ class RoleController extends ApiController
      * @return Illuminate\Http\RedirectResponse
      */
     public function add(Request $request){
-        $add = Helper::showBasedOnPermission('role.create');   
+        $add = Helper::showBasedOnPermission(['role.create'],'OR');   
 
         if(!$add){
             return Redirect::back()->with('');
@@ -73,7 +78,7 @@ class RoleController extends ApiController
      */
     public function view(){
 
-        $read = Helper::showBasedOnPermission('role.read');   
+        $read = Helper::showBasedOnPermission(['role.read'],'OR');   
 
         if(!$read){
             return Redirect::back()->with('');
@@ -105,7 +110,7 @@ class RoleController extends ApiController
      * @return Illuminate\Http\RedirectResponse
      */
     public function edit(Request $request,$id){
-        $edit = Helper::showBasedOnPermission('role.update');   
+        $edit = Helper::showBasedOnPermission(['role.update'],'OR');   
 
         if(!$edit){
             return Redirect::back()->with('');
@@ -140,7 +145,7 @@ class RoleController extends ApiController
      * @return Illuminate\Http\RedirectResponse
      */
     public function update(Request $request){
-        $update = Helper::showBasedOnPermission('role.update');   
+        $update = Helper::showBasedOnPermission(['role.update'],'OR');   
 
         if(!$update){
             return Redirect::back()->with('');
@@ -166,7 +171,7 @@ class RoleController extends ApiController
      * @return Illuminate\Http\RedirectResponse
      */
     public function delete(Request $request,$id){
-        $delete = Helper::showBasedOnPermission('role.delete');   
+        $delete = Helper::showBasedOnPermission(['role.delete'],'OR');   
 
         if(!$delete){
             return Redirect::back()->with('');

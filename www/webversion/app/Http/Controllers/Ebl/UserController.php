@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Session;
 
 class UserController extends ApiController
 {
+    /**
+     * redirect to login if not have access
+     *
+     * @return void
+     */
     public function index(){
         if(Session::has('token')){
             return redirect()->back();
@@ -38,7 +43,8 @@ class UserController extends ApiController
             Session::put('token',$res->token);
             Session::put('role',$res->data->user_role);
             Session::put('permission',$res->data->user_permission);
-            
+            Session::put('company_logo', $res->data->company_logo);
+    
             // Session::flash('message', $res->message); 
             // Session::flash('alert-class', 'alert-success');
             return redirect('/dashboard')->with('success',$res->message);
@@ -81,7 +87,7 @@ class UserController extends ApiController
      * @return Illuminate\Http\RedirectResponse
      */
     public function list(){
-        $read = Helper::showBasedOnPermission('user.read');   
+        $read = Helper::showBasedOnPermission(['user.read'],'OR');   
 
         if(!$read){
             return Redirect::back()->with('');
@@ -92,7 +98,6 @@ class UserController extends ApiController
                 $response = $this->getGuzzleRequest('GET','/user/list',$data);
                 $res      = json_decode($response['data']);
 
-
                 if( $response['status'] == 200 ){
                         return view('users/user_list',['users'=>$res->data]);    
                 }else{
@@ -102,8 +107,13 @@ class UserController extends ApiController
         }
     }
 
+    /**
+     * View form for register new user
+     *
+     * @return void
+     */
     public function new(){
-        $add = Helper::showBasedOnPermission('user.create');   
+        $add = Helper::showBasedOnPermission(['user.create'],'OR');   
 
         if(!$add){
             return Redirect::back()->with('');
@@ -114,13 +124,23 @@ class UserController extends ApiController
                 $response = $this->getGuzzleRequest('GET','/roles/view',$data);
                 $res      = json_decode($response['data']);
 
-                return view('users/new_user',['roles'=>$res->data]);
+                $response = $this->getGuzzleRequest('GET','/company/compnaylist',$data);
+                $compnies      = json_decode($response['data']);
+
+                return view('users/new_user',['roles'=>$res->data,'compnies'=>$compnies->data]);
             }
         }
     }
 
+    /**
+     * Send Request for register new user
+     *
+     * @param Request $request
+     *  
+     * @return Illuminate\Http\RedirectResponse
+     */
     public function add(Request $request){
-        $add = Helper::showBasedOnPermission('user.create');   
+        $add = Helper::showBasedOnPermission(['user.create'],'OR');   
 
         if(!$add){
             return Redirect::back()->with('');
@@ -133,13 +153,13 @@ class UserController extends ApiController
                 $data['last_name']       = $request->last_name;
                 $data['email']           = $request->email;
                 $data['phone_number']    = $request->phone_number;
-                $data['role']            = $request->role;
+                $data['role_id']         = $request->role_id;
+                $data['company_id']      = $request->company_id;
                 $data['password']        = $request->password;
                 $data['repeat_password'] = $request->repeat_password;
                 
                 $response = $this->getGuzzleRequest('post','/user/add',$data);
                 $res = json_decode($response['data']);
-
 
                 if($response['status'] == 200){    
                     
@@ -166,7 +186,7 @@ class UserController extends ApiController
      * @return Illuminate\Http\RedirectResponse
      */
     public function delete($id){
-        $delete = Helper::showBasedOnPermission('user.delete');   
+        $delete = Helper::showBasedOnPermission(['user.delete'],'OR');   
 
         if(!$delete){
             return Redirect::back()->with('');
@@ -198,7 +218,7 @@ class UserController extends ApiController
      * @return Illuminate\Http\RedirectResponse
      */
     public function edit($id){
-        $edit = Helper::showBasedOnPermission('user.update');   
+        $edit = Helper::showBasedOnPermission(['user.update'],'OR');   
 
         if(!$edit){
             return Redirect::back()->with('');
@@ -212,12 +232,14 @@ class UserController extends ApiController
                 $response = $this->getGuzzleRequest('GET','/roles/view',$data);
                 $role     = json_decode($response['data']);
             
+                $response = $this->getGuzzleRequest('GET','/company/compnaylist',$data);
+                $compnies      = json_decode($response['data']);
 
                 if($response['status'] == 200){    
                     
                     // Session::flash('message', $res->message); 
                     Session::flash('alert-class', 'alert-success');
-                    return view('users/new_user',['data'=>$res->data,'roles'=>$role->data]);
+                    return view('users/new_user',['data'=>$res->data,'roles'=>$role->data,'compnies'=>$compnies->data]);
 
                 }else if($response['status'] == 401){
                     
@@ -236,7 +258,7 @@ class UserController extends ApiController
      * @return Illuminate\Http\RedirectResponse
      */
     public function update(Request $request){
-        $update = Helper::showBasedOnPermission('user.update');   
+        $update = Helper::showBasedOnPermission(['user.update'],'OR');   
 
         if(!$update){
             return Redirect::back()->with('');
@@ -249,7 +271,8 @@ class UserController extends ApiController
                 $data['last_name']       = $request->last_name;
                 $data['email']           = $request->email;
                 $data['phone_number']    = $request->phone_number;
-                $data['role']            = $request->role;
+                $data['role_id']         = $request->role_id;
+                $data['company_id']      = $request->company_id;
                 
                 $response = $this->getGuzzleRequest('post','/user/update',$data);
                 $res = json_decode($response['data']);

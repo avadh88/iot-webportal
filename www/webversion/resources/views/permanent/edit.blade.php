@@ -5,13 +5,14 @@
     <meta charset="UTF-8">
     <title>Edit Permanent Device</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1' name='viewport'>
-    <link rel="shortcut icon" href="img/favicon.ico"/>
+    <link rel="shortcut icon" href="{{asset('public/assets/images/favicon.ico')}}"/>
+
     @include('common/headerlink')
 </head>
 
 <body class="skin-coreplus">
 <div class="preloader">
-    <div class="loader_img"><img src="img/loader.gif" alt="loading..." height="64" width="64"></div>
+    <div class="loader_img"><img src="{{asset('public/assets/images/loader.gif')}}" alt="loading..." height="64" width="64"></div>
 </div>
 @include('common/header')
 
@@ -59,7 +60,7 @@
                                         <i class="fa fa-fw clickable fa-chevron-up"></i>
                                     </span>
                             </div>
-                            <div class="card-body" style="display: block;">
+                            <div class="card-body">
                                 @if(isset($data))
                                     <form id="form-validation" action="{{ route('permanent.update') }}" class="" method="POST">
                                 @else   
@@ -69,7 +70,7 @@
                                 @csrf
                                     <input type="hidden" name="id" @if(isset($data->id)) value="{{ $data->id }}" @endif>
 
-                                    <div class="form-group row">
+                                    <!-- <div class="form-group row">
                                             <label class="col-md-4 col-form-label" for="company_name">
                                                 Company Name
                                                 <span class="text-danger">*</span>
@@ -77,15 +78,32 @@
                                             <div class="col-md-6">
                                                 <input type="text" name="company_name" id="company_name" class="form-control input-md" placeholder="Company Name" @if(isset($data->company_name)) value="{{ $data->company_name }}" @endif >
                                             </div>
+                                        </div> -->
+                                        <div class="form-group row" >
+                                        <label for="company_id" class="col-lg-3 col-12 col-form-label  text-lg-right text-left">
+                                        Company Name
+                                                <span class="text-danger">*</span>
+                                        </label>
+                                        <div class="col-lg-6 col-12">
+                                            <select id="company_id" name="company_id" class="form-control select2">
+
+                                                    @if (isset($compnies))
+                                                        @foreach($compnies as $company)
+                                                        <option value="{{ $company->id }}"  @if (isset($data->company_id)) @if($company->id == $data->company_id) selected="selected" @endif @endif> {{ $company->company_name }}</option>
+                                                        @endforeach
+                                                    @endif
+
+                                            </select>
                                         </div>
+                                    </div>
 
 
                                         <div class="form-group row">
-                                            <label class="col-md-4 col-form-label" for="device_name">
+                                            <label class="col-lg-3 col-12 col-form-label  text-lg-right text-left" for="device_name">
                                                 Device Name
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <div class="col-md-6">
+                                            <div class="col-lg-6 col-12">
                                                 <input type="text" name="device_name" id="device_name" class="form-control input-md" placeholder="Device Name" @if(isset($data->device_name)) value="{{ $data->device_name }}" @endif>
                                             </div>
                                         </div>
@@ -93,21 +111,24 @@
 
 
                                         <div class="form-group row">
-                                            <label class="col-md-4 col-form-label" for="serial_number">
+                                            <label class="col-lg-3 col-12 col-form-label  text-lg-right text-left" for="serial_number">
                                                 Serial Number
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <div class="col-md-6">
+                                            <div class="col-lg-6 col-12">
                                                 <input type="text" name="serial_number" id="serial_number" class="form-control input-md" placeholder="Serial Number" @if(isset($data->serial_number)) value="{{ $data->serial_number }}" @endif>
                                             </div>
                                         </div>
                                                             
-                                    <div class="form-group form-actions">
-                                        <div>
-                                            <button type="submit" class="btn btn-effect-ripple btn-primary">Submit</button>
-                                            </button>
-                                        </div>
-                                    </div>
+                                     
+                                        <div class="form-group row">
+                                        
+                                            <span class="col-lg-3"></span>
+                                            <div class="col-lg-6 col-12 text-left">
+                                                <button type="submit" class="btn btn-effect-ripple btn-primary input-md">Submit</button>
+                                            </div>    
+                                        
+                                        </div> 
                                 </form>
                 
                             </div>

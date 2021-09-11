@@ -17,9 +17,11 @@ return [
         'common' => [
             'success'      => 'Data Inserted Successfully',
             'failed'       => 'Something Went Wrong.',
-            'data_exists'  => 'Data Already Registered.',  
+            'data_exists'  => 'Data Already Registered.',
+            'delete'       => 'Data Deleted Successfully',
+            'update'       => 'Data Updated Successfully', 
         ],
-        'device' => [
+        'tempdevice' => [
             'success'      => 'Device Inserted Successfully',
             'failed'       => 'Something Went Wrong.',
             'data_exists'  => 'Device Already Registered.',  

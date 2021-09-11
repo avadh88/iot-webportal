@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Ebl\CompanyController;
 use App\Http\Controllers\Ebl\DashboardController;
 use App\Http\Controllers\Ebl\RoleController;
 use App\Http\Controllers\Temp\TempController;
@@ -33,8 +34,9 @@ Route::middleware(['usersession'])->prefix('temporary')->group(function(){
     Route::post('/update',[TempController::class,'update'])->name('temporary.update');
 });
 
-Route::middleware(['usersession'])->get('/dashboard',[DashboardController::class,'view']);
-Route::middleware(['usersession'])->get('/insert/{id}',[TempController::class,'insertData']);
+// Route::middleware(['usersession'])->get('/dashboard',[DashboardController::class,'view']);
+Route::middleware(['usersession'])->post('/insert',[TempController::class,'insertData'])->name('permanent.insert');
+Route::middleware(['usersession'])->get('/permanent/insert/{id}',[TempController::class,'permanent']);
 
 // Route::get('users/{id}', [TempController::class,'delete']);
 
@@ -66,5 +68,18 @@ Route::middleware(['usersession'])->prefix('permanent')->group(function(){
     Route::get('/list',[PermanentController::class,'view']);
     Route::get('/edit/{id}',[PermanentController::class,'edit']);
     Route::get('/delete/{id}',[PermanentController::class,'delete']);
-
 });
+
+Route::middleware(['usersession'])->prefix('company')->group(function(){
+    Route::get('/new', [CompanyController::class,'new']);
+    Route::post('/add',[CompanyController::class,'add'])->name('company.create');
+    Route::post('/update',[CompanyController::class,'update'])->name('company.update');
+    Route::get('/list',[CompanyController::class,'view']);
+    Route::get('/edit/{id}',[CompanyController::class,'edit']);
+    Route::get('/delete/{id}',[CompanyController::class,'delete']);
+});
+
+// Route::middleware(['usersession'])->prefix('dashboard')->group(function(){
+    // Route::get('/dashboard',[DashboardController::class,'info']);
+// });
+Route::get('/dashboard',[DashboardController::class,'info']);

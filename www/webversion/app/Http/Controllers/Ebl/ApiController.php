@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Ebl;
 
 use App\Http\Controllers\Controller;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Session;
 
 class ApiController extends Controller
@@ -30,7 +32,6 @@ class ApiController extends Controller
 
         // dd($data);
         // dd($callUrl);
-        // dd($datas);
 
         try {
             if($method == 'get' || $method == 'GET'){
@@ -71,6 +72,56 @@ class ApiController extends Controller
         $res['status'] = $response->getStatusCode();
         $res['data']   = $response->getBody()->getContents();
         // dd($res);   
+        return $res;
+    }
+
+    /**
+     * Api Request with Image
+     *
+     * @param string $method
+     * @param string $url
+     * @param string|array $data
+     * 
+     * @return array
+     */
+    public function fileWithDataGuzzleRequest($method,$url,$data = ""){
+        $apiUrl    = env('API_URL');
+        $client    = new \GuzzleHttp\Client();
+        $callUrl   = $apiUrl. $url;
+        $datas     = json_encode($data);
+        // dd($callUrl);
+
+
+        try {
+           if($method == 'post' || $method == "POST"){
+                $response = $client->request($method, $callUrl,['headers'=> [
+                    'Accept' => 'application/json',
+                    'Authorization' => 'Bearer '.$data['token']
+                    ],
+                    'multipart' => [
+                        [   
+                        
+                            'name'      => 'company_logo',
+                            'filename' => $data['file_uploaded_name'],
+                            'Mime-Type'=> $data['file_mime'],
+                            'contents' => fopen($data['file_path'], 'r'),
+                        ],
+                        [
+                            'name' => 'form_data',
+                            'contents' => $datas
+                        ],
+                    ],
+                    ]    
+                );
+            }
+        }
+        catch (ClientException $e) {
+
+            $response =$e->getResponse();
+        }
+
+        $res['status'] = $response->getStatusCode();
+        $res['data']   = $response->getBody()->getContents();
         return $res;
     }
 }

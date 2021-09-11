@@ -40,6 +40,16 @@ jQuery(document).ready(function (){
         }
     });
 
+    $("#selectAllCompany").click(function () {
+        $(".checkAllcompany").prop('checked', $(this).prop('checked'));
+    });
+    
+    $(".checkAllcompany").change(function(){
+        if (!$(this).prop("checked")){
+            $("#selectAllCompany").prop("checked",false);
+        }
+    });
+
 
     $("#roleValidation").bootstrapValidator({
         fields: {
@@ -54,3 +64,9 @@ jQuery(document).ready(function (){
     });
     
 });
+
+function deleteRole(e){
+    if(!confirm('Do you want to delete?')){
+        e.preventDefault();
+    }
+}

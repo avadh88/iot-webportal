@@ -39,12 +39,13 @@ www/eblapihub/README.md
 
 
 
-www/webverion/vendor
-www/webverion/storage
-www/webverion/tests
-www/webverion/.*
-www/webverion/composer.lock
-www/webverion/package-lock.json
-www/webverion/README.md
+www/webversion/vendor
+www/webversion/storage
+www/webversion/tests
+www/webversion/.*
+!www/webversion/.env.example
+www/webversion/composer.lock
+www/webversion/package-lock.json
+www/webversion/README.md
 
 

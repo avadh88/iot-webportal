@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <title>Add New Role</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1' name='viewport'>
-    <link rel="shortcut icon" href="img/favicon.ico"/>
+    <link rel="shortcut icon" href="{{asset('public/assets/images/favicon.ico')}}"/>
     @include('common/headerlink')
 </head>
 
 <body class="skin-coreplus">
 <div class="preloader">
-    <div class="loader_img"><img src="img/loader.gif" alt="loading..." height="64" width="64"></div>
+    <div class="loader_img"><img src="{{asset('public/assets/images/loader.gif')}}" alt="loading..." height="64" width="64"></div>
 </div>
 @include('common/header')
 
@@ -60,7 +60,7 @@
 
                                     </span>
                             </div>
-                            <div class="card-body" style="display: block;">
+                            <div class="card-body">
                                 @if(isset($data))
                                     <form id="roleValidation" action="{{ route('roles.update') }}" class="" method="POST">
                                 @else   
@@ -73,18 +73,18 @@
 
 
                                         <div class="form-group row">
-                                            <label class="col-md-4 col-form-label" for="role_name">
+                                            <label class="col-lg-3 col-12 col-form-label  text-lg-right text-left" for="role_name">
                                                 Role Name
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <div class="col-md-6">
+                                            <div class="col-lg-6 col-12">
                                                 <input type="text" name="role_name" id="role_name" class="form-control input-md" placeholder="Enter New Role" @if(isset($data->role_name)) value="{{ $data->role_name }}" @endif>
                                             </div>
                                         </div>
                                 
                                 <div class="form-group row">
                                     <label class="col-lg-2 col-md-2  col-sm-12 col-12 col-form-label m-t-ng-8 text-lg-right text-md-right text-left">User</label>
-                                    <div class="col-lg-2 col-md-2  col-sm-2 col-2">
+                                    <div class="col-lg-3 col-12 col-form-label  text-lg-right text-left">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="" id="selectAllUser">
                                         <label class="form-check-label" for="selectAllUser">
@@ -92,7 +92,7 @@
                                         </label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-4  col-sm-4 col-4">
+                                    <div class="col-lg-6 col-12">
                                         <div>
                                             <label>
                                                 <input type="checkbox" name="permission[]" id="userCreate" value="user.create" class="checkAllUser" > Add User
@@ -120,7 +120,7 @@
          
                                 <div class="form-group row">
                                     <label class="col-lg-2 col-md-2  col-sm-12 col-12 col-form-label m-t-ng-8 text-lg-right text-md-right text-left">Role</label>
-                                    <div class="col-lg-2 col-md-2  col-sm-2 col-2">
+                                    <div class="col-lg-3 col-12 col-form-label  text-lg-right text-left">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="" id="selectAllRole">
                                         <label class="form-check-label" for="selectAllRole">
@@ -128,7 +128,7 @@
                                         </label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-4  col-sm-4 col-4">
+                                    <div class="col-lg-6 col-12">
                                         <div>
                                             <label>
                                                 <input type="checkbox" name="permission[]" id="roleCreate" value="role.create" class="checkAllRole" > Add Role
@@ -155,7 +155,7 @@
 
                                 <div class="form-group row">
                                     <label class="col-lg-2 col-md-2  col-sm-12 col-12 col-form-label m-t-ng-8 text-lg-right text-md-right text-left">Temporary</label>
-                                    <div class="col-lg-2 col-md-2  col-sm-2 col-2">
+                                    <div class="col-lg-3 col-12 col-form-label  text-lg-right text-left">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="" id="selectAllTemp">
                                         <label class="form-check-label" for="selectAllTemp">
@@ -163,7 +163,7 @@
                                         </label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-4  col-sm-4 col-4">
+                                    <div class="col-lg-6 col-12">
                                    
                                         <div>
                                             <label>
@@ -191,7 +191,7 @@
 
                                 <div class="form-group row">
                                     <label class="col-lg-2 col-md-2  col-sm-12 col-12 col-form-label m-t-ng-8 text-lg-right text-md-right text-left">Permanent</label>
-                                    <div class="col-lg-2 col-md-2  col-sm-2 col-2">
+                                    <div class="col-lg-3 col-12 col-form-label  text-lg-right text-left">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="" id="selectAllPermanent">
                                         <label class="form-check-label" for="selectAllPermanent">
@@ -199,7 +199,7 @@
                                         </label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-4  col-sm-4 col-4">
+                                    <div class="col-lg-6 col-12">
                                        
                                         <div>
                                             <label>
@@ -221,8 +221,47 @@
 
                                     </div>
                                 </div>
-  
-                                                            
+
+
+                                <div class="form-group row">
+                                    <label class="col-lg-2 col-md-2  col-sm-12 col-12 col-form-label m-t-ng-8 text-lg-right text-md-right text-left">Company</label>
+                                    <div class="col-lg-3 col-12 col-form-label  text-lg-right text-left">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="selectAllCompany">
+                                        <label class="form-check-label" for="selectAllCompany">
+                                            Select All
+                                        </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                       
+                                        <div>
+                                            <label>
+                                                <input type="checkbox" name="permission[]" id="companyCreate" value="company.create" class="checkAllcompany" > Add New Company
+                                            </label>
+                                        </div>
+
+                                        <div>
+                                            <label>
+                                                <input type="checkbox" name="permission[]" id="companyRead" value="company.read" class="checkAllcompany" > View Company
+                                            </label>
+                                        </div>
+
+                                        <div>
+                                            <label>
+                                                <input type="checkbox" name="permission[]" id="companyDelete" value="company.delete" class="checkAllcompany" > Delete Company
+                                            </label>
+                                        </div>
+
+                                        <div>
+                                            <label>
+                                                <input type="checkbox" name="permission[]" id="companyUpdate" value="company.update" class="checkAllcompany" > Edit Company
+                                            </label>
+                                        </div>
+                                    
+                                    </div>
+                                </div>
+
                                     <div class="form-group form-actions">
                                         <div>
                                             <button type="submit" class="btn btn-effect-ripple btn-primary">Submit</button>

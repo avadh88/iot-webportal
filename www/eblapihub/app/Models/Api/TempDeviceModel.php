@@ -12,7 +12,7 @@ class TempDeviceModel extends Model
 
     protected $connection = 'mysql2';
     protected $table = 'temp_devices';
-    protected $fillable = ['company_name','device_name','serial_number'];
+    protected $fillable = ['company_id','device_name','serial_number'];
 
     public function list($data){
         
@@ -30,7 +30,7 @@ class TempDeviceModel extends Model
                                 ->where('serial_number', $datas['serial_number'])->exists();
 
         if ($results) {
-            $response['message'] = trans('api.messages.device.data_exists');
+            $response = trans('api.messages.tempdevice.data_exists');
         }
        
         else{
@@ -42,9 +42,9 @@ class TempDeviceModel extends Model
             $data->serial_number = $datas['serial_number'];
         
             if($data->save()){
-                $response['message'] = trans('api.messages.device.success');
+                $response = trans('api.messages.tempdevice.success');
             }else{
-                $response['message'] = trans('api.messages.device.failed');
+                $response = trans('api.messages.tempdevice.failed');
             }
         }     
         return $response;
