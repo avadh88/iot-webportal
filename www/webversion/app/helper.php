@@ -2,8 +2,6 @@
 
 namespace App\Helpers;
 
-use Illuminate\Contracts\Session\Session;
-
 class Helper
 {
     /**
@@ -13,19 +11,47 @@ class Helper
      * 
      * @return bool
      */
-    public static function showBasedOnPermission($permission){
+    public static function showBasedOnPermission($permission,$operator = ''){
 
-        $permissions = request()->session()->get('permission');
-// dd($permissions);
-        if(request()->session()->has('permission'))
+        $role        = request()->session()->get('role');
+        
+        if($role == 'administrator'){
+            return true;
+        }
+        else if(request()->session()->has('permission'))
         {
-            if((in_array($permission,$permissions)))
-            {
-                return true;
-            }
-            else{
+            $permissions = request()->session()->get('permission');
+
+            if($operator == 'OR'){
+                
+                $result = array_intersect($permissions,$permission);
+
+                if(count($result) > 0){
+                    return true;
+                }
+
                 return false;
-            }   
+
+            }
+            if($operator == 'AND'){
+                
+                $result = array_intersect($permissions,$permission);
+                var_dump(($result));
+
+                if(count($result) == count($permission)){
+                    return true;
+                }
+            
+                return false;
+            }
+
+            // if((in_array($permission,$permissions)))
+            // {
+            //     return true;
+            // }
+            // else{
+            //     return false;
+            // }   
         }
     }
 
@@ -50,5 +76,9 @@ class Helper
                 return false;
             }   
         }
+    }
+
+    public function checkpermission(){
+
     }
 }

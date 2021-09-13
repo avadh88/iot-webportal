@@ -56,5 +56,6 @@ services:
   redis:
     container_name: '${COMPOSE_PROJECT_NAME}-redis'
     image: redis:latest
+    command: redis-server --requirepass c709bdf5f5c2be2a8a1e8da19bf88400a21421ec
     ports:
-      - "127.0.0.1:${HOST_MACHINE_REDIS_PORT}:6379"
+      - "${HOST_MACHINE_REDIS_PORT}:6379"
