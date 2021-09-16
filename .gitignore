@@ -27,6 +27,7 @@ docker/config
 docker/data
 docker/logs
 
+www/eblapihub/public/uploads/company/*
 www/eblapihub/vendor
 www/eblapihub/storage
 www/eblapihub/tests
