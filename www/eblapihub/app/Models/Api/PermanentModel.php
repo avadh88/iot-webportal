@@ -4,6 +4,7 @@ namespace App\Models\Api;
 
 use App\Events\DeviceCompanyAddEvent;
 use App\Events\DeviceCompanyEditEvent;
+use App\Services\RedisService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Passport\HasApiTokens;
@@ -40,7 +41,7 @@ class PermanentModel extends Model
         
             if($data->save()){
                 TempDeviceModel::where('id', $id)
-                    ->update(['flag' => 1]);
+                    ->update(['temp_device_id' => 1]);
                 $response['message'] = trans('api.messages.device.success');
             }else{
                 $response['message'] = trans('api.messages.device.failed');
@@ -53,7 +54,7 @@ class PermanentModel extends Model
         
         if($data){
             $permanentDevices = PermanentModel::join('companies', 'companies.id', '=', 'permenent_device.company_id')
-                   ->get(['permenent_device.id','permenent_device.device_name','permenent_device.serial_number','companies.company_name']);
+                   ->get(['permenent_device.id','permenent_device.device_name','permenent_device.serial_number','permenent_device.temp_device_id','companies.company_name']);
             
 
             // $permanentDevices = PermanentModel::select('id','company_id','device_name','serial_number')->get();
@@ -101,6 +102,8 @@ class PermanentModel extends Model
 
     public function addToPermanent($data){
 
+        $tempModel                   = TempDeviceModel::find($data['id']);
+        
         $results = PermanentModel::where('company_id', $data['company_id'])
                                 ->where('device_name', $data['device_name'])
                                 ->where('serial_number', $data['serial_number'])->exists();
@@ -110,11 +113,24 @@ class PermanentModel extends Model
         }else{
             $permenantModel                   = new PermanentModel();
 
-            $permenantModel->company_id     = $data['company_id'];
+            $permenantModel->company_id       = $data['company_id'];
             $permenantModel->device_name      = $data['device_name'];
             $permenantModel->serial_number    = $data['serial_number'];
+            $permenantModel->temp_device_id   = $tempModel->temp_device_id;
             
             if($permenantModel->save()){
+                $lastInsertedId = $permenantModel->id;
+                $publishTempId  = new RedisService();
+                $uniqqueId      = substr(mt_rand(),0,10);
+                $key            = 'cp-temp-to-per-'.$tempModel->temp_device_id;
+                $value          = 'cp-device-register-per-'.$tempModel->temp_device_id.";;".$lastInsertedId.";;".microtime(true).";;".$uniqqueId;
+                // cp-device-register-per;;permid;;time;;uniqqueId
+                // 'cp-temp-to-per-'.$temp_device_id, 'cp-device-register-per-'.$temp_device_id.";;".$permanent_id.";;".microtime(true).";;".$uniqqueId
+                
+                $publishTempId->publishRedis( $key, $value );
+                return $publishTempId->waitingForResponse( $key );
+
+                TempDeviceModel::where('id', $data['id'])->update(['status' => 1]);
                 $datas = Company::where('id',$data['company_id'])->get('company_email')->first();
                 return $datas;
             }else{

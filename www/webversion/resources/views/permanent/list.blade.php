@@ -71,7 +71,9 @@
                                                                     <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Serial Name
                                                                     </th>
-
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
+                                                                        Temp Device Id
+                                                                    </th>
                                                                     <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Action
                                                                     </th>
@@ -90,7 +92,7 @@
                                                                         <td>{{ $permanent->company_name }}</td>
                                                                         <td>{{ $permanent->device_name }}</td>
                                                                         <td>{{ $permanent->serial_number }}</td>
-                                                                        
+                                                                        <td>{{ $permanent->temp_device_id }}</td>
                                                                         <td>
                                                                         @if( Helper::showBasedOnPermission( ['permanent.update'],'OR' ) )
                                                                             <a href="{{ url('permanent/edit/'.$permanent->id) }}"><i class="fa fa-fw fa-pencil text-primary actions_icon" title="Edit Role"></i></a>
@@ -117,6 +119,9 @@
                                                                     </th>
                                                                     <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Serial Name
+                                                                    </th>
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
+                                                                        Temp Device Id
                                                                     </th>
                                                                     <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Action

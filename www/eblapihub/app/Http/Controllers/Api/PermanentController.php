@@ -2,12 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Events\DeviceCompanyAddEvent;
-use App\Events\DeviceCompanyEditEvent;
-use App\Events\DeviceEvent;
-use App\Http\Controllers\Controller;
 use App\Models\Api\PermanentModel;
-use App\Models\Api\TempDeviceModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -139,7 +134,7 @@ class PermanentController extends ApiController
         $permanentData = $permanentModel->addToPermanent($data);
       
         if($permanentData){
-            event( new DeviceCompanyAddEvent($permanentData->company_email) );
+            // event( new DeviceCompanyAddEvent($permanentData->company_email) );
             $response['message'] = trans('api.messages.common.success');
             $response['data']    = $permanentData;
             return $this->respond($response);
