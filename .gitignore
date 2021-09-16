@@ -47,5 +47,6 @@ www/webversion/.*
 www/webversion/composer.lock
 www/webversion/package-lock.json
 www/webversion/README.md
-
+www/webversion/public/assets/*
+www/webversion/public/robots.txt
 

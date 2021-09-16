@@ -75,7 +75,9 @@
                                                                     <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Serial Name
                                                                     </th>
-
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
+                                                                        Status
+                                                                    </th>
                                                                     <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Action
                                                                     </th>
@@ -94,7 +96,7 @@
                                                                         <td>{{ $temp->company_name }}</td>
                                                                         <td>{{ $temp->device_name }}</td>
                                                                         <td>{{ $temp->serial_number }}</td>
-                                                                        
+                                                                        <td>{{ ($temp->status == 1 ) ? 'Active' : 'Disactive'}} </td>
                                                                         <td>
                                                                             <a href="{{ url('temporary/edit/'.$temp->id) }}"><i class="fa fa-fw fa-pencil text-primary actions_icon" title="Edit Temporary Device"></i></a>
                                                                             <a href="{{ url('temporary/delete/'.$temp->id) }}" onclick="deleteTemporaryDevice(event)"><i class="fa fa-fw fa-times text-danger actions_icon" title="Delete Temporary Device"></i></a>
@@ -119,6 +121,9 @@
                                                                     </th>
                                                                     <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Serial Name
+                                                                    </th>
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
+                                                                        Status
                                                                     </th>
                                                                     <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Action

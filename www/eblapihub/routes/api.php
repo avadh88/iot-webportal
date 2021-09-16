@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\TempDeviceController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Middleware\Authenticate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -77,3 +78,9 @@ Route::middleware('auth:api')->prefix('web')->group(function () {
     });
 });
 
+Route::get('/permanent/index', [PermanentController::class,'index']);
+Route::get('/publish', function () {
+    Redis::publish('test', json_encode([
+        'name' => 'Adam Wathan'
+    ]));
+});

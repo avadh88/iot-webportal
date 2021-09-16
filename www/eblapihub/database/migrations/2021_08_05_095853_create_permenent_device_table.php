@@ -22,6 +22,7 @@ class CreatePermenentDeviceTable extends Migration
             $table->unsignedBigInteger('company_id');
             $table->string('device_name');
             $table->string('serial_number');
+            $table->string('temp_device_id');
             $table->timestamps();
 
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');

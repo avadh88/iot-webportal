@@ -27,7 +27,7 @@ class DeviceController extends ApiController
         $permanentData = $permanentModel->addToPermanent($data);
       
         if($permanentData){
-            event( new DeviceCompanyAddEvent($permanentData->company_email) );
+            // event( new DeviceCompanyAddEvent($permanentData->company_email) );
             $response['message'] = trans('api.messages.common.success');
             $response['data']    = $permanentData;
             return $this->respond($response);

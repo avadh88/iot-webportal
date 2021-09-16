@@ -42,6 +42,9 @@ mix.combine(
         'resources/assets/vendors/select2/css/select2-bootstrap.css',
         'resources/assets/vendors/bootstrapvalidator/css/bootstrapValidator.min.css',
         'resources/assets/vendors/datetimepicker/css/bootstrap-datetimepicker.min.css',
+        'resources/assets/vendors/toastr/css/toastr.min.css',
+        'resources/assets/vendors/iCheck/css/minimal/blue.css',
+        'resources/assets/css/custom_css/toastr_notificatons.css',
         'resources/assets/vendors/iCheck/css/all.css',
 
         'resources/assets/css/advbuttons.css',
@@ -93,6 +96,7 @@ mix.combine(
         'resources/assets/vendors/bootstrapwizard/js/jquery.bootstrap.wizard.js',
         'resources/assets/vendors/bootstrapvalidator/js/bootstrapValidator.min.js',
         'resources/assets/vendors/datetimepicker/js/bootstrap-datetimepicker.min.js',
+        'resources/assets/vendors/toastr/js/toastr.min.js',
         'resources/assets/vendors/iCheck/js/icheck.js',
 
 
@@ -107,7 +111,8 @@ mix.combine(
         'resources/assets/js/custom_js/company.js',
         'resources/assets/js/custom_js/temporary.js',
         'resources/assets/js/custom_js/permanent.js',
-        'resources/assets/js/custom_js/sidebar.js'
+        'resources/assets/js/custom_js/sidebar.js',
+        'resources/assets/js/custom_js/toastr_notifications.js',
 
 
     ], destJs + 'app.js');

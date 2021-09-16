@@ -12,12 +12,12 @@ class TempDeviceModel extends Model
 
     protected $connection = 'mysql2';
     protected $table = 'temp_devices';
-    protected $fillable = ['company_id','device_name','serial_number'];
+    protected $fillable = ['company_id','device_name','serial_number','temp_device_id'];
 
     public function list($data){
         
         if($data){
-            $tempDevices = TempDeviceModel::select('id','company_name','device_name','serial_number')->get();
+            $tempDevices = TempDeviceModel::select('id','company_name','device_name','serial_number','status')->get();
             return $tempDevices;
         }
     }
@@ -40,6 +40,7 @@ class TempDeviceModel extends Model
             $data->company_name  = $datas['company_name'];
             $data->device_name   = $datas['device_name'];
             $data->serial_number = $datas['serial_number'];
+            $data->temp_device_id = $datas['temp_device_id'];
         
             if($data->save()){
                 $response = trans('api.messages.tempdevice.success');

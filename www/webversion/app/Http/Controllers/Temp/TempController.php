@@ -56,7 +56,8 @@ class TempController extends ApiController
         if ( Session::has('token') ){ 
             $data['token'] = Session::get('token');
 
-            $data['company_id']     = $request->company_id;
+            $data['id']               = $request->id;
+            $data['company_id']       = $request->company_id;
             $data['device_name']      = $request->device_name;
             $data['serial_number']    = $request->serial_number;
 
