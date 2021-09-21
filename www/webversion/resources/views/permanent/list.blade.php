@@ -74,6 +74,9 @@
                                                                     <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Temp Device Id
                                                                     </th>
+                                                                    <!-- <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
+                                                                        Status
+                                                                    </th> -->
                                                                     <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Action
                                                                     </th>
@@ -93,6 +96,7 @@
                                                                         <td>{{ $permanent->device_name }}</td>
                                                                         <td>{{ $permanent->serial_number }}</td>
                                                                         <td>{{ $permanent->temp_device_id }}</td>
+                                                                        <td></td>
                                                                         <td>
                                                                         @if( Helper::showBasedOnPermission( ['permanent.update'],'OR' ) )
                                                                             <a href="{{ url('permanent/edit/'.$permanent->id) }}"><i class="fa fa-fw fa-pencil text-primary actions_icon" title="Edit Role"></i></a>
@@ -123,6 +127,9 @@
                                                                     <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Temp Device Id
                                                                     </th>
+                                                                    <!-- <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
+                                                                        Status
+                                                                    </th> -->
                                                                     <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Action
                                                                     </th>

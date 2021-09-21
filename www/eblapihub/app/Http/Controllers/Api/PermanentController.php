@@ -144,4 +144,23 @@ class PermanentController extends ApiController
             return $this->respond($response);
         }
     }
+
+
+    /**
+     * Get and save device status to db
+     *
+     * @return void
+     */
+    public function status(Request $request){
+
+        $data = json_decode($request->getContent(),true);
+
+        $permanentModel = new PermanentModel();
+        $permanentModel = $permanentModel->updateDeviceStatus($data);
+
+
+        $response['data']    = $permanentModel;
+        return $this->respond($response);
+
+    }
 }

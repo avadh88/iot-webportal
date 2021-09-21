@@ -3,6 +3,7 @@ namespace App\Services;
 
 use Illuminate\Redis\Connections\PredisConnection;
 use Illuminate\Support\Facades\Redis;
+use PhpParser\Node\Stmt\TryCatch;
 
 class RedisService{
 
@@ -23,15 +24,34 @@ class RedisService{
 
     public function publishRedis($key, $value){
         $redisConn = $this->connectRedis();
+        
+        
+        try {
+        //code...
+            // file_put_contents('redis',$key."=".$value);
+            return $redisConn->publish($key, $value);
+        } catch (\Throwable $th) {
+        //throw $th;
+            return $th;
+        }
+        
         return $redisConn->publish($key, $value);
     }
 
-    public function waitingForResponse( $key, $timeInSec = 60, $sleepTimeInSec = 1 ){
+    public function waitingForResponse( $key, $lastInsertedId, $timeInSec = 60, $sleepTimeInSec = 1 ){
         
         $time = 0;
         while($time < $timeInSec){
-            if($this->getRedis($key)){
-                exit;
+            $reply =  $this->getRedis($key);
+
+            if($reply){
+
+                list($reply_key, $reply_id, $reply_time, $reply_uuid) = explode(';;', $reply);
+            
+                if($reply_id == $lastInsertedId){
+                    file_put_contents('redis',$reply_id."=".$lastInsertedId);
+                break;
+                }
             }
 
             $time++;
@@ -40,12 +60,12 @@ class RedisService{
 
     public function getRedis($key){
         $redisConn = $this->connectRedis();
-        $reply = $redisConn->get($key);
-        if($reply){
-            return true;
-        }else{
-            return false;
-        }
+        return $redisConn->get($key);
+        // if($reply){
+            // return true;
+        // }else{
+            // return false;
+        // }
     }
 }
 
