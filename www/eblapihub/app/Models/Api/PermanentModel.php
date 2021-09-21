@@ -124,11 +124,9 @@ class PermanentModel extends Model
                 $uniqqueId      = substr(mt_rand(),0,10);
                 $key            = 'cp-temp-to-per-'.$tempModel->temp_device_id;
                 $value          = 'cp-device-register-per-'.$tempModel->temp_device_id.";;".$lastInsertedId.";;".microtime(true).";;".$uniqqueId;
-                // cp-device-register-per;;permid;;time;;uniqqueId
-                // 'cp-temp-to-per-'.$temp_device_id, 'cp-device-register-per-'.$temp_device_id.";;".$permanent_id.";;".microtime(true).";;".$uniqqueId
                 
                 $publishTempId->publishRedis( $key, $value );
-                return $publishTempId->waitingForResponse( $key );
+                $publishTempId->waitingForResponse( $key ,$lastInsertedId);
 
                 TempDeviceModel::where('id', $data['id'])->update(['status' => 1]);
                 $datas = Company::where('id',$data['company_id'])->get('company_email')->first();
@@ -139,5 +137,16 @@ class PermanentModel extends Model
         }
         return $response;
 
+    }
+
+    public function updateDeviceStatus($data){
+        // $permanentModel = new PermanentModel();
+        if($data){
+            PermanentModel::where('id',$data['statusData']['uid'])->update(['status'=>'online']);
+            return PermanentModel::where('id',$data['statusData']['uid'])->get('status')->first();
+        }else{
+            PermanentModel::where('id',$data['statusData']['uid'])->update(['status'=>'offline']);
+            return PermanentModel::where('id',$data['statusData']['uid'])->get('status')->first();    
+        }
     }
 }

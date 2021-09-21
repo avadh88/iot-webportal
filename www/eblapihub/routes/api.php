@@ -57,6 +57,8 @@ Route::middleware('auth:api')->prefix('web')->group(function () {
     Route::get('/permanent/delete/{id}', [PermanentController::class,'delete']);
     Route::post('/permanent/update', [PermanentController::class,'update']);
     Route::post('/permanent/add', [PermanentController::class,'add'])->middleware('auth:api');
+    Route::post('/permanent/status', [PermanentController::class,'status']);
+    Route::get('/permanent/status', [PermanentController::class,'status']);
 
     Route::get('/temporary/edit/{id}', [TempDeviceController::class,'edit']);
     Route::get('/temporary/delete/{id}', [TempDeviceController::class,'delete']);
@@ -84,3 +86,6 @@ Route::get('/publish', function () {
         'name' => 'Adam Wathan'
     ]));
 });
+
+
+Route::post('/permanent/status', [PermanentController::class,'status']);
