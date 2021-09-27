@@ -51,14 +51,14 @@ Route::middleware('auth:api')->prefix('web')->group(function () {
     Route::get('roles/view', [RoleController::class,'view']);
     Route::get('roles/edit/{id}', [RoleController::class,'edit']);
     Route::get('/roles/delete/{id}', [RoleController::class,'delete']);
-    
+   
     Route::get('/permanent/list/', [PermanentController::class,'list']);
     Route::get('/permanent/edit/{id}', [PermanentController::class,'edit']);
     Route::get('/permanent/delete/{id}', [PermanentController::class,'delete']);
     Route::post('/permanent/update', [PermanentController::class,'update']);
     Route::post('/permanent/add', [PermanentController::class,'add'])->middleware('auth:api');
     Route::post('/permanent/status', [PermanentController::class,'status']);
-    Route::get('/permanent/status', [PermanentController::class,'status']);
+    Route::post('/permanent/retry',[PermanentController::class,'retry']);
 
     Route::get('/temporary/edit/{id}', [TempDeviceController::class,'edit']);
     Route::get('/temporary/delete/{id}', [TempDeviceController::class,'delete']);

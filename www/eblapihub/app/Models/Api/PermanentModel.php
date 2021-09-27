@@ -54,7 +54,7 @@ class PermanentModel extends Model
         
         if($data){
             $permanentDevices = PermanentModel::join('companies', 'companies.id', '=', 'permenent_device.company_id')
-                   ->get(['permenent_device.id','permenent_device.device_name','permenent_device.serial_number','permenent_device.temp_device_id','companies.company_name']);
+                   ->get(['permenent_device.id','permenent_device.device_name','permenent_device.serial_number','permenent_device.status','permenent_device.temp_device_id','permenent_device.retry','companies.company_name']);
             
 
             // $permanentDevices = PermanentModel::select('id','company_id','device_name','serial_number')->get();
@@ -106,10 +106,12 @@ class PermanentModel extends Model
         
         $results = PermanentModel::where('company_id', $data['company_id'])
                                 ->where('device_name', $data['device_name'])
-                                ->where('serial_number', $data['serial_number'])->exists();
+                                ->where('serial_number', $data['serial_number'])
+                                ->where('temp_device_id', $tempModel->temp_device_id)->exists();
 
         if ($results) {
             $response['message'] = trans('api.messages.common.data_exists');
+            return $response;
         }else{
             $permenantModel                   = new PermanentModel();
 
@@ -126,8 +128,15 @@ class PermanentModel extends Model
                 $value          = 'cp-device-register-per-'.$tempModel->temp_device_id.";;".$lastInsertedId.";;".microtime(true).";;".$uniqqueId;
                 
                 $publishTempId->publishRedis( $key, $value );
-                $publishTempId->waitingForResponse( $key ,$lastInsertedId);
+                $retry = $publishTempId->waitingForResponse( $key ,$lastInsertedId);
 
+                if($retry){
+                    PermanentModel::where('id', $lastInsertedId)->update(['retry' => 1]);
+                }else{
+                    PermanentModel::where('id', $lastInsertedId)->update(['retry' => 0]);
+                }
+
+                return $retry;
                 TempDeviceModel::where('id', $data['id'])->update(['status' => 1]);
                 $datas = Company::where('id',$data['company_id'])->get('company_email')->first();
                 return $datas;
@@ -135,18 +144,34 @@ class PermanentModel extends Model
                 return false;
             }
         }
-        return $response;
-
     }
 
     public function updateDeviceStatus($data){
-        // $permanentModel = new PermanentModel();
-        if($data){
+
+        if(isset($data['statusData']['msg'])){
             PermanentModel::where('id',$data['statusData']['uid'])->update(['status'=>'online']);
             return PermanentModel::where('id',$data['statusData']['uid'])->get('status')->first();
         }else{
             PermanentModel::where('id',$data['statusData']['uid'])->update(['status'=>'offline']);
             return PermanentModel::where('id',$data['statusData']['uid'])->get('status')->first();    
+        }
+    }
+
+    public function retryRedis($data){
+        $temp_device_id = PermanentModel::where('id',$data['id'])->pluck('temp_device_id')->first();
+
+        $publishTempId  = new RedisService();
+        $uniqqueId      = substr(mt_rand(),0,10);
+        $key            = 'cp-temp-to-per-'.$temp_device_id;
+        $value          = 'cp-device-register-per-'.$temp_device_id.";;".$data['id'].";;".microtime(true).";;".$uniqqueId;
+    
+        $publishTempId->publishRedis( $key, $value );
+        $retry = $publishTempId->waitingForResponse( $key ,$data['id']);
+
+        if($retry){
+            PermanentModel::where('id', $data['id'])->update(['retry' => 1]);
+        }else{
+            PermanentModel::where('id', $data['id'])->update(['retry' => 0]);
         }
     }
 }

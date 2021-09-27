@@ -68,6 +68,7 @@ Route::middleware(['usersession'])->prefix('permanent')->group(function(){
     Route::get('/list',[PermanentController::class,'view']);
     Route::get('/edit/{id}',[PermanentController::class,'edit']);
     Route::get('/delete/{id}',[PermanentController::class,'delete']);
+    Route::get('/retry/{id}',[PermanentController::class,'retry']);
 });
 
 Route::middleware(['usersession'])->prefix('company')->group(function(){

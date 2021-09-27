@@ -74,9 +74,9 @@
                                                                     <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Temp Device Id
                                                                     </th>
-                                                                    <!-- <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Status
-                                                                    </th> -->
+                                                                    </th>
                                                                     <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Action
                                                                     </th>
@@ -96,7 +96,7 @@
                                                                         <td>{{ $permanent->device_name }}</td>
                                                                         <td>{{ $permanent->serial_number }}</td>
                                                                         <td>{{ $permanent->temp_device_id }}</td>
-                                                                        <td></td>
+                                                                        <td>{{ $permanent->status }}</td>
                                                                         <td>
                                                                         @if( Helper::showBasedOnPermission( ['permanent.update'],'OR' ) )
                                                                             <a href="{{ url('permanent/edit/'.$permanent->id) }}"><i class="fa fa-fw fa-pencil text-primary actions_icon" title="Edit Role"></i></a>
@@ -104,6 +104,10 @@
 
                                                                         @if( Helper::showBasedOnPermission( ['permanent.delete'],'OR' ) )
                                                                             <a href="{{ url('permanent/delete/'.$permanent->id) }}" onclick="deletePermanent(event)"><i class="fa fa-fw fa-times text-danger actions_icon" title="Delete Device"></i></a>
+                                                                        @endif
+
+                                                                        @if ($permanent->retry == 0)
+                                                                        <a href="{{ url('permanent/retry/'.$permanent->id) }}">  <button class="btn btn-effect-ripple btn-primary"> Retry </button></a>
                                                                         @endif
                                                                         </td>
                                                                     </tr>
@@ -127,9 +131,9 @@
                                                                     <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Temp Device Id
                                                                     </th>
-                                                                    <!-- <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
+                                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Status
-                                                                    </th> -->
+                                                                    </th>
                                                                     <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                         Action
                                                                     </th>

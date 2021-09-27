@@ -163,4 +163,17 @@ class PermanentController extends ApiController
         return $this->respond($response);
 
     }
+
+
+    public function retry(Request $request){
+
+        $data = json_decode($request->getContent(),true);
+
+        $permanentModel = new PermanentModel();
+        $permanentModel = $permanentModel->retryRedis($data);
+
+        
+        $response['data']    = $permanentModel;
+        return $this->respond($response);
+    }
 }

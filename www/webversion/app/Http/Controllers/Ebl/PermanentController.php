@@ -151,4 +151,24 @@ class PermanentController extends ApiController
             }
         }  
     }
+    /**
+     * Use for redis
+     *
+     * @param Request $request
+     * 
+     * @return void
+     */
+    public function retry(Request $request){
+
+        $data['token']           = Session::get('token');
+        $data['id']              = $request->id;
+
+        $response = $this->getGuzzleRequest('post','/permanent/retry',$data);
+        $res = json_decode($response['data']);
+
+        if($response['status'] == 200){    
+            return redirect('/permanent/list');
+        }else if($response['status'] == 401){
+        }
+    }
 }
