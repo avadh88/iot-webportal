@@ -160,7 +160,7 @@ class PermanentController extends ApiController
 
 
         $response['data']    = $permanentModel;
-        return $this->respond($response);
+        return $this->respond($permanentModel);
 
     }
 
@@ -173,6 +173,14 @@ class PermanentController extends ApiController
         $permanentModel = $permanentModel->retryRedis($data);
 
         
+        $response['data']    = $permanentModel;
+        return $this->respond($response);
+    }
+
+    public function statusData(){
+        $permanentModel = new PermanentModel();
+        $permanentModel = $permanentModel->statusData();
+
         $response['data']    = $permanentModel;
         return $this->respond($response);
     }

@@ -147,13 +147,20 @@ class PermanentModel extends Model
     }
 
     public function updateDeviceStatus($data){
+        $response = [];
 
         if(isset($data['statusData']['msg'])){
             PermanentModel::where('id',$data['statusData']['uid'])->update(['status'=>'online']);
             return PermanentModel::where('id',$data['statusData']['uid'])->get('status')->first();
         }else{
+           
+
             PermanentModel::where('id',$data['statusData']['uid'])->update(['status'=>'offline']);
-            return PermanentModel::where('id',$data['statusData']['uid'])->get('status')->first();    
+            $response['uid'] = $data['statusData']['uid'];
+            $response['msg'] = PermanentModel::where('id',$data['statusData']['uid'])->pluck('status')->first();
+            $response['time'] = time();
+            // return PermanentModel::where('id',$data['statusData']['uid'])->get('status')->first();    
+            return $response;
         }
     }
 
@@ -173,5 +180,10 @@ class PermanentModel extends Model
         }else{
             PermanentModel::where('id', $data['id'])->update(['retry' => 0]);
         }
+    }
+
+    public function statusData(){
+        $statusData = PermanentModel::get(['id','status']);
+        return $statusData;
     }
 }

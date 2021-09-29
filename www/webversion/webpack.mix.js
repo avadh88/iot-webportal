@@ -113,6 +113,8 @@ mix.combine(
         'resources/assets/js/custom_js/permanent.js',
         'resources/assets/js/custom_js/sidebar.js',
         'resources/assets/js/custom_js/toastr_notifications.js',
+        'node_modules/socket.io/client-dist/socket.io.js',
+        'resources/assets/js/custom_js/device_status.js',
 
 
     ], destJs + 'app.js');

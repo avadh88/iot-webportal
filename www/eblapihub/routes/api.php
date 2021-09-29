@@ -89,3 +89,4 @@ Route::get('/publish', function () {
 
 
 Route::post('/permanent/status', [PermanentController::class,'status']);
+Route::get('/permanent/status-data', [PermanentController::class,'statusData']);
