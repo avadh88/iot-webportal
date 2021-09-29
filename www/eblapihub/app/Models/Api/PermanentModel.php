@@ -16,7 +16,7 @@ class PermanentModel extends Model
     protected $connection = 'mysql';
     protected $table      = 'permenent_device';
     protected $primaryKey = 'id';
-    protected $fillable   = ['company_id','device_name','serial_number'];
+    protected $fillable   = ['company_id','device_name','serial_number','temp_device_id','status','retry'];
 
     public function companies(){
         return $this->belongsToMany(Company::class)->withTimestamps();

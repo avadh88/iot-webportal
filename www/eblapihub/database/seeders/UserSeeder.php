@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -14,7 +15,7 @@ class UserSeeder extends Seeder
      * @return void
      */
     public function run()
-    {   
+    {
         DB::connection('mysql')->table('companies')->insert([
             'company_name'     => 'eByteLogic',
             'company_address'  => '1114, Ganesh Glory',
@@ -35,39 +36,133 @@ class UserSeeder extends Seeder
             'last_name'  => 'admin',
             'role_id'       => 1,
             'company_id'       => 1,
-            'phone_number'=> 1234567890,    
+            'phone_number' => 1234567890,
             'password'   => Hash::make('admin'),
             'repeat_password'  => Hash::make('admin'),
         ]);
 
-        DB::connection('mysql')->table('permissions')->insert([
-            ['permission_name'   => 'user.create',],
-            ['permission_name'   => 'user.read',],
-            ['permission_name'   => 'user.delete',],
-            ['permission_name'   => 'user.update',],
-        
-            ['permission_name'   => 'role.create',],
-            ['permission_name'   => 'role.read',],
-            ['permission_name'   => 'role.delete',],
-            ['permission_name'   => 'role.update',],
-        
-            ['permission_name'   => 'temporary.create',],
-            ['permission_name'   => 'temporary.read',],
-            ['permission_name'   => 'temporary.delete',],
-            ['permission_name'   => 'temporary.update',],
-
-            ['permission_name'   => 'permanent.create',],
-            ['permission_name'   => 'permanent.read',],
-            ['permission_name'   => 'permanent.delete',],
-            ['permission_name'   => 'permanent.update',],
-        
-            ['permission_name'   => 'company.create',],
-            ['permission_name'   => 'company.read',],
-            ['permission_name'   => 'company.delete',],
-            ['permission_name'   => 'company.update',],
-        
+        DB::connection('mysql')->table('role_user')->insert([
+            'user_id'   => 1,
+            'role_id'      => 1,
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at'  => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
+        DB::connection('mysql')->table('permissions')->insert([
+            [
+                'permission_name'   => 'user.create',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at'  => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
+            [
+                'permission_name'   => 'user.read',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at'  => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
+            [
+                'permission_name'   => 'user.delete',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at'  => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
+            [
+                'permission_name'   => 'user.update',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at'  => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
 
+            [
+                'permission_name'   => 'role.create',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at'  => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
+            [
+                'permission_name'   => 'role.read',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at'  => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
+            [
+                'permission_name'   => 'role.delete',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at'  => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
+            [
+                'permission_name'   => 'role.update',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at'  => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
+
+            [
+                'permission_name'   => 'temporary.create',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at'  => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
+            [
+                'permission_name'   => 'temporary.read',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at'  => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
+            [
+                'permission_name'   => 'temporary.delete',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at'  => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
+            [
+                'permission_name'   => 'temporary.update',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at'  => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
+
+            [
+                'permission_name'   => 'permanent.create',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at'  => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
+            [
+                'permission_name'   => 'permanent.read',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at'  => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
+            [
+                'permission_name'   => 'permanent.delete',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at'  => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
+            [
+                'permission_name'   => 'permanent.update',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at'  => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
+
+            [
+                'permission_name'   => 'company.create',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at'  => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
+            [
+                'permission_name'   => 'company.read',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at'  => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
+            [
+                'permission_name'   => 'company.delete',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at'  => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
+            [
+                'permission_name'   => 'company.update',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at'  => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
+
+        ]);
+
+        for ($i = 1; $i <= 20; $i++) {
+            DB::connection('mysql')->table('permission_role')->insert([
+                'role_id'   => 1,
+                'permission_id'      => $i,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at'  => Carbon::now()->format('Y-m-d H:i:s'),
+            ]);
+        }
     }
 }

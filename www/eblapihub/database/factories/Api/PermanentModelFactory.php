@@ -1,12 +1,12 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Api;
 
 use App\Models\Api\PermanentModel;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class PermanentFactory extends Factory
+class PermanentModelFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
@@ -25,8 +25,8 @@ class PermanentFactory extends Factory
         return [
             'company_id'  => 1,
             'device_name'  => $this->faker->name(),
-            'serial_number' => $this->faker->name(),
-            'temp_device_id'  => $this->faker->name(),
+            'serial_number' => $this->faker->uuid(),
+            'temp_device_id'  => $this->faker->uuid(),
             'status'  => 'offline',
             'retry'  => 1,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -34,12 +34,12 @@ class PermanentFactory extends Factory
         ];
     }
 
-    public function published()
-    {
-        return $this->state(function (array $attributes){
-            return [
-                'publish' => true,
-            ];
-        });
-    }
+    // public function published()
+    // {
+    //     return $this->state(function (array $attributes){
+    //         return [
+    //             'publish' => true,
+    //         ];
+    //     });
+    // }
 }
