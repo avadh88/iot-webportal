@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Ebl;
 
 use App\Helpers\Helper;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
-use Intervention\Image\Facades\Image;
 
 class CompanyController extends ApiController
 {
@@ -16,25 +14,26 @@ class CompanyController extends ApiController
      *
      * @return Illuminate\Http\RedirectResponse
      */
-    public function view(){
+    public function view()
+    {
 
-        $read = Helper::showBasedOnPermission(['company.read'],'OR');   
+        $read = Helper::showBasedOnPermission(['company.read'], 'OR');
 
-        if(!$read){
+        if (!$read) {
             return Redirect::back()->with('');
-        }else{
-            if ( Session::has('token') ){ 
+        } else {
+            if (Session::has('token')) {
                 $data     = Session::get('token');
 
-                $response = $this->getGuzzleRequest('GET','/company/list',$data);
+                $response = $this->getGuzzleRequest('GET', '/company/list', $data);
                 $res      = json_decode($response['data']);
 
-                if( $response['status'] == 200 ){
+                if ($response['status'] == 200) {
 
-                    return view('/company/list',['companies'=>$res->data]);    
-                }else if( $response['status'] == 401 ){
-                    
-                    return Redirect::back()->with('error',$res->error->message->message);
+                    return view('/company/list', ['companies' => $res->data]);
+                } else if ($response['status'] == 401) {
+
+                    return Redirect::back()->with('error', $res->error->message->message);
                 }
             }
         }
@@ -45,12 +44,13 @@ class CompanyController extends ApiController
      *
      * @return void
      */
-    public function new(){
-        $add = Helper::showBasedOnPermission(['company.create'],'OR');   
+    public function new()
+    {
+        $add = Helper::showBasedOnPermission(['company.create'], 'OR');
 
-        if(!$add){
+        if (!$add) {
             return Redirect::back()->with('');
-        }else{
+        } else {
             return view('company/new');
         }
     }
@@ -62,15 +62,15 @@ class CompanyController extends ApiController
      * 
      * @return Illuminate\Http\RedirectResponse
      */
-    public function add(Request $request){
+    public function add(Request $request)
+    {
 
-        $add = Helper::showBasedOnPermission(['company.create'],'OR');   
+        $add = Helper::showBasedOnPermission(['company.create'], 'OR');
 
-        if(!$add){
+        if (!$add) {
             return Redirect::back()->with('');
-        }else{
-
-            if ( Session::has('token') ){ 
+        } else {
+            if (Session::has('token')) {
 
                 $request->validate([
                     'company_logo' => 'image|mimes:jpeg,png,jpg|max:2048',
@@ -83,33 +83,30 @@ class CompanyController extends ApiController
                 $data['company_mobile']  = $request->company_mobile;
                 $data['company_status']  = $request->company_status;
 
-                if($request->file('company_logo')){
+                if ($request->file('company_logo')) {
                     $data['company_logo']       = request('company_logo');
                     $data['file_path']          = $data['company_logo']->getPathname();
                     $data['file_mime']          = $data['company_logo']->getMimeType('image');
                     $data['file_uploaded_name'] = $data['company_logo']->getClientOriginalName();
-                    $response      = $this->fileWithDataGuzzleRequest('POST','/company/add',$data);
-                }else{
-                    $response      = $this->getGuzzleRequest('POST','/company/add',$data);
+                    $response      = $this->fileWithDataGuzzleRequest('POST', '/company/add', 'company_logo', $data);
+                } else {
+                    $response      = $this->getGuzzleRequest('POST', '/company/add', $data);
                 }
-                
-                $res               = json_decode($response['data']);
-                if($response['status'] == 200){
 
-                    Session::flash('message', $res->message); 
+                $res               = json_decode($response['data']);
+                if ($response['status'] == 200) {
+
+                    Session::flash('message', $res->message);
                     Session::flash('alert-class', 'alert-success');
-                    return redirect('/company/list')->with('success',$res->message); 
-                
-                }else if($response['status'] == 401){
-                    
-                    Session::flash('message', $res->error->message->message); 
+                    return redirect('/company/list')->with('success', $res->message);
+                } else if ($response['status'] == 401) {
+
+                    Session::flash('message', $res->error->message->message);
                     Session::flash('alert-class', 'alert-danger');
-                    return redirect('/company/new')->with('error',$res->error->message->message);
-                
+                    return redirect('/company/new')->with('error', $res->error->message->message);
                 }
-            }       
+            }
         }
-        
     }
 
     /**
@@ -119,26 +116,26 @@ class CompanyController extends ApiController
      * 
      * @return Illuminate\Http\RedirectResponse
      */
-    public function delete($id){
+    public function delete($id)
+    {
 
-        $delete = Helper::showBasedOnPermission(['company.delete'],'OR');   
+        $delete = Helper::showBasedOnPermission(['company.delete'], 'OR');
 
-        if(!$delete){
+        if (!$delete) {
             return Redirect::back()->with('');
-        }else{
-            if (Session::has('token')){
+        } else {
+            if (Session::has('token')) {
                 $data     = Session::get('token');
-                
-                $response = $this->getGuzzleRequest('GET','/company/delete/'.$id,$data);
+
+                $response = $this->getGuzzleRequest('GET', '/company/delete/' . $id, $data);
                 $res      = json_decode($response['data']);
 
-                if( $response['status'] == 200 ){
+                if ($response['status'] == 200) {
 
-                        Session::flash('message', $res->message); 
-                        Session::flash('alert-class', 'alert-success');
-                        return redirect('/company/list');    
-
-                }else{
+                    Session::flash('message', $res->message);
+                    Session::flash('alert-class', 'alert-success');
+                    return redirect('/company/list');
+                } else {
                     return redirect('/company/list');
                 }
             }
@@ -152,32 +149,32 @@ class CompanyController extends ApiController
      * 
      * @return Illuminate\Http\RedirectResponse
      */
-    public function edit($id){
+    public function edit($id)
+    {
 
-        $edit = Helper::showBasedOnPermission(['company.update'],'OR');   
+        $edit = Helper::showBasedOnPermission(['company.update'], 'OR');
 
-        if(!$edit){
+        if (!$edit) {
             return Redirect::back()->with('');
-        }else{
-            if (Session::has('token')){
+        } else {
+            if (Session::has('token')) {
                 $data     = Session::get('token');
 
-                $response = $this->getGuzzleRequest('GET','/company/edit/'.$id,$data);
+                $response = $this->getGuzzleRequest('GET', '/company/edit/' . $id, $data);
                 $res      = json_decode($response['data']);
-                
-                if($response['status'] == 200){    
-                    
-                    return view('company/new',['data'=> $res->data]);    
-                }else if($response['status'] == 401){
-                    
-                    Session::flash('message', $res->error->message->message); 
+
+                if ($response['status'] == 200) {
+
+                    return view('company/new', ['data' => $res->data]);
+                } else if ($response['status'] == 401) {
+
+                    Session::flash('message', $res->error->message->message);
                     Session::flash('alert-class', 'alert-danger');
-                    return redirect('/company/new')->with('error',$res->error->message->message);
+                    return redirect('/company/new')->with('error', $res->error->message->message);
                 }
             }
         }
-      
-    }   
+    }
 
     /**
      * Send Reques for update company
@@ -186,14 +183,15 @@ class CompanyController extends ApiController
      * 
      * @return Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request){
+    public function update(Request $request)
+    {
 
-        $update = Helper::showBasedOnPermission(['company.update'],'OR');   
+        $update = Helper::showBasedOnPermission(['company.update'], 'OR');
 
-        if(!$update){
+        if (!$update) {
             return Redirect::back()->with('');
-        }else{
-            if ( Session::has('token') ){ 
+        } else {
+            if (Session::has('token')) {
                 $data['token'] = Session::get('token');
 
                 $request->validate([
@@ -207,19 +205,19 @@ class CompanyController extends ApiController
                 $data['company_email']      = $request->company_email;
                 $data['company_mobile']     = $request->company_mobile;
 
-                if($request->file('company_logo')){
+                if ($request->file('company_logo')) {
                     $data['company_logo']       = request('company_logo');
                     $data['file_path']          = $data['company_logo']->getPathname();
                     $data['file_mime']          = $data['company_logo']->getMimeType('image');
                     $data['file_uploaded_name'] = $data['company_logo']->getClientOriginalName();
-                    $response      = $this->fileWithDataGuzzleRequest('POST','/company/update',$data);
-                }else{
-                    $response      = $this->getGuzzleRequest('POST','/company/update',$data);
+                    $response      = $this->fileWithDataGuzzleRequest('POST', '/company/update', $data);
+                } else {
+                    $response      = $this->getGuzzleRequest('POST', '/company/update', $data);
                 }
 
                 // $response      = $this->fileWithDataGuzzleRequest('POST','/company/update',$data);
                 $res           = json_decode($response['data']);
-                return redirect('company/list');    
+                return redirect('company/list');
             }
         }
     }

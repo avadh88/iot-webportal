@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Ebl\ApplicationController;
 use App\Http\Controllers\Ebl\CompanyController;
 use App\Http\Controllers\Ebl\DashboardController;
 use App\Http\Controllers\Ebl\RoleController;
@@ -79,6 +80,20 @@ Route::middleware(['usersession'])->prefix('company')->group(function(){
     Route::get('/edit/{id}',[CompanyController::class,'edit']);
     Route::get('/delete/{id}',[CompanyController::class,'delete']);
 });
+
+
+
+Route::middleware(['usersession'])->prefix('app')->group(function(){
+    Route::get('/new', [ApplicationController::class,'new']);
+    Route::post('/add',[ApplicationController::class,'add'])->name('app.add');
+    Route::get('/list',[ApplicationController::class,'list']);
+});
+
+
+
+// Route::middleware(['usersession'])->prefix('app')->group(function(){
+//     Route::get('/new', [ApplicationController::class,'new']);
+// });
 
 // Route::middleware(['usersession'])->prefix('dashboard')->group(function(){
     // Route::get('/dashboard',[DashboardController::class,'info']);

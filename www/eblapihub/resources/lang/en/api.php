@@ -43,6 +43,9 @@ return [
             'delete'      => 'Deleted Successfully',
             'update'      => 'Device Updated Successfully',  
         ],
+        'application' => [
+            'nodata'      => 'No Data Found',  
+        ],
     ],
 
 ];

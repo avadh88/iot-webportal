@@ -43,9 +43,7 @@ mix.combine(
         'resources/assets/vendors/bootstrapvalidator/css/bootstrapValidator.min.css',
         'resources/assets/vendors/datetimepicker/css/bootstrap-datetimepicker.min.css',
         'resources/assets/vendors/toastr/css/toastr.min.css',
-        'resources/assets/vendors/iCheck/css/minimal/blue.css',
         'resources/assets/css/custom_css/toastr_notificatons.css',
-        'resources/assets/vendors/iCheck/css/all.css',
 
         'resources/assets/css/advbuttons.css',
         'resources/assets/css/buttons_sass.css',
@@ -53,10 +51,13 @@ mix.combine(
 
         'resources/assets/vendors/prettycheckable/css/prettyCheckable.css',
         'resources/assets/css/custom_css/company.css',
+
     ], destCss + 'app.css');
 
 mix.combine(
     [
+        'resources/assets/js/axios.min.js',
+        'node_modules/vue/dist/vue.js',
         'node_modules/popper.js/dist/umd/popper.js',
         'node_modules/jquery/dist/jquery.min.js',
         'node_modules/components-jqueryui/jquery-ui.min.js',
@@ -96,9 +97,6 @@ mix.combine(
         'resources/assets/vendors/bootstrapwizard/js/jquery.bootstrap.wizard.js',
         'resources/assets/vendors/bootstrapvalidator/js/bootstrapValidator.min.js',
         'resources/assets/vendors/datetimepicker/js/bootstrap-datetimepicker.min.js',
-        'resources/assets/vendors/toastr/js/toastr.min.js',
-        'resources/assets/vendors/iCheck/js/icheck.js',
-
 
         'resources/assets/js/custom_js/datatables_custom.js',
         'resources/assets/js/fontawesome_icons.js',
@@ -115,7 +113,7 @@ mix.combine(
         'resources/assets/js/custom_js/toastr_notifications.js',
         'node_modules/socket.io/client-dist/socket.io.js',
         'resources/assets/js/custom_js/device_status.js',
-
+        'resources/assets/js/custom_js/application.js',
 
     ], destJs + 'app.js');
 

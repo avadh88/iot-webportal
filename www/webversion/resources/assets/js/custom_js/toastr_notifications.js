@@ -147,9 +147,9 @@ $(document).ready(function () {
     });
 
     $('#toastrOptions').hide();
-    $(".content").find('input').iCheck({
-        checkboxClass: 'icheckbox_minimal-blue',
-        radioClass: 'iradio_minimal-blue',
-        increaseArea: '20%'
-    });
+    // $(".content").find('input').iCheck({
+    //     checkboxClass: 'icheckbox_minimal-blue',
+    //     radioClass: 'iradio_minimal-blue',
+    //     increaseArea: '20%'
+    // });
 });

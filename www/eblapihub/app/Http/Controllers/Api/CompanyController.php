@@ -10,15 +10,16 @@ use Intervention\Image\Facades\Image;
 
 class CompanyController extends ApiController
 {
-    public function add(Request $request){
+    public function add(Request $request)
+    {
 
         if ($request->hasFile('company_logo')) {
-            $datas = json_decode($request->form_data,true);
-        }else{
-            $datas = json_decode($request->getContent(),true);
+            $datas = json_decode($request->form_data, true);
+        } else {
+            $datas = json_decode($request->getContent(), true);
         }
 
-        $validator = Validator::make($datas,[
+        $validator = Validator::make($datas, [
             'company_name'          => 'required',
             'company_address'       => 'required',
             'company_email'         => 'required',
@@ -26,18 +27,18 @@ class CompanyController extends ApiController
             // 'company_logo'          => 'mimes:jpeg,bmp,png|size:1000',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             $response['message'] = trans('api.messages.common.failed');
             return $this->respondUnauthorized($response);
-        } else{
+        } else {
 
             if ($request->hasFile('company_logo')) {
-    
-                $thumbnailImage = Image::make($request->file('company_logo')->getRealPath())->resize(50,50);
+
+                $thumbnailImage = Image::make($request->file('company_logo')->getRealPath())->resize(50, 50);
                 $data['company_logo']       = $thumbnailImage;
-                $newImageName = time() . '-' . $datas['company_name'] . '.' .$request->company_logo->extension();
-                
-                $thumbnailImage->save(public_path('uploads/company/') .$newImageName);
+                $newImageName = time() . '-' . $datas['company_name'] . '.' . $request->company_logo->extension();
+
+                $thumbnailImage->save(public_path('uploads/company/') . $newImageName);
                 // $data['file_path']          = $data['company_logo']->getPathname();
                 // $data['file_mime']          = $data['company_logo']->getMimeType('image');
                 // $data['file_uploaded_name'] = $data['company_logo']->getClientOriginalName();
@@ -46,11 +47,10 @@ class CompanyController extends ApiController
                 // $newImageName = time() . '-' . $datas['company_name'] . '.' .$request->company_logo->extension();
                 // $request->company_logo->move(public_path('uploads'),$newImageName);
                 $data['company_logo']    = $newImageName;
-            
-            }else{
+            } else {
                 $newImageName = time() . '-' . $datas['company_name'] . '.png';
                 // $request->image->move(public_path('uploads/company/'), $newImageName);
-                File::copy(resource_path('images/ebllogo.png'), public_path('uploads/company/').$newImageName);
+                File::copy(resource_path('images/ebllogo.png'), public_path('uploads/company/') . $newImageName);
                 $data['company_logo']    = $newImageName;
             }
 
@@ -65,11 +65,11 @@ class CompanyController extends ApiController
             $response = [];
 
 
-            if(($companyData)){
+            if (($companyData)) {
                 $response['message'] = trans('api.messages.common.success');
                 $response['data']    = $companyData;
                 return $this->respond($response);
-            }else{
+            } else {
                 $response['message'] = trans('api.messages.common.failed');
                 $response['data']    = $companyData;
                 return $this->respond($response);
@@ -77,7 +77,8 @@ class CompanyController extends ApiController
         }
     }
 
-    public function list(){
+    public function list()
+    {
 
         $companyModel = new Company();
         $companyData  =  $companyModel->companyList();
@@ -85,57 +86,59 @@ class CompanyController extends ApiController
         $response = [];
 
 
-        if(count($companyData) > 0){
+        if (count($companyData) > 0) {
             $response['message'] = trans('api.messages.fetch.success');
             $response['data']    = $companyData;
             return $this->respond($response);
-        }else{
+        } else {
             $response['message'] = trans('api.messages.fetch.failed');
             $response['data']    = $companyData;
             return $this->respond($response);
         }
     }
 
-    public function delete($id){
+    public function delete($id)
+    {
         $companyModel = new Company();
         $companyData  = $companyModel->deleteById($id);
 
-        if($companyData){
+        if ($companyData) {
             $response['message'] = trans('api.messages.common.delete');
             $response['data']    = $companyData;
             return $this->respond($response);
-        }else{
+        } else {
             $response['message'] = trans('api.messages.common.failed');
             $response['data']    = $companyData;
             return $this->respond($response);
         }
-
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $companyModel = new Company();
         $companyData  = $companyModel->getUserById($id);
-        
-        if($companyData){
+
+        if ($companyData) {
             $response['message'] = trans('api.messages.fetch.success');
             $response['data']    = $companyData;
             return $this->respond($response);
-        }else{
+        } else {
             $response['message'] = trans('api.messages.fetch.failed');
             $response['data']    = $companyData;
             return $this->respond($response);
         }
     }
 
-    public function update(Request $request){
+    public function update(Request $request)
+    {
 
         if ($request->hasFile('company_logo')) {
-            $datas = json_decode($request->form_data,true);
-        }else{
-            $datas = json_decode($request->getContent(),true);
+            $datas = json_decode($request->form_data, true);
+        } else {
+            $datas = json_decode($request->getContent(), true);
         }
 
-        $validator = Validator::make($datas,[
+        $validator = Validator::make($datas, [
             'company_name'          => 'required',
             'company_address'       => 'required',
             'company_email'         => 'required',
@@ -143,27 +146,27 @@ class CompanyController extends ApiController
         ]);
 
 
-        if($validator->fails()){
-            
+        if ($validator->fails()) {
+
             $response['message'] = trans('api.messages.common.failed');
             return $this->respondUnauthorized($response);
-        } else{
-        
-            if ($request->hasFile('company_logo')) {
-    
+        } else {
 
-                $thumbnailImage = Image::make($request->file('company_logo')->getRealPath())->resize(50,50);
+            if ($request->hasFile('company_logo')) {
+
+
+                $thumbnailImage = Image::make($request->file('company_logo')->getRealPath())->resize(50, 50);
                 $data['company_logo']       = $thumbnailImage;
-                $newImageName = time() . '-' . $datas['company_name'] . '.' .$request->company_logo->extension();
-                $thumbnailImage->save(public_path('uploads/company/') .$newImageName);
-                
+                $newImageName = time() . '-' . $datas['company_name'] . '.' . $request->company_logo->extension();
+                $thumbnailImage->save(public_path('uploads/company/') . $newImageName);
+
                 $data['company_logo']    = $newImageName;
 
 
                 // $newImageName = time() . '-' . $datas['company_name'] . '.' .$request->company_logo->extension();
                 // $request->company_logo->move(public_path('uploads'),$newImageName);
                 // $data['company_logo']    = $newImageName;
-            
+
             }
 
             $data['id']              = $datas['id'];
@@ -177,23 +180,23 @@ class CompanyController extends ApiController
             $companyModel = new Company();
             $companyData  =  $companyModel->updateCompany($data);
             $response = [];
-            
 
 
-            if(($companyData)){
+
+            if (($companyData)) {
                 $response['message'] = trans('api.messages.common.update');
                 $response['data']    = $companyData;
                 return $this->respond($response);
-            }else{
+            } else {
                 $response['message'] = trans('api.messages.common.failed');
                 $response['data']    = $companyData;
                 return $this->respond($response);
             }
         }
-
     }
 
-    public function compnaylist(){
+    public function compnaylist()
+    {
 
         $companyModel = new Company();
         $companyData  =  $companyModel->companyName();
@@ -201,11 +204,11 @@ class CompanyController extends ApiController
         $response = [];
 
 
-        if(count($companyData) > 0){
+        if (count($companyData) > 0) {
             $response['message'] = trans('api.messages.fetch.success');
             $response['data']    = $companyData;
             return $this->respond($response);
-        }else{
+        } else {
             $response['message'] = trans('api.messages.fetch.failed');
             $response['data']    = $companyData;
             return $this->respond($response);

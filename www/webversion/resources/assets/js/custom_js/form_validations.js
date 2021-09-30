@@ -85,11 +85,11 @@ $(document).ready(function () {
     }).on('reset', function (event) {
         $('#form-validation').data('bootstrapValidator').resetForm();
     });
-    $('input[type="checkbox"].custom_icheck, input[type="radio"].custom_radio').iCheck({
-        checkboxClass: 'icheckbox_minimal-blue',
-        radioClass: 'iradio_minimal-blue',
-        increaseArea: '20%'
-    });
+    // $('input[type="checkbox"].custom_icheck, input[type="radio"].custom_radio').iCheck({
+    //     checkboxClass: 'icheckbox_minimal-blue',
+    //     radioClass: 'iradio_minimal-blue',
+    //     increaseArea: '20%'
+    // });
     $('#terms').on('ifChanged', function (event) {
         $('#form-validation').bootstrapValidator('revalidateField', $('#terms'));
     });

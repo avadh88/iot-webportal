@@ -121,7 +121,7 @@
                                                 Status
                                             </label>
 
-                                            <div class="col-lg-6 col-12">
+                                            <div class="col-lg-1 col-12">
                                                 <label class="switch">
                                                     <input type="checkbox" name="company_status" @if(isset($data->company_status)) {{ ($data->company_status == 1 ) ? 'checked' : ""}} @endif>
                                                     <span class="slider round"></span>
@@ -135,7 +135,7 @@
                                             <label class="col-lg-3 col-12 col-form-label  text-lg-right text-left" for="company_logo">
                                                 Company Logo
                                             </label>
-                                            <div class="col-lg-6 col-12">
+                                            <div class="col-lg-1 col-12">
                                                 <input type="file" id="company_logo" name="company_logo">
                                             </div>
                                             @if(isset($data->company_logo))

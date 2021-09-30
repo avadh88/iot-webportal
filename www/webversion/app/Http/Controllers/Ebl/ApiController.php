@@ -19,43 +19,50 @@ class ApiController extends Controller
      * 
      * @return array
      */
-    public function getGuzzleRequest($method,$url,$data = ""){
+    public function getGuzzleRequest($method, $url, $data = "")
+    {
 
         $apiUrl    = env('API_URL');
         $client    = new \GuzzleHttp\Client();
-        $callUrl   = $apiUrl. $url;
+        $callUrl   = $apiUrl . $url;
         $datas     = json_encode($data);
 
         // $client = new Client([
-            // 'base_uri' => $apiUrl
+        // 'base_uri' => $apiUrl
         // ]);
 
         // dd($data);
         // dd($callUrl);
 
         try {
-            if($method == 'get' || $method == 'GET'){
-                $response = $client->request($method, $callUrl,['headers'=> [
-                    'Accept' => 'application/json',
-                    'Authorization' => 'Bearer '.$data
-                    ],
-                    'body' => $datas
+            if ($method == 'get' || $method == 'GET') {
+                $response = $client->request(
+                    $method,
+                    $callUrl,
+                    [
+                        'headers' => [
+                            'Accept' => 'application/json',
+                            'Authorization' => 'Bearer ' . $data
+                        ],
+                        'body' => $datas
                     ]
                 );
-
-            }else if($method == 'post' || $method == "POST"){
-                $response = $client->request($method, $callUrl,['headers'=> [
-                    'Accept' => 'application/json',
-                    'Authorization' => 'Bearer '.$data['token']
-                    ],
-                    'body' => $datas
-                    ]    
+            } else if ($method == 'post' || $method == "POST") {
+                $response = $client->request(
+                    $method,
+                    $callUrl,
+                    [
+                        'headers' => [
+                            'Accept' => 'application/json',
+                            'Authorization' => 'Bearer ' . $data['token']
+                        ],
+                        'body' => $datas
+                    ]
                 );
             }
-        }
-        catch (ClientException $e) {
+        } catch (ClientException $e) {
 
-            $response =$e->getResponse();
+            $response = $e->getResponse();
         }
 
         // dd($response);
@@ -84,40 +91,44 @@ class ApiController extends Controller
      * 
      * @return array
      */
-    public function fileWithDataGuzzleRequest($method,$url,$data = ""){
+    public function fileWithDataGuzzleRequest($method, $url, $imageName, $data = "")
+    {
         $apiUrl    = env('API_URL');
         $client    = new \GuzzleHttp\Client();
-        $callUrl   = $apiUrl. $url;
+        $callUrl   = $apiUrl . $url;
         $datas     = json_encode($data);
         // dd($callUrl);
-
+        // dd($datas     );
 
         try {
-           if($method == 'post' || $method == "POST"){
-                $response = $client->request($method, $callUrl,['headers'=> [
-                    'Accept' => 'application/json',
-                    'Authorization' => 'Bearer '.$data['token']
-                    ],
-                    'multipart' => [
-                        [   
-                        
-                            'name'      => 'company_logo',
-                            'filename' => $data['file_uploaded_name'],
-                            'Mime-Type'=> $data['file_mime'],
-                            'contents' => fopen($data['file_path'], 'r'),
+            if ($method == 'post' || $method == "POST") {
+                $response = $client->request(
+                    $method,
+                    $callUrl,
+                    [
+                        'headers' => [
+                            'Accept' => 'application/json',
+                            'Authorization' => 'Bearer ' . $data['token']
                         ],
-                        [
-                            'name' => 'form_data',
-                            'contents' => $datas
+                        'multipart' => [
+                            [
+
+                                'name'      => $imageName,
+                                'filename'  => $data['file_uploaded_name'],
+                                'Mime-Type' => $data['file_mime'],
+                                'contents'  => fopen($data['file_path'], 'r'),
+                            ],
+                            [
+                                'name' => 'form_data',
+                                'contents' => $datas
+                            ],
                         ],
-                    ],
-                    ]    
+                    ]
                 );
             }
-        }
-        catch (ClientException $e) {
+        } catch (ClientException $e) {
 
-            $response =$e->getResponse();
+            $response = $e->getResponse();
         }
 
         $res['status'] = $response->getStatusCode();
