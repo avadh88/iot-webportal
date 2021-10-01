@@ -39,6 +39,7 @@ class Role extends Model
             $data = [];
             $i = 1;
             $data['role'] = $roles['role_name'];
+            $data['id'] = $roles['id'];
             
             foreach ($roles->permission as $permission) {
                 //
@@ -52,9 +53,10 @@ class Role extends Model
 
     public function givePermission($data){
 
-        $userId   = Role::where('role_name', $data['role'])->value('id');
+        $userId   = Role::where('role_name', $data['role_name'])->value('id');
         $role     = Role::find($userId);
         $roleuser = User::find($userId);
+
         $permissions = [];
         $i = 0;
         if(isset($data['permission'])){

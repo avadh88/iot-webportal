@@ -15,12 +15,13 @@ class RoleController extends ApiController
      *
      * @return void
      */
-    public function new(){
-        $add = Helper::showBasedOnPermission(['role.create'],'OR');   
+    public function new()
+    {
+        $add = Helper::showBasedOnPermission(['role.create'], 'OR');
 
-        if(!$add){
+        if (!$add) {
             return Redirect::back()->with('');
-        }else{
+        } else {
             return view('roles/new');
         }
     }
@@ -32,43 +33,42 @@ class RoleController extends ApiController
      * 
      * @return Illuminate\Http\RedirectResponse
      */
-    public function add(Request $request){
-        $add = Helper::showBasedOnPermission(['role.create'],'OR');   
+    public function add(Request $request)
+    {
+        $add = Helper::showBasedOnPermission(['role.create'], 'OR');
 
-        if(!$add){
+        if (!$add) {
             return Redirect::back()->with('');
-        }else{
-            if ( Session::has('token') ){ 
+        } else {
+            if (Session::has('token')) {
                 $data['token']     = Session::get('token');
                 $data['role_name'] = $request->role_name;
                 $data['permission'] = $request->permission;
 
-                $response          = $this->getGuzzleRequest('post','/roles/add',$data);
+                $response          = $this->getGuzzleRequest('post', '/roles/add', $data);
                 $res               = json_decode($response['data']);
 
-                if($response['status'] == 200){
+                if ($response['status'] == 200) {
 
-                    Session::flash('message', $res->message); 
-                    Session::flash('alert-class', 'alert-success');
-                    return redirect('/roles/list')->with('success',$res->message); 
-                
-                }else if($response['status'] == 401){
-                    
-                    Session::flash('message', $res->error->message->message); 
-                    Session::flash('alert-class', 'alert-danger');
-                    return redirect('/roles/new')->with('error',$res->error->message->message);
-                
+                    Session::flash('message', $res->message);
+                    Session::flash('alert-class', 'success');
+                    return redirect('/roles/list')->with('success', $res->message);
+                } else if ($response['status'] == 401) {
+
+                    Session::flash('message', $res->error->message->message);
+                    Session::flash('alert-class', 'error');
+                    return redirect('/roles/new')->with('error', $res->error->message->message);
                 }
             }
         }
     }
 
-    public function create(Request $request){
+    public function create(Request $request)
+    {
         $data     = $request->all();
 
-        $response = $this->getGuzzleRequest('POST','/roles/create',$data);
+        $response = $this->getGuzzleRequest('POST', '/roles/create', $data);
         $res      = json_decode($response['data']);
-        
     }
 
     /**
@@ -76,26 +76,27 @@ class RoleController extends ApiController
      *
      * @return Illuminate\Http\RedirectResponse
      */
-    public function view(){
+    public function view()
+    {
 
-        $read = Helper::showBasedOnPermission(['role.read'],'OR');   
+        $read = Helper::showBasedOnPermission(['role.read'], 'OR');
 
-        if(!$read){
+        if (!$read) {
             return Redirect::back()->with('');
-        }else{
-            if ( Session::has('token') ){ 
+        } else {
+            if (Session::has('token')) {
                 $data     = Session::get('token');
 
-                $response = $this->getGuzzleRequest('GET','/roles/view',$data);
+                $response = $this->getGuzzleRequest('GET', '/roles/view', $data);
                 $res      = json_decode($response['data']);
-                
-                if( $response['status'] == 200 ){
-                    
+
+                if ($response['status'] == 200) {
+
                     // View [list] not found.
-                    return view('/roles/roles_table',['roles'=>$res->data]);    
-                }else if( $response['status'] == 401 ){
-                    
-                    return Redirect::back()->with('error',$res->error->message->message);
+                    return view('/roles/roles_table', ['roles' => $res->data]);
+                } else if ($response['status'] == 401) {
+
+                    return Redirect::back()->with('error', $res->error->message->message);
                 }
             }
         }
@@ -109,28 +110,28 @@ class RoleController extends ApiController
      * 
      * @return Illuminate\Http\RedirectResponse
      */
-    public function edit(Request $request,$id){
-        $edit = Helper::showBasedOnPermission(['role.update'],'OR');   
+    public function edit(Request $request, $id)
+    {
+        $edit = Helper::showBasedOnPermission(['role.update'], 'OR');
 
-        if(!$edit){
+        if (!$edit) {
             return Redirect::back()->with('');
-        }else{
-            if ( Session::has('token') ){ 
+        } else {
+            if (Session::has('token')) {
                 $data     = Session::get('token');
 
-                $response = $this->getGuzzleRequest('GET','/roles/edit/'.$id,$data);
+                $response = $this->getGuzzleRequest('GET', '/roles/edit/' . $id, $data);
                 $res      = json_decode($response['data']);
 
-                if( $response['status'] == 200 ){
+                if ($response['status'] == 200) {
 
-                    if( isset($res->data->permission)){
-                        return view('roles/edit_roles',['permissions'=> ( array )$res->data->permission,'role'=>$res->data->role]);    
-                    }else{
-                        return view('roles/edit_roles',['permissions'=> [],'role'=>$res->data->role]);    
+                    if (isset($res->permission)) {
+                        return view('roles/edit_roles', ['permissions' => (array)$res->permission, 'role' => $res->role, 'data' => $res->id]);
+                    } else {
+                        return view('roles/edit_roles', ['permissions' => [], 'role' => $res->role, 'data' => $res->id]);
                     }
-
-                }else if( $response['status'] == 401 ){
-                    return Redirect::back()->with('error',$res->error->message->message);
+                } else if ($response['status'] == 401) {
+                    return Redirect::back()->with('error', $res->error->message->message);
                 }
             }
         }
@@ -144,20 +145,40 @@ class RoleController extends ApiController
      * 
      * @return Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request){
-        $update = Helper::showBasedOnPermission(['role.update'],'OR');   
+    public function update(Request $request)
+    {
+        $update = Helper::showBasedOnPermission(['role.update'], 'OR');
 
-        if(!$update){
+        if (!$update) {
             return Redirect::back()->with('');
-        }else{
-            if ( Session::has('token') ){ 
-                $data['token'] = Session::get('token');
-                $data['data']  = $request->all();
+        } else {
+            if (Session::has('token')) {
+                $data['token']     = Session::get('token');
+                $data['id'] = $request->id;
+                $data['role_name'] = $request->role_name;
+                $data['permission'] = $request->permission;
 
-                $response      = $this->getGuzzleRequest('POST','/roles/update',$data);
+                $response      = $this->getGuzzleRequest('POST', '/roles/update', $data);
                 $res           = json_decode($response['data']);
-                
-                return redirect('roles/list');    
+
+                if ($response['status'] == 200) {
+                    if (isset($res->error)) {
+                        Session::flash('message', $res->error->message->message);
+                        Session::flash('alert-class', 'error');
+                        return redirect('/roless/list')->with('error', $res->error->message->message);
+                    } else {
+                        Session::flash('message', $res->message);
+                        Session::flash('alert-class', 'success');
+                        return redirect('/roles/list')->with('success', $res->message);
+                    }
+                } else if ($response['status'] == 401) {
+
+                    Session::flash('message', $res->error->message->message);
+                    Session::flash('alert-class', 'error');
+                    return redirect('/roles/new')->with('error', $res->error->message->message);
+                } else if ($response['status'] == 422) {
+                    return Redirect::back()->withErrors($res->error->message->message);
+                }
             }
         }
     }
@@ -170,27 +191,29 @@ class RoleController extends ApiController
      * 
      * @return Illuminate\Http\RedirectResponse
      */
-    public function delete(Request $request,$id){
-        $delete = Helper::showBasedOnPermission(['role.delete'],'OR');   
+    public function delete(Request $request, $id)
+    {
+        $delete = Helper::showBasedOnPermission(['role.delete'], 'OR');
 
-        if(!$delete){
+        if (!$delete) {
             return Redirect::back()->with('');
-        }else{    
-            if ( Session::has('token') ){ 
+        } else {
+            if (Session::has('token')) {
                 $data     = Session::get('token');
 
-                $response = $this->getGuzzleRequest('GET','/roles/delete/'.$id,$data);
+                $response = $this->getGuzzleRequest('GET', '/roles/delete/' . $id, $data);
                 $res      = json_decode($response['data']);
-                
 
-                if( $response['status'] == 200 ){
 
-                    Session::flash('message', $res->message); 
-                    Session::flash('alert-class', 'alert-success');
-                    return redirect('/roles/list');    
-                
-                }else if( $response['status'] == 401 ){
-                    return view('/roles/list',['users'=>[]]);
+                if ($response['status'] == 200) {
+
+                    Session::flash('message', $res->message);
+                    Session::flash('alert-class', 'success');
+                    return redirect('/roles/list');
+                } else if ($response['status'] == 401) {
+                    Session::flash('message', $res->message);
+                    Session::flash('alert-class', 'error');
+                    return view('/roles/list', ['users' => []]);
                 }
             }
         }

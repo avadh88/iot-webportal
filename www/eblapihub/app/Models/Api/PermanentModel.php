@@ -126,6 +126,8 @@ class PermanentModel extends Model
             $permenantModel->temp_device_id   = $tempModel->temp_device_id;
 
             if ($permenantModel->save()) {
+                TempDeviceModel::where('id', $data['id'])
+                ->update(['status' => 1]);
                 $lastInsertedId = $permenantModel->id;
                 $publishTempId  = new RedisService();
                 $uniqqueId      = substr(mt_rand(), 0, 10);

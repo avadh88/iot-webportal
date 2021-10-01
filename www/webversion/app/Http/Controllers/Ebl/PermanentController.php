@@ -59,10 +59,13 @@ class PermanentController extends ApiController
                 if( $response['status'] == 200 ){
 
                     Session::flash('message', $res->message); 
-                    Session::flash('alert-class', 'alert-success');
+                    Session::flash('alert-class', 'success');
                     return redirect('/permanent/list');    
                 
                 }else if( $response['status'] == 401 ){
+
+                    Session::flash('message', $res->message); 
+                    Session::flash('alert-class', 'error');
                     return view('/permanent/list',['permanents'=>[]]);
                 }
             }
@@ -96,13 +99,13 @@ class PermanentController extends ApiController
             if($response['status'] == 200){    
                 
                 // Session::flash('message', $res->message); 
-                Session::flash('alert-class', 'alert-success');
+                Session::flash('alert-class', 'success');
                 return view('permanent/edit',['data'=>$res->data,'compnies'=>$compnies->data]);
 
             }else if($response['status'] == 401){
                 
                 Session::flash('message', $res->error->message->message); 
-                Session::flash('alert-class', 'alert-danger');
+                Session::flash('alert-class', 'error');
                 return redirect('/temporary/edit')->with('error',$res->error->message->message);
             }
         }}
@@ -139,13 +142,13 @@ class PermanentController extends ApiController
                 if($response['status'] == 200){    
                     
                     Session::flash('message', $res->message); 
-                    Session::flash('alert-class', 'alert-success');
+                    Session::flash('alert-class', 'success');
                     return redirect('/permanent/list')->with('success',$res->message);
 
                 }else if($response['status'] == 401){
                     
                     Session::flash('message', $res->error->message->message); 
-                    Session::flash('alert-class', 'alert-danger');
+                    Session::flash('alert-class', 'error');
                     return redirect('/permanent/edit')->with('error',$res->error->message->message);
                 }
             }

@@ -36,8 +36,9 @@ class Application extends Model
         }
     }
 
-    public function appsList(){
-        $data = Application::select('id','app_name','app_status')->get()->toArray();
+    public function appsList()
+    {
+        $data = Application::join('permenent_device', 'permenent_device.id', '=', 'applications.device_name')->select('applications.id', 'applications.app_name', 'permenent_device.device_name', 'applications.app_status')->get()->toArray();
 
         return $data;
     }

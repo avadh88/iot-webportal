@@ -29,9 +29,6 @@
                 <li class="breadcrumb-item pt-1"><a href="{{ url('company/list') }}"><i class="fa fa-fw fa-home"></i> Company</a>
                 </li>
             </ol>
-            @if(Session::has('message'))
-        <p class="alert {{ Session::get('alert-class', 'alert-info') }} toastrshow" id="showtoast">{{ Session::get('message') }}</p>
-        @endif
             
         </section>
         

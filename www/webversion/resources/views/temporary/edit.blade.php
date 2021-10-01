@@ -63,9 +63,9 @@
                             </div>
                             <div class="card-body">
                                 @if(isset($data))
-                                    <form id="form-validation" action="{{ route('temporary.update') }}" class="" method="POST">
+                                    <form id="temporary_form" action="{{ route('temporary.update') }}" class="" method="POST">
                                 @else   
-                                    <form id="form-validation" action="{{ route('temporary.add') }}" class="" method="POST">
+                                    <form id="temporary_form" action="{{ route('temporary.add') }}" class="" method="POST">
                                 @endif
                                                                 
                                 @csrf

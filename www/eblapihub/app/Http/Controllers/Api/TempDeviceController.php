@@ -120,8 +120,8 @@ class TempDeviceController extends ApiController
 
 
         if($validator->fails()){
-            $response['message'] = trans('api.messages.device.failed');
-            return $this->respondUnauthorized($response);
+            $response['message'] = $validator->errors();
+            return $this->throwValidation($response);
         } else{
         
             $tempModel = new TempDeviceModel();

@@ -31,10 +31,6 @@
                 <li class="breadcrumb-item pt-1"><a href="{{ url('temporary/list') }}"><i class="fa fa-fw fa-home"></i> Temporary Device</a>
                 </li>
             </ol>
-            @if(Session::has('message'))
-        <p class="alert {{ Session::get('alert-class', 'alert-info') }} toastrshow" id="showtoast">{{ Session::get('message') }}</p>
-        <!-- <p class="alert {{ Session::get('alert-class', 'alert-info') }} toastrshow" id="showtoast">{{ Session::get('role') }}</p> -->
-        @endif
         <!-- Main content -->
             
         </section>

@@ -80,7 +80,25 @@
 </div>
 
 <script src="{{ asset('public/assets/js/login.js') }}" type="text/javascript"></script>
+<script>
+        @if(Session::has('message'))
+        var type = "{{ Session::get('alert-type', 'success') }}";
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true
+        }
+        switch (type) {
+            case 'success':
 
+                toastr.success("{{ Session::get('message') }}");
+                break;
+
+            case 'error':
+                toastr.error("{{ Session::get('message') }}");
+                break;
+        }
+        @endif
+    </script>
 </body>
 
 </html>

@@ -119,23 +119,23 @@ $(document).ready(function () {
             }
         }
     });
-    var granimInstance4 = new Granim({
-        element: '#canvas-interactive4',
-        name: 'interactive-gradient4',
-        elToSetClassOn: '.canvas-interactive-wrapper4',
-        direction: 'diagonal',
-        opacity: [1, 1],
-        isPausedWhenNotInView: true,
-        states: {
-            "default-state": {
-                gradients: [
-                    ['#834d9b', '#d04ed6'],
-                    ['#1CD8D2', '#93EDC7']
-                ],
-                transitionSpeed: 12000
-            }
-        }
-    });
+    // var granimInstance4 = new Granim({
+    //     element: '#canvas-interactive4',
+    //     name: 'interactive-gradient4',
+    //     elToSetClassOn: '.canvas-interactive-wrapper4',
+    //     direction: 'diagonal',
+    //     opacity: [1, 1],
+    //     isPausedWhenNotInView: true,
+    //     states: {
+    //         "default-state": {
+    //             gradients: [
+    //                 ['#834d9b', '#d04ed6'],
+    //                 ['#1CD8D2', '#93EDC7']
+    //             ],
+    //             transitionSpeed: 12000
+    //         }
+    //     }
+    // });
     // top sales visits and income widgets gradient ends
 
 

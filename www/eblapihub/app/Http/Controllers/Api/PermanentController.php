@@ -134,18 +134,30 @@ class PermanentController extends ApiController
 
         $data = json_decode($request->getContent(), true);
 
-        $permanentModel = new PermanentModel();
-        $permanentData = $permanentModel->addToPermanent($data);
-
-        if ($permanentData) {
-            // event( new DeviceCompanyAddEvent($permanentData->company_email) );
-            $response['message'] = trans('api.messages.common.success');
-            $response['data']    = $permanentData;
-            return $this->respond($response);
+        $validator = Validator::make($data, [
+            'company_id'         => 'required',
+            'device_name'        => 'required',
+            'serial_number'      => 'required',
+            'temp_device_id'     => 'required|unique:permenent_device',
+        ]);
+        if ($validator->fails()) {
+            $response['message'] = $validator->errors();
+            return $this->throwValidation($response);
         } else {
-            $response['message'] = trans('api.messages.common.failed');
-            $response['data']    = $permanentData;
-            return $this->respond($response);
+
+            $permanentModel = new PermanentModel();
+            $permanentData = $permanentModel->addToPermanent($data);
+
+            if ($permanentData) {
+                // event( new DeviceCompanyAddEvent($permanentData->company_email) );
+                $response['message'] = trans('api.messages.device.create');
+                $response['data']    = $permanentData;
+                return $this->respond($response);
+            } else {
+                $response['message'] = trans('api.messages.device.failed');
+                $response['data']    = $permanentData;
+                return $this->respond($response);
+            }
         }
     }
 

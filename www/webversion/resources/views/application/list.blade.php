@@ -69,6 +69,9 @@
                                                                 Application Name
                                                             </th>
                                                             <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
+                                                                Device Name
+                                                            </th>
+                                                            <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                 Application Status
                                                             </th>
                                                             <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
@@ -87,6 +90,7 @@
                                                         <tr role="row" class="odd">
                                                             <td>{{ $i++ }}</td>
                                                             <td>{{ $app->app_name }}</td>
+                                                            <td>{{ $app->device_name }}</td>
                                                             <td>{{ ($app->app_status == 1 ) ? 'Active' : 'Disactive'}} </td>
 
 
@@ -106,6 +110,9 @@
                                                             </th>
                                                             <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                 Application Name
+                                                            </th>
+                                                            <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
+                                                                Device Name
                                                             </th>
                                                             <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                 Application Status

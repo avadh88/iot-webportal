@@ -18,5 +18,6 @@
     "/assets/css/login.css": "/assets/css/login.css",
     "/assets/js/login.js": "/assets/js/login.js",
     "/assets/css/dashboard.css": "/assets/css/dashboard.css",
-    "/assets/js/dashboard.js": "/assets/js/dashboard.js"
+    "/assets/js/dashboard.js": "/assets/js/dashboard.js",
+    "/assets/js/device_status.js": "/assets/js/device_status.js"
 }

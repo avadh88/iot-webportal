@@ -23,11 +23,11 @@ class DashboardController extends ApiController
         $data['PermanentCount'] = PermanentModel::count();
 
         if(($data)){
-            $response['message'] = trans('api.messages.common.success');
+            $response['message'] = trans('api.messages.login.success');
             $response['data']    = $data;
             return $this->respond($response);
         }else{
-            $response['message'] = trans('api.messages.common.failed');
+            $response['message'] = trans('api.messages.login.failed');
             $response['data']    = $data;
             return $this->respond($response);
         }

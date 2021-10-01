@@ -27,6 +27,9 @@ mix.combine(
         'resources/assets/css/custom.css',
         'resources/assets/css/layouts.css',
         'resources/assets/css/custom_css/wizard.css',
+        'resources/assets/vendors/toastr/css/toastr.min.css',
+        'resources/assets/css/custom_css/toastr_notificatons.css',
+        'resources/assets/js/custom_js/common_toastr.js',
 
 
         'resources/assets/vendors/morrisjs/morris.css',
@@ -42,8 +45,6 @@ mix.combine(
         'resources/assets/vendors/select2/css/select2-bootstrap.css',
         'resources/assets/vendors/bootstrapvalidator/css/bootstrapValidator.min.css',
         'resources/assets/vendors/datetimepicker/css/bootstrap-datetimepicker.min.css',
-        'resources/assets/vendors/toastr/css/toastr.min.css',
-        'resources/assets/css/custom_css/toastr_notificatons.css',
 
         'resources/assets/css/advbuttons.css',
         'resources/assets/css/buttons_sass.css',
@@ -66,7 +67,8 @@ mix.combine(
         'resources/assets/js/metisMenu.js',
         'resources/assets/js/custom_js/rightside_bar.js',
         'node_modules/holderjs/holder.min.js',
-
+        'resources/assets/vendors/toastr/js/toastr.min.js',
+        'resources/assets/js/custom_js/toastr_notifications.js',
         
         'resources/assets/js/custom_js/fixed.js',
         'resources/assets/js/custom_js/user.js',
@@ -112,7 +114,7 @@ mix.combine(
         'resources/assets/js/custom_js/sidebar.js',
         'resources/assets/js/custom_js/toastr_notifications.js',
         'node_modules/socket.io/client-dist/socket.io.js',
-        'resources/assets/js/custom_js/device_status.js',
+        // 'resources/assets/js/custom_js/device_status.js',
         'resources/assets/js/custom_js/application.js',
 
     ], destJs + 'app.js');
@@ -129,6 +131,8 @@ mix.combine([
     'resources/assets/vendors/iCheck/css/all.css',
     'resources/assets/vendors/bootstrapvalidator/css/bootstrapValidator.min.css',
     'resources/assets/css/login.css',
+    'resources/assets/vendors/toastr/css/toastr.min.css',
+        'resources/assets/css/custom_css/toastr_notificatons.css',
     
 ],destCss + 'login.css');
 
@@ -162,3 +166,9 @@ mix.combine([
     'resources/assets/js/dashboard1.js',
 
 ],destJs + 'dashboard.js');
+
+mix.combine([
+
+    'resources/assets/js/custom_js/device_status.js',
+
+],destJs + 'device_status.js');

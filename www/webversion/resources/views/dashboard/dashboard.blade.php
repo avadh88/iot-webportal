@@ -31,7 +31,6 @@
                     <li class="breadcrumb-item pt-1"><a href="{{ url('dashboard') }}"><i class="fa fa-fw fa-home"></i> Dashboard</a>
                     </li>
             </section>
-
             <section class="content">
                 <div class="row">
                     <div class="col-md-12">
@@ -43,12 +42,12 @@
                                         <div class="cta-wrapper2">
                                             <div class="item">
                                                 <div class="widget-icon pull-left icon-color animation-fadeIn">
-                                                <i class="fa fa-fw fa-line-chart fa-size" aria-hidden="true"></i>
+                                                    <i class="fa fa-fw fa-line-chart fa-size" aria-hidden="true"></i>
                                                 </div>
                                             </div>
                                             <div class="widget-count panel-white">
                                                 <div class="item-label text-center">
-                                                    <div id="count-box" class="count-box" >{{ $data->userCount }}</div>
+                                                    <div id="count-box" class="count-box">{{ $data->userCount }}</div>
                                                     <span class="title">All Users</span>
                                                 </div>
                                             </div>
@@ -93,10 +92,10 @@
                                                     <span class="title">Permanent Devices</span>
                                                 </div>
                                                 <!-- <div class="text-center"> -->
-                                                    <!-- <span><i class="fa fa-level-up" aria-hidden="true"></i></span> -->
-                                                    <!-- <strong>Online Devices</strong> -->
-                                                    <!-- <span><i class="fa fa-level-up" aria-hidden="true"></i></span> -->
-                                                    <!-- <strong>Offline Devices</strong> -->
+                                                <!-- <span><i class="fa fa-level-up" aria-hidden="true"></i></span> -->
+                                                <!-- <strong>Online Devices</strong> -->
+                                                <!-- <span><i class="fa fa-level-up" aria-hidden="true"></i></span> -->
+                                                <!-- <strong>Offline Devices</strong> -->
                                                 <!-- </div> -->
                                             </div>
                                         </div>

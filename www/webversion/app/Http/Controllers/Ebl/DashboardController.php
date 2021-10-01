@@ -31,7 +31,7 @@ class DashboardController extends ApiController
             if( $response['status'] == 200 ){
                 return view('dashboard/dashboard',['data'=>$res->data]);    
             }else{
-                return view('dashboard/dashboard',['data'=>[]]);
+              return Redirect::back();
             }
         }
     }

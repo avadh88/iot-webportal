@@ -48,11 +48,13 @@
                         <div class="card-body">
                             <form  role="form" action="{{ route('roles.update') }}" method="POST">
                                 @csrf
+
+                                <input type="hidden" name="id" value="{{ isset($data) ? $data : '' }}">
                                 <div class="form-group row">
                                     <label for="input-text" class="col-lg-2 col-md-2  col-sm-12 col-12 col-form-label text-lg-right text-md-right text-left">Role</label>
                                     <div class="col-lg-10 col-md-10  col-sm-12 col-12 col-sm-12">
-                                        <input name="role" type="text" class="form-control form-control-lg" id="Role"
-                                               placeholder="Role" value="{{ isset($role) ? $role : '' }}">
+                                        <input name="role_name" type="text" class="form-control form-control-lg" id="role_name"
+                                               placeholder="role_name" value="{{ isset($role) ? $role : '' }}">
                                     </div>
                                 </div>
                                 

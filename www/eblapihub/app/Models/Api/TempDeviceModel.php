@@ -54,7 +54,7 @@ class TempDeviceModel extends Model
     public function getDeviceById($id){
         if(!empty($id)){
   
-            $permanentModel = TempDeviceModel::select('id','company_name','device_name','serial_number')->where('id',$id)->first();
+            $permanentModel = TempDeviceModel::select('id','company_name','device_name','serial_number','temp_device_id')->where('id',$id)->first();
             return $permanentModel;
         
         }

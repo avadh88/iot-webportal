@@ -6,7 +6,6 @@
     <title>Permanent Device</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1' name='viewport'>
     <link rel="shortcut icon" href="{{asset('public/assets/images/favicon.ico')}}" />
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
@@ -165,6 +164,8 @@
     <script src="{{asset('node_modules/socket.io/client-dist/socket.io.js')}}"></script>
     </script>
     @include('common/footerlink')
+    <script src="{{asset('public/assets/js/device_status.js')}}" type="text/javascript"></script>
+
 </body>
 
 </html>

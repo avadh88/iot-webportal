@@ -20,16 +20,16 @@ class CompanyController extends ApiController
         }
 
         $validator = Validator::make($datas, [
-            'company_name'          => 'required',
-            'company_address'       => 'required',
-            'company_email'         => 'required',
-            'company_mobile'        => 'required',
+            'company_name'          => 'required|unique:companies',
+            'company_address'       => 'required|unique:companies',
+            'company_email'         => 'required|unique:companies',
+            'company_mobile'        => 'required|unique:companies',
             // 'company_logo'          => 'mimes:jpeg,bmp,png|size:1000',
         ]);
 
         if ($validator->fails()) {
-            $response['message'] = trans('api.messages.common.failed');
-            return $this->respondUnauthorized($response);
+            $response['message'] = $validator->errors();;
+            return $this->throwValidation($response);
         } else {
 
             if ($request->hasFile('company_logo')) {
@@ -66,11 +66,11 @@ class CompanyController extends ApiController
 
 
             if (($companyData)) {
-                $response['message'] = trans('api.messages.common.success');
+                $response['message'] = trans('api.messages.company.success');
                 $response['data']    = $companyData;
                 return $this->respond($response);
             } else {
-                $response['message'] = trans('api.messages.common.failed');
+                $response['message'] = trans('api.messages.company.failed');
                 $response['data']    = $companyData;
                 return $this->respond($response);
             }
@@ -137,12 +137,13 @@ class CompanyController extends ApiController
         } else {
             $datas = json_decode($request->getContent(), true);
         }
-
+        $id = $datas['id'];
+        
         $validator = Validator::make($datas, [
-            'company_name'          => 'required',
-            'company_address'       => 'required',
-            'company_email'         => 'required',
-            'company_mobile'        => 'required',
+            'company_name'          => 'required|unique:companies,company_name,' .$id,
+            'company_address'       => 'required|unique:companies,company_address,' .$id,
+            'company_email'         => 'required|unique:companies,company_email,' .$id,
+            'company_mobile'        => 'required|unique:companies,company_mobile,' .$id,
         ]);
 
 

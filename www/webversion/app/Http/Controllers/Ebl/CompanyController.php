@@ -94,16 +94,24 @@ class CompanyController extends ApiController
                 }
 
                 $res               = json_decode($response['data']);
+
+                // dd($res);
                 if ($response['status'] == 200) {
 
                     Session::flash('message', $res->message);
-                    Session::flash('alert-class', 'alert-success');
+                    Session::flash('alert-class', 'success');
                     return redirect('/company/list')->with('success', $res->message);
                 } else if ($response['status'] == 401) {
 
                     Session::flash('message', $res->error->message->message);
-                    Session::flash('alert-class', 'alert-danger');
+                    Session::flash('alert-class', 'error');
                     return redirect('/company/new')->with('error', $res->error->message->message);
+                } else if ($response['status'] == 422) {
+
+                    return Redirect::back()->withErrors($res->error->message->message);
+                    // Session::flash('message', $res->error->message->message);
+                    // Session::flash('alert-class', 'error');
+                    // return redirect('/company/new')->with('error', $res->error->message->message);
                 }
             }
         }
@@ -133,9 +141,11 @@ class CompanyController extends ApiController
                 if ($response['status'] == 200) {
 
                     Session::flash('message', $res->message);
-                    Session::flash('alert-class', 'alert-success');
+                    Session::flash('alert-class', 'success');
                     return redirect('/company/list');
                 } else {
+                    Session::flash('message', $res->message);
+                    Session::flash('alert-class', 'error');
                     return redirect('/company/list');
                 }
             }
@@ -215,9 +225,21 @@ class CompanyController extends ApiController
                     $response      = $this->getGuzzleRequest('POST', '/company/update', $data);
                 }
 
-                // $response      = $this->fileWithDataGuzzleRequest('POST','/company/update',$data);
-                $res           = json_decode($response['data']);
-                return redirect('company/list');
+                $res      = json_decode($response['data']);
+
+                if ($response['status'] == 200) {
+
+                    Session::flash('message', $res->message);
+                    Session::flash('alert-class', 'success');
+                    return redirect('/company/list')->with('success', $res->message);
+                } else if ($response['status'] == 401) {
+
+                    Session::flash('message', $res->error->message->message);
+                    Session::flash('alert-class', 'error');
+                    return redirect('/company/new')->with('error', $res->error->message->message);
+                } else if ($response['status'] == 422) {
+                    return Redirect::back()->withErrors($res->error->message->message);
+                }
             }
         }
     }

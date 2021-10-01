@@ -18,29 +18,29 @@ class UserController extends ApiController
      * 
      * @return \Illuminate\Http\JsonResponse
      */
-    public function verify(Request $request){
+    public function verify(Request $request)
+    {
 
         // $ehealth_code = $request->headers->get('x-client-code');
-        $data = json_decode($request->getContent(),true);
+        $data = json_decode($request->getContent(), true);
 
-        $validator = FacadesValidator::make($data,[
+        $validator = FacadesValidator::make($data, [
             'username'   => 'required',
             'password'   => 'required',
         ]);
-        
-        if($validator->fails()){
+
+        if ($validator->fails()) {
             return response([
                 'message' => trans('api.messages.login.failed')
             ], 404);
-        } else
-        {
+        } else {
             $userModel = new User();
             $userData  = $userModel->verify($data);
 
-            if($userData){
+            if ($userData) {
 
-                if(Hash::check($data['password'],$userData->password)){
-                    
+                if (Hash::check($data['password'], $userData->password)) {
+
                     $datas['user_role']       = $userModel->getRoleById($userData->role_id);
                     $datas['user_permission'] = $userModel->getPermissionById($userData->id);
                     $datas['company_logo']    = $userModel->getCompanyDetails($userData->company_id);
@@ -58,14 +58,12 @@ class UserController extends ApiController
                     $response['message']  = trans('api.messages.login.success');
                     $response['data']     = $datas;
                     return $this->respond($response);
+                } else {
 
-                }else{
-                    
                     $response['message'] = trans('api.messages.login.failed');
                     return $this->respondUnauthorized($response);
-                        
                 }
-            }else{
+            } else {
 
                 $response['message'] = trans('api.messages.login.failed');
                 return $this->respondUnauthorized($response);
@@ -73,12 +71,13 @@ class UserController extends ApiController
         }
     }
 
-    public function logout(Request $request){
-        
-            $token =  $request->user()->token();
-            $token->revoke();
-            $response = ['message' => 'You have been successfully logged out!'];
-            return response($token, 200);
+    public function logout(Request $request)
+    {
+
+        $token =  $request->user()->token();
+        $token->revoke();
+        $response = ['message' => 'You have been successfully logged out!'];
+        return response($token, 200);
     }
 
     /**
@@ -88,25 +87,24 @@ class UserController extends ApiController
      * 
      * @return \Illuminate\Http\JsonResponse
      */
-    public function list(Request $request){
+    public function list(Request $request)
+    {
 
-        $data = json_decode($request->getContent(),true);
+        $data = json_decode($request->getContent(), true);
 
         $userModel = new User();
         $userData  =  $userModel->userList();
         $response = [];
 
-        if(count($userData) > 0){
+        if (count($userData) > 0) {
             $response['message'] = trans('api.messages.fetch.success');
             $response['data']    = $userData;
             return $this->respond($response);
-        }else{
+        } else {
             $response['message'] = trans('api.messages.fetch.failed');
             $response['data']    = $userData;
             return $this->respond($response);
         }
-        
-
     }
 
     /**
@@ -116,46 +114,45 @@ class UserController extends ApiController
      * 
      * @return \Illuminate\Http\JsonResponse
      */
-    public function add(Request $request){
+    public function add(Request $request)
+    {
 
-        $data = json_decode($request->getContent(),true);
+        $data = json_decode($request->getContent(), true);
 
-        $validator = FacadesValidator::make($data,[
-            'username'          => 'required',
+        $validator = FacadesValidator::make($data, [
+            'username'          => 'required|unique:users',
             'first_name'        => 'required',
             'last_name'         => 'required',
-            'email'             => 'required',
-            'phone_number'      => 'required',
+            'email'             => 'required|unique:users',
+            'phone_number'      => 'required|unique:users',
             'role_id'           => 'required',
             'company_id'        => 'required',
             'password'          => 'required',
             'repeat_password'   => 'required',
             // 'remember_token'    => 'required',
         ]);
-        
 
 
-        if($validator->fails()){
-            $response['message'] = trans('api.messages.user.failed');
-            return $this->respondUnauthorized($response);
-        } else{
-        
+
+        if ($validator->fails()) {
+            $response['message'] = $validator->errors();
+            return $this->throwValidation($response);
+        } else {
+
             $userModel = new User();
             $userData  =  $userModel->addUser($data);
             $response = [];
 
-            if(($userData)){
-                event( new UserRegisteredEvent($userData->company_email) );
+            if (($userData)) {
+                event(new UserRegisteredEvent($userData->company_email));
                 $response['message'] = trans('api.messages.user.create');
                 $response['data']    = $userData;
                 return $this->respond($response);
-            }else{
+            } else {
                 $response['message'] = trans('api.messages.user.failed');
-                $response['data']    = $userData;
-                return $this->respond($response);
+                return $this->respondWithError($response);
             }
         }
-
     }
 
 
@@ -166,21 +163,21 @@ class UserController extends ApiController
      * 
      * @return \Illuminate\Http\JsonResponse
      */
-    public function delete($id){
+    public function delete($id)
+    {
 
         $userModel = new User();
         $userData  = $userModel->deleteById($id);
 
-        if($userData){
+        if ($userData) {
             $response['message'] = trans('api.messages.user.delete');
             $response['data']    = $userData;
             return $this->respond($response);
-        }else{
+        } else {
             $response['message'] = trans('api.messages.user.failed');
             $response['data']    = $userData;
             return $this->respond($response);
         }
-  
     }
 
     /**
@@ -190,21 +187,22 @@ class UserController extends ApiController
      * 
      * @return \Illuminate\Http\JsonResponse
      */
-    public function edit($id){
+    public function edit($id)
+    {
 
         $userModel = new User();
         $userData  = $userModel->getUserById($id);
-        
-        if($userData){
+
+        if ($userData) {
             $response['message'] = trans('api.messages.fetch.success');
             $response['data']    = $userData;
             return $this->respond($response);
-        }else{
+        } else {
             $response['message'] = trans('api.messages.fetch.failed');
             $response['data']    = $userData;
             return $this->respond($response);
         }
-    }   
+    }
 
     /**
      * Update User Data
@@ -213,44 +211,44 @@ class UserController extends ApiController
      * 
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request){
+    public function update(Request $request)
+    {
 
 
-        $data = json_decode($request->getContent(),true);
-
-        $validator = FacadesValidator::make($data,[
-            'username'          => 'required',
+        $data = json_decode($request->getContent(), true);
+        $id   = $data['id'];
+        $validator = FacadesValidator::make($data, [
+            'username'          => 'required|unique:users,username,' . $id,
             'first_name'        => 'required',
             'last_name'         => 'required',
-            'email'             => 'required',
-            'phone_number'      => 'required',
+            'email'             => 'required|unique:users,email,' . $id,
+            'phone_number'      => 'required|unique:users,phone_number,' . $id,
             'role_id'           => 'required',
             'company_id'        => 'required',
             // 'remember_token'    => 'required',
         ]);
-        
 
 
-        if($validator->fails()){
-            $response['message'] = trans('api.messages.user.failed');
-            return $this->respondUnauthorized($response);
-        } else{
-        
+
+        if ($validator->fails()) {
+            $response['message'] = $validator->errors();
+            return $this->throwValidation($response);
+        } else {
+
             $userModel = new User();
             $userData  =  $userModel->updateUser($data);
             $response = [];
 
 
-            if(($userData)){
+            if ($userData) {
                 $response['message'] = trans('api.messages.user.update');
                 $response['data']    = $userData;
                 return $this->respond($response);
-            }else{
+            } else {
                 $response['message'] = trans('api.messages.user.failed');
                 $response['data']    = $userData;
                 return $this->respond($response);
             }
         }
-
     }
 }
