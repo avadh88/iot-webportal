@@ -35,22 +35,6 @@
             <section class="content">
                 <div>
                     <div class="card-body">
-                        @if($message = Session::get('message'))
-                        <div class="alert alert-success alert-block">
-                            <button type="button" class="close" data-dismiss="alert">x</button>
-                            <strong>{{ $message }}</strong>
-                        </div>
-                        @endif
-
-                        @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @if($errors->any())
-                                <h4>{{$errors->first()}}</h4>
-                                @endif
-                            </ul>
-                        </div>
-                        @endif
                         <div class="card border-primary">
                             <div class="card-header bg-primary text-white">
                                 <h3 class="card-title d-inline ">
@@ -119,7 +103,7 @@
 
                                         <div class="col-lg-3 col-12">
 
-                                            <img id="previewImg" src="/examples/images/transparent.png" alt="Preview">
+                                            <img id="previewImg" src="" alt="Preview">
                                         </div>
 
 
@@ -147,7 +131,11 @@
 
                                         <span class="col-lg-3"></span>
                                         <div class="col-lg-6 col-12 text-left">
-                                            <button type="submit" class="btn btn-effect-ripple btn-primary input-md">Submit</button>
+
+                                            <button type="submit" class="btn btn-primary btn-sm btn-responsive rounded-0 mb-3">Submit</button>
+                                            <input type="button" id="load" name="load" value="Load" class="btn btn-info btn-sm btn-responsive rounded-0 mb-3 disabled">
+                                            <!-- <button class="btn btn-info btn-sm btn-responsive rounded-0 mb-3 disabled">Load</button> -->
+
                                         </div>
 
                                     </div>

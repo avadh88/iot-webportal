@@ -43,6 +43,11 @@ class Application extends Model
         return $data;
     }
 
+    public function getDataById($id){
+
+        // $data = Application::join()
+    }
+
     public function getAppById($id)
     {
         $appModel  = Application::where('applications.device_name', $id)->join('permenent_device', 'permenent_device.id', '=', 'applications.device_name')

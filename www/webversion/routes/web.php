@@ -87,6 +87,7 @@ Route::middleware(['usersession'])->prefix('app')->group(function(){
     Route::get('/new', [ApplicationController::class,'new']);
     Route::post('/add',[ApplicationController::class,'add'])->name('app.add');
     Route::get('/list',[ApplicationController::class,'list']);
+    Route::get('/edit/{id}',[ApplicationController::class,'edit']);
 });
 
 

@@ -50,6 +50,10 @@ jQuery(document).ready(function (){
         }
     });
 
+    $("#companyAccess").select2({
+        theme: "bootstrap",
+        placeholder: "multi select"
+    });
 
     $("#roleValidation").bootstrapValidator({
         fields: {

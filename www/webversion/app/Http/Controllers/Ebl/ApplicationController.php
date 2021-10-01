@@ -95,4 +95,16 @@ class ApplicationController extends ApiController
             }
         }
     }
+
+    public function edit($id)
+    {
+
+        if (Session::has('token')) {
+            $data = Session::get('token');
+
+            $response = $this->getGuzzleRequest('GET', '/app/edit/' . $id, $data);
+            $res      = json_decode($response['data']);
+            dd($res);
+        }
+    }
 }

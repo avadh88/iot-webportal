@@ -14,8 +14,8 @@ $(document).ready(function () {
             id: id
         })
             .then(function (response) {
-                // console.log(response.data.data);
                 data = response.data.data;
+                console.log(data);
                 count = response.data.data.length;
                 $('#device_name').empty();
                 $('#device_name').append('<option value="Please select Device ">Please select Device </option>');
@@ -33,6 +33,8 @@ $(document).ready(function () {
         theme: "bootstrap",
         placeholder: "Please select Device"
     });
+
+    // $("#app_load").prop('disabled', true);;
 
 });
 

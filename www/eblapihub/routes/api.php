@@ -79,6 +79,7 @@ Route::middleware('auth:api')->prefix('web')->group(function () {
     Route::prefix('app')->group(function () {
         Route::post('/add', [ApplicationController::class, 'add']);
         Route::get('/list', [ApplicationController::class, 'list']);
+        Route::get('/edit/{id}', [ApplicationController::class, 'edit']);
         // Route::get('/appData/{id}', [ApplicationController::class, 'sendDataToDevice']);
     });
 

@@ -83,6 +83,15 @@ class ApplicationController extends ApiController
         }
     }
 
+    public function edit($id){
+
+        $appModel = new Application();
+        $appModel = $appModel->getDataById($id);
+
+        return $this->respond($appModel);
+
+    }
+
     public function sendDataToDevice($id)
     {
         $appModel  = new Application();

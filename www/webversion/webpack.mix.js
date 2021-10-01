@@ -52,6 +52,7 @@ mix.combine(
 
         'resources/assets/vendors/prettycheckable/css/prettyCheckable.css',
         'resources/assets/css/custom_css/company.css',
+        'resources/assets/css/custom_css/common.css',
 
     ], destCss + 'app.css');
 

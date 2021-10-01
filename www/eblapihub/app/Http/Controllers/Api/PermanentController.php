@@ -145,20 +145,19 @@ class PermanentController extends ApiController
             return $this->throwValidation($response);
         } else {
 
-            $permanentModel = new PermanentModel();
-            $permanentData = $permanentModel->addToPermanent($data);
+        $permanentModel = new PermanentModel();
+        $permanentData = $permanentModel->addToPermanent($data);
 
-            if ($permanentData) {
-                // event( new DeviceCompanyAddEvent($permanentData->company_email) );
-                $response['message'] = trans('api.messages.device.create');
-                $response['data']    = $permanentData;
-                return $this->respond($response);
-            } else {
-                $response['message'] = trans('api.messages.device.failed');
-                $response['data']    = $permanentData;
-                return $this->respond($response);
-            }
-        }
+        if ($permanentData) {
+            // event( new DeviceCompanyAddEvent($permanentData->company_email) );
+            $response['message'] = trans('api.messages.device.create');
+            $response['data']    = $permanentData;
+            return $this->respond($response);
+        } else {
+            $response['message'] = trans('api.messages.device.failed');
+            $response['data']    = $permanentData;
+            return $this->respond($response);
+        }}
     }
 
 
