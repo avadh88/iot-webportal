@@ -270,30 +270,33 @@
                                             <label class="col-lg-3 col-md-2  col-sm-12 col-12 col-form-label">Company Access</label>
 
                                             <div class="col-lg-3 col-12 col-form-label">
-                                                <select id="companyAccess" class="form-control select2" multiple style="width:100%">
-                                                    <option value="AK">Alaska</option>
-                                                    <option value="HI">Hawaii</option>
+                                                <select id="companyAccess" name="companyAccess[]" class="form-control select2" multiple style="width:100%">
+                                                    <option value=""> Please select </option>
+                                                    @if (isset($compnies))
+                                                    @foreach($compnies as $company)
+                                                    <option value="{{ $company->id }}" @if (isset($data->company_id)) @if($company->id == $data->company_id) selected="selected" @endif @endif> {{ $company->company_name }}</option>
+                                                    @endforeach
+                                                    @endif
                                                 </select>
                                             </div>
-
                                         </div>
+
+
+
+                                        <div class="form-group form-actions">
+                                            <div class="text-center">
+                                                <button type="submit" class="btn btn-effect-ripple btn-primary">Submit</button>
+                                            </div>
+                                        </div>
+                                    </form>
+
                             </div>
-
-
-                            <div class="form-group form-actions">
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-effect-ripple btn-primary">Submit</button>
-                                </div>
-                            </div>
-                            </form>
-
                         </div>
-                    </div>
 
+                    </div>
                 </div>
-    </div>
-    </section>
-    </aside>
+            </section>
+        </aside>
     </div>
 
     @include('common/footerlink')

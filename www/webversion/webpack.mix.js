@@ -1,5 +1,5 @@
-const  mix  = require('laravel-mix');
-
+const mix = require('laravel-mix');
+// const API_URL = process.env.MIX_API_URL;
 //src path configuration
 var nodevendors = 'node_modules/';
 
@@ -19,7 +19,7 @@ var destVendors = dest + 'vendors/';
 
 mix.combine(
     [
-        
+
         'resources/assets/css/font-awesome.min.css',
         'resources/assets/css/bootstrap.css',
         'resources/assets/css/custom_css/metisMenu.css',
@@ -70,7 +70,7 @@ mix.combine(
         'node_modules/holderjs/holder.min.js',
         'resources/assets/vendors/toastr/js/toastr.min.js',
         'resources/assets/js/custom_js/toastr_notifications.js',
-        
+
         'resources/assets/js/custom_js/fixed.js',
         'resources/assets/js/custom_js/user.js',
 
@@ -120,6 +120,33 @@ mix.combine(
 
     ], destJs + 'app.js');
 
+
+mix.combine([
+
+    'resources/assets/vendors/fancybox/css/jquery.fancybox.css',
+    'resources/assets/css/animated-masonry-gallery.css',
+
+], destCss + 'emt.css');
+
+mix.combine([
+
+
+    'resources/assets/js/jquery.isotope.min.js',
+    'resources/assets/vendors/fancybox/js/jquery.mousewheel.pack.js',
+    'resources/assets/vendors/fancybox/js/jquery.fancybox-buttons.js',
+    'resources/assets/vendors/fancybox/js/jquery.fancybox.js',
+    'resources/assets/js/animated-masonry-gallery.js',
+
+
+], destJs + 'emt.js');
+
+
+
+
+
+
+
+
 mix.copy(resourcesAssets + 'images', destImg, false);
 mix.copy(resourcesAssets + 'fonts', destFonts, false);
 
@@ -133,9 +160,9 @@ mix.combine([
     'resources/assets/vendors/bootstrapvalidator/css/bootstrapValidator.min.css',
     'resources/assets/css/login.css',
     'resources/assets/vendors/toastr/css/toastr.min.css',
-        'resources/assets/css/custom_css/toastr_notificatons.css',
-    
-],destCss + 'login.css');
+    'resources/assets/css/custom_css/toastr_notificatons.css',
+
+], destCss + 'login.css');
 
 mix.combine([
 
@@ -147,29 +174,29 @@ mix.combine([
     'resources/assets/js/metisMenu.js',
     'resources/assets/js/custom_js/rightside_bar.js',
     'node_modules/holderjs/holder.min.js',
-    
+
     'resources/assets/vendors/iCheck/js/icheck.js',
     'resources/assets/vendors/bootstrapvalidator/js/bootstrapValidator.min.js',
     'resources/assets/js/custom_js/login2.js',
 
 
-],destJs + 'login.js');
+], destJs + 'login.js');
 
 mix.combine([
 
     'resources/assets/css/custom_css/dashboard1.css',
 
-    
-],destCss + 'dashboard.css');
+
+], destCss + 'dashboard.css');
 
 mix.combine([
 
     'resources/assets/js/dashboard1.js',
 
-],destJs + 'dashboard.js');
+], destJs + 'dashboard.js');
 
 mix.combine([
 
     'resources/assets/js/custom_js/device_status.js',
 
-],destJs + 'device_status.js');
+], destJs + 'device_status.js');

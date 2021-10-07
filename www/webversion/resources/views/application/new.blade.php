@@ -33,6 +33,11 @@
                 </ol>
             </section>
             <section class="content">
+                <div class="col-md-12">
+                    <a href="{{ url('app/list') }}" class="btn btn-animate btn-animate-side btn-primary m-r-50">
+                        <span><i class="icon fa fa-fw fa-plus" aria-hidden="true"></i>EMT List</span>
+                    </a>
+                </div>
                 <div>
                     <div class="card-body">
                         <div class="card border-primary">
@@ -46,100 +51,141 @@
                             </div>
                             <div class="card-body">
 
-                                <form id="form-validation" action="{{ route('app.add') }}" method="POST" enctype="multipart/form-data">
-                                    @csrf
 
-                                    <div class="form-group row">
-                                        <label class="col-lg-3 col-12 col-form-label  text-lg-right text-left" for="app_company_id">
-                                            Company
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        <div class="col-lg-6 col-12">
-                                            <select id="app_company_id" name="app_company_id" class="form-control">
+                                @if(isset($data->id))
+                                <form id="form-validation" action="{{ route('app.update') }}" method="POST" enctype="multipart/form-data">
+                                    @else
+                                    <form id="form-validation" action="{{ route('app.add') }}" method="POST" enctype="multipart/form-data">
 
-                                                <option value=""> Please select </option>
-                                                @if (isset($compnies))
-                                                @foreach($compnies as $company)
-                                                <option value="{{ $company->id }}" @if (isset($data->company_id)) @if($company->id == $data->company_id) selected="selected" @endif @endif> {{ $company->company_name }}</option>
-                                                @endforeach
-                                                @endif
-                                            </select>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="form-group row">
-                                        <label class="col-lg-3 col-12 col-form-label  text-lg-right text-left" for="device_name">
-                                            Device Name
-                                            <span class="text-danger">*</span>
-                                        </label>
-
-                                        <div class="col-lg-6 col-12">
-                                            <select id="device_name" name="device_name" class="form-control" class="device_name">
-
-                                            </select>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="form-group row">
-                                        <label class="col-lg-3 col-12 col-form-label  text-lg-right text-left" for="app_name">
-                                            Name
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        <div class="col-lg-6 col-12">
-                                            <input type="text" name="app_name" id="app_name" class="form-control input-md" placeholder="Name">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label class="col-lg-3 col-12 col-form-label  text-lg-right text-left" for="app_image">
-                                            Image
-                                        </label>
-                                        <div class="col-lg-1 col-12">
-                                            <input type="file" id="app_image" name="app_image" onchange="previewFile(this);" accept="image/bmp">
-                                            <!-- <input type="file" id="app_image" name="app_image" onchange="previewFile(this);"> -->
-                                        </div>
-
-                                        <div class="col-lg-3 col-12">
-
-                                            <img id="previewImg" src="" alt="Preview">
-                                        </div>
-
-
-                                        @if(isset($data->app_image))
-                                        <img src="{{ $data->app_image }}" alt="{{ $data->app_image }}">
                                         @endif
-                                    </div>
+
+                                        @csrf
+
+                                        <input type="hidden" name="user_id" id="user_id" value="{{ Session::get('user_id') }}">
+                                        <input id="emtId" type="hidden" name="id" value="{{ isset($data->id) ? $data->id : '' }}">
 
 
-                                    <div class="form-group row">
-                                        <label class="col-lg-3 col-12 col-form-label  text-lg-right text-left" for="app_status">
-                                            Status
-                                        </label>
+                                        <div class="fetchCompany">
 
-                                        <div class="col-lg-1 col-12">
-                                            <label class="switch">
-                                                <input type="checkbox" name="app_status">
-                                                <span class="slider round"></span>
+                                            <div class="form-group row">
+                                                <label class="col-lg-3 col-12 col-form-label  text-lg-right text-left" for="app_company_id">
+                                                    Company
+                                                    <span class="text-danger">*</span>
+                                                </label>
+                                                <div class="col-lg-6 col-12">
+                                                    <select id="app_company_id" name="app_company_id" class="form-control" class="app_company_id" @change="setDevice($event)">
+
+                                                        @if(isset($data->app_company_id))
+                                                        <!-- <option value="{{ $data->app_company_id }}"> {{ $data->company_name }}</option> -->
+                                                        <option v-for="company in companyList" v-bind:value="company.company_id" :selected="company.company_id == {{$data->app_company_id}}"> @{{ company.company_name }}</option>
+                                                        @else
+                                                        <option value="">Select Company</option>
+                                                        <option v-for="company in companyList" v-bind:value="company.company_id"> @{{ company.company_name }}</option>
+
+                                                        @endif
+
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-lg-3 col-12 col-form-label  text-lg-right text-left" for="device_name">
+                                                    Device Name
+                                                    <span class="text-danger">*</span>
+                                                </label>
+
+                                                <div class="col-lg-6 col-12">
+                                                    <select id="" name="device_name" class="form-control" class="device_name">
+                                                        @if(isset($data->device_id))
+                                                        <!-- <option value="{{ $data->device_id }}"> {{ $data->company_name }}</option> -->
+                                                        <option v-for="device in deviceList" v-bind:value="device.device_id"> @{{ device.device_name }}</option>
+                                                        @else
+                                                        <option value="">Select Device</option>
+                                                        <option v-for="device in deviceList" v-bind:value="device.device_id"> @{{ device.device_name }}</option>
+                                                        @endif
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group row">
+                                            <label class="col-lg-3 col-12 col-form-label  text-lg-right text-left" for="app_name">
+                                                Name
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="col-lg-6 col-12">
+                                                <input type="text" name="app_name" id="app_name" class="form-control input-md" placeholder="Name" @if(isset($data->app_name)) value="{{ $data->app_name  }}" @endif>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-lg-3 col-12 col-form-label  text-lg-right text-left" for="app_image">
+                                                Image
+                                            </label>
+                                            <div class="col-lg-1 col-12">
+                                                <input type="file" id="app_image" name="app_image" onchange="previewFile(this);" accept="image/bmp">
+                                            </div>
+
+                                            <div class="col-lg-3 col-12">
+
+                                                <img id="previewImg" src="" alt="Preview">
+                                            </div>
+
+
+                                            @if(isset($data->app_image))
+
+
+                                            <div class="content gallery">
+                                                <div id="slim">
+                                                    <div id="gallery">
+                                                        <div id="gallery-content">
+                                                            <div id="gallery-content-center">
+                                                                <a class="fancybox img-responsive" href="{{ $data->app_image }}" data-fancybox-group="gallery" title="">
+                                                                    <img alt="{{ $data->app_image }}" src="{{ $data->app_image }}" class="all">
+                                                                </a>
+
+                                                            </div>
+                                                        </div>
+                                                        <!-- .images-box -->
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+                                            <!-- <img src="{{ $data->app_image }}" alt="{{ $data->app_image }}" height="50px" width="50px"> -->
+                                            @endif
+                                        </div>
+
+
+                                        <div class="form-group row">
+                                            <label class="col-lg-3 col-12 col-form-label  text-lg-right text-left" for="app_status">
+                                                Status
                                             </label>
 
-                                        </div>
-                                    </div>
+                                            <div class="col-lg-1 col-12">
+                                                <label class="switch">
+                                                    <input type="checkbox" name="app_status" @if(isset($data->app_status)) {{ ($data->app_status == 1 ) ? 'checked' : ""}} @endif>
+                                                    <span class="slider round"></span>
+                                                </label>
 
-                                    <div class="form-group row">
-
-                                        <span class="col-lg-3"></span>
-                                        <div class="col-lg-6 col-12 text-left">
-
-                                            <button type="submit" class="btn btn-primary btn-sm btn-responsive rounded-0 mb-3">Submit</button>
-                                            <input type="button" id="load" name="load" value="Load" class="btn btn-info btn-sm btn-responsive rounded-0 mb-3 disabled">
-                                            <!-- <button class="btn btn-info btn-sm btn-responsive rounded-0 mb-3 disabled">Load</button> -->
-
+                                            </div>
                                         </div>
 
-                                    </div>
-                                </form>
+                                        <div class="form-group row">
+
+                                            <span class="col-lg-3"></span>
+                                            <div class="col-lg-6 col-12 text-left">
+
+                                                <button type="submit" class="btn btn-primary btn-sm btn-responsive rounded-0 mb-3">Submit</button>
+                                                <input type="button" id="load" name="load" value="Load" class="btn btn-info btn-sm btn-responsive rounded-0 mb-3">
+
+                                            </div>
+
+                                        </div>
+                                    </form>
                             </div>
                         </div>
 
@@ -147,11 +193,11 @@
                 </div>
 
             </section>
-
         </aside>
     </div>
 
     @include('common/footerlink')
+
 </body>
 
 </html>

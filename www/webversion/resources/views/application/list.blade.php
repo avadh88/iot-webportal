@@ -97,7 +97,7 @@
                                                             <td>
                                                                 <a href="{{ url('app/edit/'.$app->id) }}"><i class="fa fa-fw fa-pencil text-primary actions_icon" title="Edit Application"></i></a>
 
-                                                                <a href="{{ url('app/delete/'.$app->id) }}" onclick="deleteApp(event)"><i class="fa fa-fw fa-times text-danger actions_icon" title="Delete Application"></i></a>
+                                                                <a href="{{ url('app/delete/'.$app->id) }}" onclick="deleteEmtApp(event)"><i class="fa fa-fw fa-times text-danger actions_icon" title="Delete Application"></i></a>
                                                             </td>
                                                         </tr>
                                                         @endforeach

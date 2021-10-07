@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Models\Api\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Intervention\Image\Facades\Image;
 
 class ApplicationController extends ApiController
 {
@@ -65,7 +64,8 @@ class ApplicationController extends ApiController
         }
     }
 
-    public function list(){
+    public function list()
+    {
         $appModel = new Application();
         $appData  =  $appModel->appsList();
 
@@ -83,13 +83,15 @@ class ApplicationController extends ApiController
         }
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
 
         $appModel = new Application();
         $appModel = $appModel->getDataById($id);
 
-        return $this->respond($appModel);
-
+        $response['message'] = trans('api.messages.fetch.success');
+        $response['data']    = $appModel;
+        return $this->respond($response);
     }
 
     public function sendDataToDevice($id)
@@ -98,11 +100,79 @@ class ApplicationController extends ApiController
         $appModel  =  $appModel->getAppById($id);
 
 
-        if( !empty($appModel) ){
+        if (!empty($appModel)) {
             $response['data']    = $appModel;
-        }else{
+        } else {
             $response['data']    = trans('api.messages.application.nodata');;
         }
         return $this->respond($response);
+    }
+
+    public function update(Request $request)
+    {
+
+        if ($request->hasFile('app_image')) {
+            $datas = json_decode($request->form_data, true);
+        } else {
+            $datas = json_decode($request->getContent(), true);
+        }
+        $id = $datas['id'];
+
+        // $validator = Validator::make($datas, [
+        //     'app_company_id'    => 'required,app_company_id,' .$id,
+        //     'device_name'       => 'required|unique:applications,device_name,' . $id,
+        //     'app_name'          => 'required,app_name,' . $id,
+        // ]);
+
+        // if ($validator->fails()) {
+
+        //     $response = $validator->errors();
+        //     return $this->throwValidation($response);
+        // } else {
+
+        if ($request->hasFile('app_image')) {
+
+            $newImageName = time() . '.' . $datas['app_name'] . '.' . $request->app_image->extension();
+            $request->app_image->move(public_path('uploads/bmpImage/'), $newImageName);
+            $data['app_image']    = $newImageName;
+        }
+
+        $data['id']                = $datas['id'];
+        $data['app_company_id']    = $datas['app_company_id'];
+        $data['device_name']       = $datas['device_name'];
+        $data['app_name']          = $datas['app_name'];
+        $data['app_status']        = $datas['app_status'];
+
+        $appModel = new Application();
+        $appModel  =  $appModel->updateEMTApplication($data);
+        $response = [];
+
+
+        if ($appModel) {
+            $response['message'] = trans('api.messages.common.success');
+            $response['data']    = $appModel;
+            return $this->respond($response);
+        } else {
+            $response['message'] = trans('api.messages.common.failed');
+            $response['data']    = $appModel;
+            return $this->respond($response);
+        }
+        // }
+    }
+
+    public function delete($id)
+    {
+        $appModel = new Application();
+        $appData  = $appModel->deleteEMTApplication($id);
+
+        if ($appData) {
+            $response['message'] = trans('api.messages.common.delete');
+            $response['data']    = $appData;
+            return $this->respond($response);
+        } else {
+            $response['message'] = trans('api.messages.common.failed');
+            $response['data']    = $appData;
+            return $this->respond($response);
+        }
     }
 }

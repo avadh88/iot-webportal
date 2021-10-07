@@ -43,6 +43,7 @@ class UserController extends ApiController
         if ($response['status'] == 200) {
             Session::put('username', $data['username']);
             Session::put('token', $res->token);
+            Session::put('user_id', $res->data->user_id);
             Session::put('role', $res->data->user_role);
             Session::put('permission', $res->data->user_permission);
             Session::put('company_logo', $res->data->company_logo);

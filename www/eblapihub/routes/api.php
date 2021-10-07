@@ -74,12 +74,16 @@ Route::middleware('auth:api')->prefix('web')->group(function () {
         Route::get('/edit/{id}', [CompanyController::class, 'edit']);
         Route::get('/delete/{id}', [CompanyController::class, 'delete']);
         Route::get('/compnaylist', [CompanyController::class, 'compnaylist']);
+        Route::post('/listbyid', [CompanyController::class, 'listbyid']);
+        
     });
 
     Route::prefix('app')->group(function () {
         Route::post('/add', [ApplicationController::class, 'add']);
         Route::get('/list', [ApplicationController::class, 'list']);
         Route::get('/edit/{id}', [ApplicationController::class, 'edit']);
+        Route::get('/delete/{id}', [ApplicationController::class, 'delete']);
+        Route::post('/update', [ApplicationController::class, 'update']);
         // Route::get('/appData/{id}', [ApplicationController::class, 'sendDataToDevice']);
     });
 
@@ -100,6 +104,9 @@ Route::get('/publish', function () {
 Route::post('/permanent/status', [PermanentController::class, 'status']);
 Route::get('/permanent/status-data', [PermanentController::class, 'statusData']);
 Route::post('/permanent/devicelist', [PermanentController::class, 'deviceList']);
+Route::post('/company/listbyid', [CompanyController::class, 'listbyid']);
+Route::get('/company/listbyid/{id}', [CompanyController::class, 'listbyid']);
+
 
 Route::get('app/app-data/{id}', [ApplicationController::class, 'sendDataToDevice']);
 

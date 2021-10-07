@@ -22,7 +22,15 @@ class RoleController extends ApiController
         if (!$add) {
             return Redirect::back()->with('');
         } else {
-            return view('roles/new');
+            if (Session::has('token')) {
+                $data     = Session::get('token');
+
+                $response = $this->getGuzzleRequest('GET', '/company/compnaylist', $data);
+                $companies      = json_decode($response['data']);
+
+                return view('roles/new', ['compnies' => $companies->data]);
+            }
+            // return view('roles/new');
         }
     }
 
@@ -41,9 +49,10 @@ class RoleController extends ApiController
             return Redirect::back()->with('');
         } else {
             if (Session::has('token')) {
-                $data['token']     = Session::get('token');
-                $data['role_name'] = $request->role_name;
-                $data['permission'] = $request->permission;
+                $data['token']         = Session::get('token');
+                $data['role_name']     = $request->role_name;
+                $data['companyAccess'] = $request->companyAccess;
+                $data['permission']    = $request->permission;
 
                 $response          = $this->getGuzzleRequest('post', '/roles/add', $data);
                 $res               = json_decode($response['data']);
@@ -61,14 +70,6 @@ class RoleController extends ApiController
                 }
             }
         }
-    }
-
-    public function create(Request $request)
-    {
-        $data     = $request->all();
-
-        $response = $this->getGuzzleRequest('POST', '/roles/create', $data);
-        $res      = json_decode($response['data']);
     }
 
     /**
@@ -120,15 +121,18 @@ class RoleController extends ApiController
             if (Session::has('token')) {
                 $data     = Session::get('token');
 
+                $response = $this->getGuzzleRequest('GET', '/company/compnaylist', $data);
+                $compnies      = json_decode($response['data']);
+
                 $response = $this->getGuzzleRequest('GET', '/roles/edit/' . $id, $data);
                 $res      = json_decode($response['data']);
-
+                // dd($res->data->company_name);
                 if ($response['status'] == 200) {
 
-                    if (isset($res->permission)) {
-                        return view('roles/edit_roles', ['permissions' => (array)$res->permission, 'role' => $res->role, 'data' => $res->id]);
+                    if (isset($res->data->permission)) {
+                        return view('roles/edit_roles', ['permissions' => (array)$res->data->permission, 'role' => $res->data->role, 'id' => $res->data->id, 'company_id' => (array)$res->data->company_id, 'compnies' => $compnies->data]);
                     } else {
-                        return view('roles/edit_roles', ['permissions' => [], 'role' => $res->role, 'data' => $res->id]);
+                        return view('roles/edit_roles', ['permissions' => [], 'role' => $res->data->role, 'id' => $res->data->id, 'company_id' => $res->data->company_id, 'compnies' => $compnies->data]);
                     }
                 } else if ($response['status'] == 401) {
                     return Redirect::back()->with('error', $res->error->message->message);
@@ -153,10 +157,11 @@ class RoleController extends ApiController
             return Redirect::back()->with('');
         } else {
             if (Session::has('token')) {
-                $data['token']     = Session::get('token');
-                $data['id'] = $request->id;
-                $data['role_name'] = $request->role_name;
-                $data['permission'] = $request->permission;
+                $data['token']         = Session::get('token');
+                $data['id']            = $request->id;
+                $data['role_name']     = $request->role_name;
+                $data['permission']    = $request->permission;
+                $data['companyAccess'] = $request->companyAccess;
 
                 $response      = $this->getGuzzleRequest('POST', '/roles/update', $data);
                 $res           = json_decode($response['data']);

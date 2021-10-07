@@ -215,4 +215,22 @@ class CompanyController extends ApiController
             return $this->respond($response);
         }
     }
+
+    public function listbyid(Request $request){
+        $data = json_decode($request->getContent(), true);
+        // $id = $data['id'];
+        $companyModel = new Company();
+        $companyData  =  $companyModel->listbyid($data['id']);
+        // $companyData  =  $companyModel->listbyid($id);
+
+        if ($companyData) {
+            $response['message'] = trans('api.messages.fetch.success');
+            $response['data']    = $companyData;
+            return $this->respond($response);
+        } else {
+            $response['message'] = trans('api.messages.fetch.failed');
+            $response['data']    = $companyData;
+            return $this->respond($response);
+        }
+    }
 }

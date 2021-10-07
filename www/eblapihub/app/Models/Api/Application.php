@@ -43,9 +43,14 @@ class Application extends Model
         return $data;
     }
 
-    public function getDataById($id){
+    public function getDataById($id)
+    {
+        if ($id) {
+            $userModel = Application::join('companies', 'companies.id', '=', 'applications.app_company_id')->join('permenent_device', 'permenent_device.id', '=', 'applications.device_name')->select('applications.*', 'applications.device_name as device_id', 'companies.company_name', 'permenent_device.device_name')->where('applications.id', $id)->get()->first();
+            $userModel['app_image'] = URL::to('/public/uploads/bmpImage/') . '/' . $userModel['app_image'];
 
-        // $data = Application::join()
+            return $userModel;
+        }
     }
 
     public function getAppById($id)
@@ -64,5 +69,48 @@ class Application extends Model
         }
 
         return $list;
+    }
+
+    public function updateEMTApplication($data)
+    {
+        $appModel                   = Application::find($data['id']);
+
+        $appModel->app_company_id   = $data['app_company_id'];
+        $appModel->device_name      = $data['device_name'];
+        $appModel->app_name         = $data['app_name'];
+
+        if ($data['app_status'] == 'on') {
+            $appModel->app_status = 1;
+        } else {
+            $appModel->app_status = 0;
+        }
+
+        if (isset($data['app_image'])) {
+
+            if (is_file(public_path('uploads/bmpImage/') . $appModel->app_image)) {
+                unlink(public_path('uploads/bmpImage/') . $appModel->app_image);
+            }
+
+            $appModel->app_image         = $data['app_image'];
+        }
+
+        if ($appModel->save()) {
+            return $appModel;
+        } else {
+            return false;
+        }
+    }
+
+    public function deleteEMTApplication($id)
+    {
+
+        $image = Application::find($id);
+
+        if (is_file(public_path('uploads/bmpImage/') . $image->company_logo)) {
+            unlink(public_path('uploads/bmpImage/') . $image->company_logo);
+        }
+
+        $deleteData = Application::where('id', $id)->delete();
+        return $deleteData;
     }
 }

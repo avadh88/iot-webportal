@@ -39,7 +39,6 @@ class RoleController extends ApiController
             $userData  =  $userModel->addRole($data);
             $response = [];
 
-
             if ($userData) {
                 $response['message'] = trans('api.messages.role.create');
                 $response['data']    = $userData;
@@ -132,7 +131,6 @@ class RoleController extends ApiController
 
         $roleModel = new Role();
         $data = $roleModel->fetchPermissionById($id);
-        return $this->respond($data);
 
         if ($data) {
             $response['message'] = trans('api.messages.fetch.success');
