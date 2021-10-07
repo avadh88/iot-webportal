@@ -2,6 +2,7 @@
 
 namespace App\Models\Api;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\URL;
@@ -36,9 +37,30 @@ class Application extends Model
         }
     }
 
-    public function appsList()
+    public function appsList($id)
     {
-        $data = Application::join('permenent_device', 'permenent_device.id', '=', 'applications.device_name')->select('applications.id', 'applications.app_name', 'permenent_device.device_name', 'applications.app_status')->get()->toArray();
+
+        $role = User::join("roles", 'roles.id', '=', 'users.role_id')->select('roles.role_name', 'roles.id')->where('users.id', $id)->get()->first();
+
+        if ($role['role_name'] == 'administrator') {
+            $data = Application::join('permenent_device', 'permenent_device.id', '=', 'applications.device_name')->select('applications.id', 'applications.app_name', 'permenent_device.device_name', 'applications.app_status')->get()->toArray();
+        } else {
+
+            $roleData = Role::find($role['id']);
+            $roleData = $roleData->companies->map->devices->flatten()->pluck('company_id')->unique();
+
+            $i = 0;
+            $data = [];
+            if (isset($roleData)) {
+                foreach ($roleData as $id) {
+                    $appData   = Application::join('permenent_device', 'permenent_device.id', '=', 'applications.device_name')->select('applications.id', 'applications.app_name', 'permenent_device.device_name', 'applications.app_status')->where('app_company_id', $id)->get()->first();
+                    if (isset($appData)) {
+                        $data[$i] = $appData;
+                    }
+                    $i++;
+                }
+            }
+        }
 
         return $data;
     }
@@ -46,10 +68,10 @@ class Application extends Model
     public function getDataById($id)
     {
         if ($id) {
-            $userModel = Application::join('companies', 'companies.id', '=', 'applications.app_company_id')->join('permenent_device', 'permenent_device.id', '=', 'applications.device_name')->select('applications.*', 'applications.device_name as device_id', 'companies.company_name', 'permenent_device.device_name')->where('applications.id', $id)->get()->first();
-            $userModel['app_image'] = URL::to('/public/uploads/bmpImage/') . '/' . $userModel['app_image'];
+            $appModel = Application::join('companies', 'companies.id', '=', 'applications.app_company_id')->join('permenent_device', 'permenent_device.id', '=', 'applications.device_name')->select('applications.*', 'applications.device_name as device_id', 'companies.company_name', 'permenent_device.device_name')->where('applications.id', $id)->get()->first();
+            $appModel['app_image'] = URL::to('/public/uploads/bmpImage/') . '/' . $appModel['app_image'];
 
-            return $userModel;
+            return $appModel;
         }
     }
 

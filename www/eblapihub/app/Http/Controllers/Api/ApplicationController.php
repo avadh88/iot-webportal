@@ -64,10 +64,13 @@ class ApplicationController extends ApiController
         }
     }
 
-    public function list()
+    public function list(Request $request)
     {
+        $data   = json_decode($request->getContent(), true);
+        $userId = $data['user_id'];
+
         $appModel = new Application();
-        $appData  =  $appModel->appsList();
+        $appData  = $appModel->appsList($userId);
 
         $response = [];
 

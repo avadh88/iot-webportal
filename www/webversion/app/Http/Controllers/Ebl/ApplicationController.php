@@ -83,13 +83,13 @@ class ApplicationController extends ApiController
         }
     }
 
-    public function list(Request $request)
+    public function list()
     {
-
         if (Session::has('token')) {
-            $data     = Session::get('token');
+            $data['token']     = Session::get('token');
+            $data['user_id']      = Session::get('user_id');
 
-            $response = $this->getGuzzleRequest('GET', '/app/list', $data);
+            $response = $this->getGuzzleRequest('POST', '/app/list', $data);
             $res      = json_decode($response['data']);
 
             if ($response['status'] == 200) {
