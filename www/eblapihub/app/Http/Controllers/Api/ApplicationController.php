@@ -8,7 +8,13 @@ use Illuminate\Support\Facades\Validator;
 
 class ApplicationController extends ApiController
 {
-
+    /**
+     * Create new EMT Application
+     * 
+     * @param Request $request
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function add(Request $request)
     {
 
@@ -64,6 +70,13 @@ class ApplicationController extends ApiController
         }
     }
 
+    /**
+     * Show EMT list based on company access
+     * 
+     * @param Request $request
+     * 
+     *  @return \Illuminate\Http\JsonResponse
+     */
     public function list(Request $request)
     {
         $data   = json_decode($request->getContent(), true);
@@ -86,6 +99,13 @@ class ApplicationController extends ApiController
         }
     }
 
+    /**
+     * Send data to portal for update EMT data
+     * 
+     * @param int $id
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function edit($id)
     {
 
@@ -97,6 +117,13 @@ class ApplicationController extends ApiController
         return $this->respond($response);
     }
 
+    /**
+     * Api for get device data
+     * 
+     * @param int $id
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function sendDataToDevice($id)
     {
         $appModel  = new Application();
@@ -111,6 +138,14 @@ class ApplicationController extends ApiController
         return $this->respond($response);
     }
 
+    /**
+     * 
+     * Update EMT application Data
+     * 
+     * @param Request $request
+     * 
+     * @return \Illuminate\Http\JsonResponse 
+     */
     public function update(Request $request)
     {
 
@@ -163,6 +198,14 @@ class ApplicationController extends ApiController
         // }
     }
 
+    /**
+     * 
+     * Delete EMT Application
+     * 
+     * @param int $id
+     * 
+     * @return \Illuminate\Http\JsonResponse 
+     */
     public function delete($id)
     {
         $appModel = new Application();

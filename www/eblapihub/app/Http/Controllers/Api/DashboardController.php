@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 class DashboardController extends ApiController
 {
     /**
-     * dashboard info
+     * Get user and devices count
      *
      * @return \Illuminate\Http\JsonResponse
      */

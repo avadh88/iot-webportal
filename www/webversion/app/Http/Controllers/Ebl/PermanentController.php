@@ -111,10 +111,6 @@ class PermanentController extends ApiController
         }}
     }
 
-    public function add(Request $request){
-
-    }
-
     /**
      * Send Request for update device data
      *

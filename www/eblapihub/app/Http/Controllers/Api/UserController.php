@@ -21,7 +21,6 @@ class UserController extends ApiController
     public function verify(Request $request)
     {
 
-        // $ehealth_code = $request->headers->get('x-client-code');
         $data = json_decode($request->getContent(), true);
 
         $validator = FacadesValidator::make($data, [

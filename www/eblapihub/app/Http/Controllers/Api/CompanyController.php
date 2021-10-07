@@ -10,6 +10,14 @@ use Intervention\Image\Facades\Image;
 
 class CompanyController extends ApiController
 {
+
+    /**
+     * Create New Company
+     * 
+     * @param Request $request
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function add(Request $request)
     {
 
@@ -24,7 +32,6 @@ class CompanyController extends ApiController
             'company_address'       => 'required|unique:companies',
             'company_email'         => 'required|unique:companies',
             'company_mobile'        => 'required|unique:companies',
-            // 'company_logo'          => 'mimes:jpeg,bmp,png|size:1000',
         ]);
 
         if ($validator->fails()) {
@@ -39,17 +46,10 @@ class CompanyController extends ApiController
                 $newImageName = time() . '-' . $datas['company_name'] . '.' . $request->company_logo->extension();
 
                 $thumbnailImage->save(public_path('uploads/company/') . $newImageName);
-                // $data['file_path']          = $data['company_logo']->getPathname();
-                // $data['file_mime']          = $data['company_logo']->getMimeType('image');
-                // $data['file_uploaded_name'] = $data['company_logo']->getClientOriginalName();
-                // $data['company_logo']    = $newImageName;
-
-                // $newImageName = time() . '-' . $datas['company_name'] . '.' .$request->company_logo->extension();
-                // $request->company_logo->move(public_path('uploads'),$newImageName);
                 $data['company_logo']    = $newImageName;
             } else {
                 $newImageName = time() . '-' . $datas['company_name'] . '.png';
-                // $request->image->move(public_path('uploads/company/'), $newImageName);
+
                 File::copy(resource_path('images/ebllogo.png'), public_path('uploads/company/') . $newImageName);
                 $data['company_logo']    = $newImageName;
             }
@@ -77,6 +77,11 @@ class CompanyController extends ApiController
         }
     }
 
+    /**
+     * Show company list
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function list()
     {
 
@@ -97,6 +102,13 @@ class CompanyController extends ApiController
         }
     }
 
+    /**
+     * Delete Company data
+     * 
+     * @param int $id
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function delete($id)
     {
         $companyModel = new Company();
@@ -113,6 +125,13 @@ class CompanyController extends ApiController
         }
     }
 
+    /**
+     * Fetch Company Data for update
+     * 
+     * @param int $id
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function edit($id)
     {
         $companyModel = new Company();
@@ -129,6 +148,14 @@ class CompanyController extends ApiController
         }
     }
 
+
+    /**
+     * Update Company Data
+     * 
+     * @param Request $request
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(Request $request)
     {
 
@@ -138,12 +165,12 @@ class CompanyController extends ApiController
             $datas = json_decode($request->getContent(), true);
         }
         $id = $datas['id'];
-        
+
         $validator = Validator::make($datas, [
-            'company_name'          => 'required|unique:companies,company_name,' .$id,
-            'company_address'       => 'required|unique:companies,company_address,' .$id,
-            'company_email'         => 'required|unique:companies,company_email,' .$id,
-            'company_mobile'        => 'required|unique:companies,company_mobile,' .$id,
+            'company_name'          => 'required|unique:companies,company_name,' . $id,
+            'company_address'       => 'required|unique:companies,company_address,' . $id,
+            'company_email'         => 'required|unique:companies,company_email,' . $id,
+            'company_mobile'        => 'required|unique:companies,company_mobile,' . $id,
         ]);
 
 
@@ -162,12 +189,6 @@ class CompanyController extends ApiController
                 $thumbnailImage->save(public_path('uploads/company/') . $newImageName);
 
                 $data['company_logo']    = $newImageName;
-
-
-                // $newImageName = time() . '-' . $datas['company_name'] . '.' .$request->company_logo->extension();
-                // $request->company_logo->move(public_path('uploads'),$newImageName);
-                // $data['company_logo']    = $newImageName;
-
             }
 
             $data['id']              = $datas['id'];
@@ -182,8 +203,6 @@ class CompanyController extends ApiController
             $companyData  =  $companyModel->updateCompany($data);
             $response = [];
 
-
-
             if (($companyData)) {
                 $response['message'] = trans('api.messages.common.update');
                 $response['data']    = $companyData;
@@ -196,6 +215,11 @@ class CompanyController extends ApiController
         }
     }
 
+    /**
+     * Fetch company list
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function compnaylist()
     {
 
@@ -216,12 +240,19 @@ class CompanyController extends ApiController
         }
     }
 
-    public function listbyid(Request $request){
+    /**
+     * Fetch Company list with related devices
+     * 
+     * @param Request $request
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function listbyid(Request $request)
+    {
         $data = json_decode($request->getContent(), true);
-        // $id = $data['id'];
+
         $companyModel = new Company();
         $companyData  =  $companyModel->listbyid($data['id']);
-        // $companyData  =  $companyModel->listbyid($id);
 
         if ($companyData) {
             $response['message'] = trans('api.messages.fetch.success');

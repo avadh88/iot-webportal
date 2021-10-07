@@ -27,11 +27,6 @@ class ApiController extends Controller
         $callUrl   = $apiUrl . $url;
         $datas     = json_encode($data);
 
-        // $client = new Client([
-        // 'base_uri' => $apiUrl
-        // ]);
-
-        // dd($data);
         // dd($callUrl);
 
         try {
@@ -97,8 +92,6 @@ class ApiController extends Controller
         $client    = new \GuzzleHttp\Client();
         $callUrl   = $apiUrl . $url;
         $datas     = json_encode($data);
-        // dd($callUrl);
-        // dd($datas     );
 
         try {
             if ($method == 'post' || $method == "POST") {

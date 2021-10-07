@@ -10,16 +10,27 @@ class RedisService{
         
     }
 
+    /**
+     * Connect Redis
+     */
     public function connectRedis(){
         $redis = new \Predis\Client(array('host' => env('REDIS_HOST'), 'port' => env('REDIS_PORT')));
         $redis->auth(env('REDIS_PASSWORD'));
         return $redis;
     }
 
+    /**
+     * Disconnect redis
+     */
     public function disconnectRedis(){
         Redis::close();
     }
 
+    /**
+     * send data to device for ack
+     * 
+     * @return response
+     */
     public function publishRedis($key, $value){
         $redisConn = $this->connectRedis();
 
@@ -32,6 +43,11 @@ class RedisService{
         return $redisConn->publish($key, $value);
     }
 
+    /**
+     * Wait for response from device
+     * 
+     *  @return response
+     */
     public function waitingForResponse( $key, $lastInsertedId, $timeInSec = 600, $sleepTimeInSec = 1 ){
         
         $time = 0;
@@ -50,6 +66,11 @@ class RedisService{
         }
     }
 
+    /**
+     * Get response from device
+     * 
+     * @return response
+     */
     public function getRedis($key){
         $redisConn = $this->connectRedis();
         return $redisConn->get($key);

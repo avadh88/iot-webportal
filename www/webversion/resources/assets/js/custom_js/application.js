@@ -66,7 +66,7 @@ var vue = new Vue({
     },
     methods: {
         fetchEmtAppData: function () {
-            axios.post('http://192.168.1.69:81/eblapihub/api/company/listbyid', {
+            axios.post('http://192.168.1.62:81/eblapihub/api/company/listbyid', {
                 id: userId
             }).then(function (response) {
                 vue.companyList = response.data.data;

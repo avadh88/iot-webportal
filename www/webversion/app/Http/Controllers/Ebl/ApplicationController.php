@@ -37,7 +37,7 @@ class ApplicationController extends ApiController
      *
      * @param Request $request
      * 
-     * @return Illuminate\Http\RedirectResponse
+     * @return Illuminate\Routing\Redirector
      */
     public function add(Request $request)
     {
@@ -83,6 +83,11 @@ class ApplicationController extends ApiController
         }
     }
 
+    /**
+     * Send request for EMT application
+     * 
+     * @return Illuminate\Routing\Redirector
+     */
     public function list()
     {
         if (Session::has('token')) {
@@ -102,6 +107,13 @@ class ApplicationController extends ApiController
         }
     }
 
+    /**
+     * Send Request for get EMT data for edit
+     * 
+     * @param int $id
+     * 
+     * @return view
+     */
     public function edit($id)
     {
 
@@ -110,12 +122,19 @@ class ApplicationController extends ApiController
 
             $response = $this->getGuzzleRequest('GET', '/app/edit/' . $id, $data);
             $res      = json_decode($response['data']);
-            // dd($res);
+
             return view('application/new', ['data' => $res->data]);
         }
     }
 
 
+    /**
+     * Send data for update EMT Application
+     * 
+     * @param Request $request
+     * 
+     * @return Illuminate\Routing\Redirector
+     */
     public function update(Request $request)
     {
         if (Session::get('token')) {
@@ -162,6 +181,13 @@ class ApplicationController extends ApiController
         }
     }
 
+    /**
+     * Send Request for delet EMT  application
+     * 
+     * @param int $id
+     * 
+     * @return Illuminate\Routing\Redirector
+     */
     public function delete($id)
     {
         if (Session::has('token')) {

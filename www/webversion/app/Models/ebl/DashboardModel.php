@@ -12,11 +12,4 @@ class DashboardModel extends Model
     protected $connection = "mysql";
     protected $table = 'permenent_device';
     protected $fillable = ['company_name','device_name','serial_number'];
-
-    // function getDevice($id){
-    //     $data = DB::connection('mysql2')->table($this->table)->select(array('company_name', 'device_name', 'serial_number'))
-    //     ->get()->toArray();
-    //     return $data;
-    // }
-
 }

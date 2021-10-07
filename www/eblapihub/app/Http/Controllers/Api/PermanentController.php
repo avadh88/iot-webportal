@@ -145,19 +145,20 @@ class PermanentController extends ApiController
             return $this->throwValidation($response);
         } else {
 
-        $permanentModel = new PermanentModel();
-        $permanentData = $permanentModel->addToPermanent($data);
+            $permanentModel = new PermanentModel();
+            $permanentData = $permanentModel->addToPermanent($data);
 
-        if ($permanentData) {
-            // event( new DeviceCompanyAddEvent($permanentData->company_email) );
-            $response['message'] = trans('api.messages.device.create');
-            $response['data']    = $permanentData;
-            return $this->respond($response);
-        } else {
-            $response['message'] = trans('api.messages.device.failed');
-            $response['data']    = $permanentData;
-            return $this->respond($response);
-        }}
+            if ($permanentData) {
+                // event( new DeviceCompanyAddEvent($permanentData->company_email) );
+                $response['message'] = trans('api.messages.device.create');
+                $response['data']    = $permanentData;
+                return $this->respond($response);
+            } else {
+                $response['message'] = trans('api.messages.device.failed');
+                $response['data']    = $permanentData;
+                return $this->respond($response);
+            }
+        }
     }
 
 
@@ -179,7 +180,13 @@ class PermanentController extends ApiController
         return $this->respond($permanentModel);
     }
 
-
+    /**
+     * Send Request to Device for ack of permanent device
+     * 
+     * @param Request $request
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function retry(Request $request)
     {
 
@@ -193,6 +200,11 @@ class PermanentController extends ApiController
         return $this->respond($response);
     }
 
+    /**
+     * Show last status of device
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function statusData()
     {
         $permanentModel = new PermanentModel();
@@ -202,11 +214,16 @@ class PermanentController extends ApiController
         return $this->respond($response);
     }
 
+    /**
+     * Get Devicelist based on company id
+     * 
+     * @param Request $request
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function deviceList(Request $request)
     {
         $data = json_decode($request->getContent(), true);
-
-
 
         $permanentModel = new PermanentModel();
         $permanentModel = $permanentModel->deviceData($data);
