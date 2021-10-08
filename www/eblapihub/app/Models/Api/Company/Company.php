@@ -1,8 +1,12 @@
 <?php
 
-namespace App\Models\Api;
+namespace App\Models\Api\Company;
 
-use App\Models\User;
+use App\Models\Api\Company\Traits\Relationship\CompanyRelationship;
+use App\Models\Api\Permanent\PermanentModel;
+
+use App\Models\Api\Role\Role;
+use App\Models\User\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\URL;
@@ -10,18 +14,8 @@ use Laravel\Passport\HasApiTokens;
 
 class Company extends Model
 {
-    use HasFactory, HasApiTokens;
+    use HasFactory, HasApiTokens, CompanyRelationship;
     protected $fillable   = ['company_name', 'company_address', 'company_status', 'company_logo'];
-
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class)->withTimestamps();
-    }
-
-    public function devices()
-    {
-        return $this->hasMany(PermanentModel::class);
-    }
 
     public function addCompany($data)
     {
@@ -131,8 +125,6 @@ class Company extends Model
     public function listbyid($id)
     {
 
-
-
         $userData = User::find($id);
         $roleData = Role::find($userData['role_id']);
 
@@ -147,12 +139,11 @@ class Company extends Model
                 $data[$i]['company_name'] = $user['company_name'];
                 $data[$i]['company_id'] = $user['company_id'];
                 $data[$i]['devicelist'] = PermanentModel::where('company_id', $user['company_id'])->get(['id as device_id', 'device_name'])->toArray();
+
                 $i++;
             }
         } else {
             $userData = $userData->roles->map->companies->flatten()->toArray();
-            // $device   = $roleData->companies->flatten()->toArray();
-            // $companyId = $userData['company_id'];
             foreach ($userData as $user) {
                 $data[$i]['company_name'] = $user['company_name'];
                 $data[$i]['company_id'] = $user['id'];

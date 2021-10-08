@@ -95,7 +95,7 @@ class CompanyController extends ApiController
 
                 $res               = json_decode($response['data']);
 
-                // dd($res);
+
                 if ($response['status'] == 200) {
 
                     Session::flash('message', $res->message);
@@ -107,11 +107,7 @@ class CompanyController extends ApiController
                     Session::flash('alert-class', 'error');
                     return redirect('/company/new')->with('error', $res->error->message->message);
                 } else if ($response['status'] == 422) {
-
                     return Redirect::back()->withErrors($res->error->message->message);
-                    // Session::flash('message', $res->error->message->message);
-                    // Session::flash('alert-class', 'error');
-                    // return redirect('/company/new')->with('error', $res->error->message->message);
                 }
             }
         }
@@ -220,7 +216,7 @@ class CompanyController extends ApiController
                     $data['file_path']          = $data['company_logo']->getPathname();
                     $data['file_mime']          = $data['company_logo']->getMimeType('image');
                     $data['file_uploaded_name'] = $data['company_logo']->getClientOriginalName();
-                    $response      = $this->fileWithDataGuzzleRequest('POST', '/company/update', $data);
+                    $response      = $this->fileWithDataGuzzleRequest('POST', '/company/update', 'company_logo', $data);
                 } else {
                     $response      = $this->getGuzzleRequest('POST', '/company/update', $data);
                 }

@@ -79,9 +79,9 @@
                                                             <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                 Company
                                                             </th>
-                                                            <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
+                                                            <!-- <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                 Status
-                                                            </th>
+                                                            </th> -->
                                                             <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                 Action
                                                             </th>
@@ -100,7 +100,7 @@
                                                             <td>{{ $user->email }}</td>
                                                             <td>{{ $user->role_name }}</td>
                                                             <td>{{ $user->company_name }}</td>
-                                                            <td>
+                                                            <!-- <td>
                                                                 <div class="col-lg-6 col-12">
                                                                     <label class="switch">
                                                                         <input type="checkbox" name="company_status" @if(isset($user->user_status)) {{ ($user->user_status == 1 ) ? 'checked' : ""}} @endif>
@@ -108,7 +108,7 @@
                                                                     </label>
 
                                                                 </div>
-                                                            </td>
+                                                            </td> -->
                                                             <td>
                                                                 @if( Helper::showBasedOnPermission( ['user.update'],'OR' ) )
                                                                 <a href="{{ url('user/edit/'.$user->id) }}"><i class="fa fa-fw fa-pencil text-primary actions_icon" title="Edit User"></i></a>
@@ -139,9 +139,9 @@
                                                             <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                 Company
                                                             </th>
-                                                            <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
+                                                            <!-- <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                 Status
-                                                            </th>
+                                                            </th> -->
                                                             <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1">
                                                                 Action
                                                             </th>

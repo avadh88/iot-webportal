@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Models\Api;
+namespace App\Models\Api\Application;
 
-use App\Models\User;
+use App\Models\Api\Application\Traits\Relationship\EMTAppRelationship;
+use App\Models\Api\Role\Role;
+use App\Models\User\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\URL;
@@ -10,7 +12,7 @@ use Laravel\Passport\HasApiTokens;
 
 class Application extends Model
 {
-    use HasFactory, HasApiTokens;
+    use HasFactory, HasApiTokens, EMTAppRelationship;
 
     public function addApplication($data)
     {

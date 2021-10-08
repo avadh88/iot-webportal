@@ -126,7 +126,7 @@ class RoleController extends ApiController
 
                 $response = $this->getGuzzleRequest('GET', '/roles/edit/' . $id, $data);
                 $res      = json_decode($response['data']);
-                // dd($res->data->company_name);
+
                 if ($response['status'] == 200) {
 
                     if (isset($res->data->permission)) {

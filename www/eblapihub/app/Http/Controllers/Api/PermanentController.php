@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Api\PermanentModel;
+
 use Illuminate\Http\Request;
+use App\Models\Api\Permanent\PermanentModel;
 use Illuminate\Support\Facades\Validator;
 
 class PermanentController extends ApiController

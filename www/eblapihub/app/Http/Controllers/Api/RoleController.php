@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Api\Permission;
-use App\Models\Api\Role;
-use App\Models\User;
+use App\Models\Api\Permission\Permission;
+use App\Models\Api\Role\Role;
+use App\Models\User\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator as FacadesValidator;
 

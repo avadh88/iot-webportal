@@ -27,7 +27,7 @@ class ApplicationController extends ApiController
 
             $response = $this->getGuzzleRequest('POST', '/company/listbyid', $data);
             $compnies      = json_decode($response['data']);
-            // dd($compnies);
+
             return view('application/new', ['compnies' => $compnies->data]);
         }
     }

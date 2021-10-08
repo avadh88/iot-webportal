@@ -2,6 +2,7 @@
 
 namespace App\Models\Api;
 
+use App\Models\Api\Role\Role;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Passport\HasApiTokens;

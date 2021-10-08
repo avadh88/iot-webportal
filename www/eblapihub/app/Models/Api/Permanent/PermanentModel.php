@@ -1,9 +1,12 @@
 <?php
 
-namespace App\Models\Api;
+namespace App\Models\Api\Permanent;
 
 use App\Events\DeviceCompanyAddEvent;
 use App\Events\DeviceCompanyEditEvent;
+use App\Models\Api\Company\Company;
+use App\Models\Api\Permanent\Traits\Relationship\PermanentRelationship;
+use App\Models\Api\TempDeviceModel;
 use App\Services\RedisService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,17 +14,13 @@ use Laravel\Passport\HasApiTokens;
 
 class PermanentModel extends Model
 {
-    use HasApiTokens, HasFactory;
+    use HasApiTokens, HasFactory, PermanentRelationship;
 
     protected $connection = 'mysql';
     protected $table      = 'permenent_device';
     protected $primaryKey = 'id';
     protected $fillable   = ['company_id', 'device_name', 'serial_number', 'temp_device_id', 'status', 'retry'];
 
-    public function companies()
-    {
-        return $this->belongsToMany(Company::class)->withTimestamps();
-    }
 
     public function fetchSingleData($id)
     {
@@ -127,7 +126,7 @@ class PermanentModel extends Model
 
             if ($permenantModel->save()) {
                 TempDeviceModel::where('id', $data['id'])
-                ->update(['status' => 1]);
+                    ->update(['status' => 1]);
                 $lastInsertedId = $permenantModel->id;
                 $publishTempId  = new RedisService();
                 $uniqqueId      = substr(mt_rand(), 0, 10);
@@ -199,7 +198,7 @@ class PermanentModel extends Model
 
     public function deviceData($data)
     {
-        $deviceData = PermanentModel::where('company_id',$data['id'])->get(['id','device_name']);
+        $deviceData = PermanentModel::where('company_id', $data['id'])->get(['id', 'device_name']);
         return $deviceData;
     }
 }

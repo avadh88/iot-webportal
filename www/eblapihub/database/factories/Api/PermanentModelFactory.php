@@ -2,8 +2,8 @@
 
 namespace Database\Factories\Api;
 
-use App\Models\Api\PermanentModel;
 use Carbon\Carbon;
+use App\Models\Api\Permanent\PermanentModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PermanentModelFactory extends Factory

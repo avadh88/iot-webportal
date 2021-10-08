@@ -6,7 +6,8 @@ use App\Events\DeviceCompanyAddEvent;
 use App\Events\DeviceEvent;
 use App\Http\Controllers\Controller;
 use App\Mail\DeviceRegistered;
-use App\Models\Api\PermanentModel;
+use App\Models\Api\Permanent\PermanentModel;
+
 use Illuminate\Http\Request;
 
 class DeviceController extends ApiController
@@ -19,19 +20,20 @@ class DeviceController extends ApiController
      * 
      * @return \Illuminate\Http\JsonResponse
      */
-    public function addDevice(Request $request){
-        
-        $data = json_decode($request->getContent(),true);
+    public function addDevice(Request $request)
+    {
+
+        $data = json_decode($request->getContent(), true);
 
         $permanentModel = new PermanentModel();
         $permanentData = $permanentModel->addToPermanent($data);
-      
-        if($permanentData){
+
+        if ($permanentData) {
             // event( new DeviceCompanyAddEvent($permanentData->company_email) );
             $response['message'] = trans('api.messages.common.success');
             $response['data']    = $permanentData;
             return $this->respond($response);
-        }else{
+        } else {
             $response['message'] = trans('api.messages.common.failed');
             $response['data']    = $permanentData;
             return $this->respond($response);
