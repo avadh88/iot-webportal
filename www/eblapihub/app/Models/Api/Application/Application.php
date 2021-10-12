@@ -5,6 +5,7 @@ namespace App\Models\Api\Application;
 use App\Models\Api\Application\Traits\Relationship\EMTAppRelationship;
 use App\Models\Api\Role\Role;
 use App\Models\User\User;
+use App\Services\RedisService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\URL;
@@ -80,19 +81,11 @@ class Application extends Model
     public function getAppById($id)
     {
         $appModel  = Application::where('applications.device_name', $id)->join('permenent_device', 'permenent_device.id', '=', 'applications.device_name')
-            ->select('applications.id', 'applications.app_name', 'applications.app_status', 'applications.app_image', 'permenent_device.device_name', 'permenent_device.id')->get();
+            ->select('applications.id', 'applications.app_name', 'applications.app_status', 'applications.app_image', 'permenent_device.device_name', 'permenent_device.id')->get()->first();
 
+        $appModel['app_image'] = URL::to('/public/uploads/bmpImage/') . '/' . $appModel['app_image'];
 
-        $list = [];
-        $i    = 1;
-
-        foreach ($appModel as $key) {
-            $key['app_image'] = URL::to('/public/uploads/bmpImage/') . '/' . $key['app_image'];
-            $list[$i] = $key;
-            $i++;
-        }
-
-        return $list;
+        return $appModel;
     }
 
     public function updateEMTApplication($data)
@@ -136,5 +129,19 @@ class Application extends Model
 
         $deleteData = Application::where('id', $id)->delete();
         return $deleteData;
+    }
+
+    public function loadImage($data)
+    {
+        $appId = $data['id'];
+        $deviceId = $data['deviceId'];
+
+        $uniqueId = substr(mt_rand(), 0, 10);
+        $key      = 'cp-event-' . $deviceId;
+        $value    = 'cp-apps--emt--' . $deviceId . ';;load;;' . microtime(true) . ';;' . $uniqueId;
+        $redis    = new RedisService();
+        $res      = $redis->publishRedis($key, $value);
+
+        return $res;
     }
 }

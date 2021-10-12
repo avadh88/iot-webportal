@@ -95,7 +95,6 @@ class PermanentController extends ApiController
             $response = $this->getGuzzleRequest('GET','/permanent/edit/'.$id,$data);
             $res      = json_decode($response['data']);
         
-
             if($response['status'] == 200){    
                 
                 // Session::flash('message', $res->message); 

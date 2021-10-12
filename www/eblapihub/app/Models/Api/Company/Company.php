@@ -9,6 +9,7 @@ use App\Models\Api\Role\Role;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\URL;
 use Laravel\Passport\HasApiTokens;
 
@@ -46,7 +47,6 @@ class Company extends Model
     public function companyList()
     {
         $data = Company::select('id', 'company_name', 'company_status', 'company_logo')->get()->toArray();
-
         $list = [];
         $i    = 1;
 
@@ -56,6 +56,8 @@ class Company extends Model
             } else {
                 $key['company_logo'] = URL::to('/public/uploads/company/') . '/' . $key['company_logo'];
             }
+
+            // $key['id'] = Crypt::encryptString($key['id']);
             $list[$i] = $key;
             $i++;
         }
@@ -84,12 +86,11 @@ class Company extends Model
     public function getUserById($id)
     {
 
-        if ($id) {
-            $companyModel = Company::select('id', 'company_name', 'company_address', 'company_email', 'company_mobile', 'company_status', 'company_logo')->where('id', $id)->first();
-            $companyModel['company_logo'] = URL::to('/public/uploads/company/') . '/' . $companyModel['company_logo'];
+        // $id = Crypt::decryptString($id);
+        $companyModel = Company::select('id', 'company_name', 'company_address', 'company_email', 'company_mobile', 'company_status', 'company_logo')->where('id', $id)->first();
+        $companyModel['company_logo'] = URL::to('/public/uploads/company/') . '/' . $companyModel['company_logo'];
 
-            return $companyModel;
-        }
+        return $companyModel;
     }
 
     public function updateCompany($data)

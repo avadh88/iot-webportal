@@ -6,6 +6,7 @@ use App\Events\UserRegisteredEvent;
 use App\Http\Controllers\Api\ApiController;
 use App\Models\User\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator as FacadesValidator;
 
@@ -39,7 +40,8 @@ class UserController extends ApiController
             if ($userData) {
 
                 if (Hash::check($data['password'], $userData->password)) {
-                    $datas['user_id']         = $userData->id;
+                    // $datas['user_id']         = Crypt::encryptString( $userData->id );
+                    $datas['user_id']         =  $userData->id;
                     $datas['user_role']       = $userModel->getRoleById($userData->role_id);
                     $datas['user_permission'] = $userModel->getPermissionById($userData->id);
                     $datas['company_logo']    = $userModel->getCompanyDetails($userData->company_id);

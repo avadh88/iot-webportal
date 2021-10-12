@@ -92,7 +92,7 @@ class ApplicationController extends ApiController
     {
         if (Session::has('token')) {
             $data['token']     = Session::get('token');
-            $data['user_id']      = Session::get('user_id');
+            $data['user_id']   = Session::get('user_id');
 
             $response = $this->getGuzzleRequest('POST', '/app/list', $data);
             $res      = json_decode($response['data']);

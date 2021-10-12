@@ -1,19 +1,21 @@
 <?php
+
 namespace App\Services;
 
 use Illuminate\Support\Facades\Redis;
 
-class RedisService{
+class RedisService
+{
 
     public function __construct()
     {
-        
     }
 
     /**
      * Connect Redis
      */
-    public function connectRedis(){
+    public function connectRedis()
+    {
         $redis = new \Predis\Client(array('host' => env('REDIS_HOST'), 'port' => env('REDIS_PORT')));
         $redis->auth(env('REDIS_PASSWORD'));
         return $redis;
@@ -22,7 +24,8 @@ class RedisService{
     /**
      * Disconnect redis
      */
-    public function disconnectRedis(){
+    public function disconnectRedis()
+    {
         Redis::close();
     }
 
@@ -31,7 +34,8 @@ class RedisService{
      * 
      * @return response
      */
-    public function publishRedis($key, $value){
+    public function publishRedis($key, $value)
+    {
         $redisConn = $this->connectRedis();
 
         try {
@@ -39,8 +43,6 @@ class RedisService{
         } catch (\Throwable $th) {
             return $th;
         }
-        
-        return $redisConn->publish($key, $value);
     }
 
     /**
@@ -48,17 +50,18 @@ class RedisService{
      * 
      *  @return response
      */
-    public function waitingForResponse( $key, $lastInsertedId, $timeInSec = 600, $sleepTimeInSec = 1 ){
-        
+    public function waitingForResponse($key, $lastInsertedId, $timeInSec = 600, $sleepTimeInSec = 1)
+    {
+
         $time = 0;
-        while($time < $timeInSec){
+        while ($time < $timeInSec) {
             $reply =  $this->getRedis($key);
 
-            if($reply){
+            if ($reply) {
 
                 list($reply_key, $reply_id, $reply_time, $reply_uuid) = explode(';;', $reply);
-            
-                if($reply_id == $lastInsertedId){
+
+                if ($reply_id == $lastInsertedId) {
                     return true;
                 }
             }
@@ -71,9 +74,9 @@ class RedisService{
      * 
      * @return response
      */
-    public function getRedis($key){
+    public function getRedis($key)
+    {
         $redisConn = $this->connectRedis();
         return $redisConn->get($key);
     }
 }
-?>

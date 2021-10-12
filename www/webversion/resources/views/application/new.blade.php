@@ -63,6 +63,8 @@
 
                                         <input type="hidden" name="user_id" id="user_id" value="{{ Session::get('user_id') }}">
                                         <input id="emtId" type="hidden" name="id" value="{{ isset($data->id) ? $data->id : '' }}">
+                                        <input id="deviceId" type="hidden" name="deviceId" value="{{ isset($data->device_id) ? $data->device_id : '' }}">
+
 
 
                                         <div class="fetchCompany">
@@ -95,7 +97,7 @@
                                                 </label>
 
                                                 <div class="col-lg-6 col-12">
-                                                    <select id="" name="device_name" class="form-control" class="device_name">
+                                                    <select id="device_name" name="device_name" class="form-control" class="device_name">
                                                         @if(isset($data->device_id))
                                                         <!-- <option value="{{ $data->device_id }}"> {{ $data->company_name }}</option> -->
                                                         <option v-for="device in deviceList" v-bind:value="device.device_id"> @{{ device.device_name }}</option>
@@ -142,7 +144,7 @@
                                                         <div id="gallery-content">
                                                             <div id="gallery-content-center">
                                                                 <a class="fancybox img-responsive" href="{{ $data->app_image }}" data-fancybox-group="gallery" title="">
-                                                                    <img alt="{{ $data->app_image }}" src="{{ $data->app_image }}" class="all">
+                                                                    <img id="emt_img" alt="{{ $data->app_image }}" src="{{ $data->app_image }}" class="all">
                                                                 </a>
 
                                                             </div>

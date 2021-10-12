@@ -131,9 +131,9 @@ class ApplicationController extends ApiController
 
 
         if (!empty($appModel)) {
-            $response['data']    = $appModel;
+            $response    = $appModel;
         } else {
-            $response['data']    = trans('api.messages.application.nodata');;
+            $response    = trans('api.messages.application.nodata');;
         }
         return $this->respond($response);
     }
@@ -220,5 +220,16 @@ class ApplicationController extends ApiController
             $response['data']    = $appData;
             return $this->respond($response);
         }
+    }
+
+    public function imgRedisCall(Request $request)
+    {
+
+        $data = json_decode($request->getContent(), true);
+
+        $emtModel = new Application();
+        $emtData  = $emtModel->loadImage($data);
+
+        return $this->respond($emtData);
     }
 }

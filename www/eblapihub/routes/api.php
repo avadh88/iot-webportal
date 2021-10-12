@@ -109,4 +109,5 @@ Route::get('/company/listbyid/{id}', [CompanyController::class, 'listbyid']);
 
 
 Route::get('app/app-data/{id}', [ApplicationController::class, 'sendDataToDevice']);
+Route::post('app/load-image/imgRedisCall',[ApplicationController::class,'imgRedisCall']);
 

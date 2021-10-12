@@ -87,7 +87,7 @@ class CompanyController extends ApiController
 
         $companyModel = new Company();
         $companyData  =  $companyModel->companyList();
-
+        
         $response = [];
 
 

@@ -2,7 +2,7 @@
 
 $(document).ready(function () {
     let emtApplicationId = document.getElementById('emtId').value;
-
+    var deviceId = document.getElementById('deviceId').value;
 
     if (emtApplicationId) {
         document.getElementById('load').disabled = false;
@@ -10,7 +10,6 @@ $(document).ready(function () {
         document.getElementById('load').disabled = true;
     }
 
-    
     // $("#app_company_id").select2({
     //     theme: "bootstrap",
     //     placeholder: "Select Company"
@@ -19,8 +18,24 @@ $(document).ready(function () {
     document.getElementById('load').addEventListener('click', function (e) {
         if (!confirm('Are you sure to load image?')) {
             e.preventDefault();
+            return false;
         }
-    })
+        var checkImg = document.getElementById('emt_img').src;
+
+        if (checkImg) {
+            $url = 'http://192.168.1.69:81/eblapihub/api/app/load-image/imgRedisCall';
+
+            axios.post($url, {
+                id: emtApplicationId,
+                deviceId: deviceId
+            })
+                .then(function (response) {
+                    console.log(response);
+                }).catch(function (response) {
+                    console.log(response);
+                });
+        }
+    });
 
 
 
@@ -35,6 +50,7 @@ $(document).ready(function () {
 function deleteEmtApp(e) {
     if (!confirm('Do you want to delete?')) {
         e.preventDefault();
+        return false;
     }
 }
 

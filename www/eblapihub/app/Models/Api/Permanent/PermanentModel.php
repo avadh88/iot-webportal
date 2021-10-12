@@ -10,6 +10,7 @@ use App\Models\Api\TempDeviceModel;
 use App\Services\RedisService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Crypt;
 use Laravel\Passport\HasApiTokens;
 
 class PermanentModel extends Model
@@ -56,8 +57,17 @@ class PermanentModel extends Model
 
         if ($data) {
             $permanentDevices = PermanentModel::join('companies', 'companies.id', '=', 'permenent_device.company_id')
-                ->get(['permenent_device.id', 'permenent_device.device_name', 'permenent_device.serial_number', 'permenent_device.status', 'permenent_device.temp_device_id', 'permenent_device.retry', 'companies.company_name']);
+                ->get(['permenent_device.id', 'permenent_device.device_name', 'permenent_device.serial_number', 'permenent_device.status', 'permenent_device.temp_device_id', 'permenent_device.retry', 'companies.company_name'])->toArray();
 
+            $list = [];
+            $i    = 1;
+
+            // foreach ($permanentDevices as $key) {
+            //     $key['id'] = Crypt::encryptString($key['id']);
+            //     $list[$i] = $key;
+            //     $i++;
+            // }
+            // return $list;
 
             // $permanentDevices = PermanentModel::select('id','company_id','device_name','serial_number')->get();
             return $permanentDevices;
@@ -75,15 +85,16 @@ class PermanentModel extends Model
     public function getDeviceById($id)
     {
         if (!empty($id)) {
-
+            // $id = Crypt::decryptString($id);
             $permanentModel = PermanentModel::select('id', 'company_id', 'device_name', 'serial_number')->where('id', $id)->first();
+            // $permanentModel['id'] = Crypt::encryptString( $permanentModel['id']);
             return $permanentModel;
         }
     }
 
     public function updateDevice($data)
     {
-
+        // $id                               = Crypt::decryptString($data['id']);
         $permenantModel                   = PermanentModel::find($data['id']);
 
         $oldCompanyId                     = $permenantModel->company_id;
