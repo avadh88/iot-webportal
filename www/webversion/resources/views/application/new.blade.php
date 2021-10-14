@@ -183,6 +183,7 @@
 
                                                 <button type="submit" class="btn btn-primary btn-sm btn-responsive rounded-0 mb-3">Submit</button>
                                                 <input type="button" id="load" name="load" value="Load" class="btn btn-info btn-sm btn-responsive rounded-0 mb-3">
+                                                <input type="button" id="process" name="process" value="Process" class="btn btn-info btn-sm btn-responsive rounded-0 mb-3">
 
                                             </div>
 

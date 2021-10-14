@@ -142,6 +142,22 @@ class Application extends Model
         $redis    = new RedisService();
         $res      = $redis->publishRedis($key, $value);
 
+
+        return $res;
+    }
+
+    public function processImage($data)
+    {
+        $appId = $data['id'];
+        $deviceId = $data['deviceId'];
+
+        $uniqueId = substr(mt_rand(), 0, 10);
+        $key      = 'cp-event-' . $deviceId;
+        $value    = 'cp-apps--emt--' . $deviceId . ';;process;;' . microtime(true) . ';;' . $uniqueId;
+        $redis    = new RedisService();
+        $res      = $redis->publishRedis($key, $value);
+
+
         return $res;
     }
 }

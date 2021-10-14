@@ -16,7 +16,7 @@ $(document).ready(function () {
     // });
 
     document.getElementById('load').addEventListener('click', function (e) {
-        if (!confirm('Are you sure to load image?')) {
+        if (!confirm('Old image will be replaced with new, Are you sure?')) {
             e.preventDefault();
             return false;
         }
@@ -35,6 +35,20 @@ $(document).ready(function () {
                     console.log(response);
                 });
         }
+    });
+
+    document.getElementById('process').addEventListener('click', function (e) {
+        $url = 'http://192.168.1.69:81/eblapihub/api/app/process-image/imgRedisCall';
+
+        axios.post($url, {
+            id: emtApplicationId,
+            deviceId: deviceId
+        })
+            .then(function (response) {
+                console.log(response);
+            }).catch(function (response) {
+                console.log(response);
+            });
     });
 
 

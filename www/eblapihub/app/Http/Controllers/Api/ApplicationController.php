@@ -232,4 +232,13 @@ class ApplicationController extends ApiController
 
         return $this->respond($emtData);
     }
+
+    public function imgProcessRedisCall(Request $request){
+        $data = json_decode($request->getContent(), true);
+
+        $emtModel = new Application();
+        $emtData  = $emtModel->processImage($data);
+
+        return $this->respond($emtData);
+    }
 }
