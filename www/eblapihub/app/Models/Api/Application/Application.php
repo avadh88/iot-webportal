@@ -140,10 +140,12 @@ class Application extends Model
         $key      = 'cp-event-' . $deviceId;
         $value    = 'cp-apps--emt--' . $deviceId . ';;load;;' . microtime(true) . ';;' . $uniqueId;
         $redis    = new RedisService();
+
         $res      = $redis->publishRedis($key, $value);
 
-
-        return $res;
+        // $response = $redis->subRedis('emt-app-res-' . $deviceId);
+        $response = $redis->getRedis('emt-app-res-' . $deviceId);
+        return $response;
     }
 
     public function processImage($data)

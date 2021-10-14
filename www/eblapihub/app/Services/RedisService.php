@@ -58,10 +58,10 @@ class RedisService
             $reply =  $this->getRedis($key);
 
             if ($reply) {
-
                 list($reply_key, $reply_id, $reply_time, $reply_uuid) = explode(';;', $reply);
 
                 if ($reply_id == $lastInsertedId) {
+                    $this->disconnectRedis();
                     return true;
                 }
             }
@@ -79,4 +79,21 @@ class RedisService
         $redisConn = $this->connectRedis();
         return $redisConn->get($key);
     }
+
+    // public function subRedis($key, $timeInSec = 60, $sleepTimeInSec = 1)
+    // {
+    //     $time = 0;
+    //     $redisConn = $this->connectRedis();
+    //     $reply = $redisConn->subscribe($key);
+
+    //     while ($time < $timeInSec) {
+
+    //         if ($reply) {
+    //             return $reply;
+    //         }
+    //         sleep(1);
+
+    //         $time++;
+    //     }
+    // }
 }
