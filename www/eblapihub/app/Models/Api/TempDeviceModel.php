@@ -4,81 +4,95 @@ namespace App\Models\Api;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Crypt;
 use Laravel\Passport\HasApiTokens;
 
 class TempDeviceModel extends Model
 {
-    use HasFactory,HasApiTokens;
+    use HasFactory, HasApiTokens;
 
     protected $connection = 'mysql2';
     protected $table = 'temp_devices';
-    protected $fillable = ['company_id','device_name','serial_number'];
+    protected $fillable = ['company_id', 'device_name', 'serial_number', 'temp_device_id'];
 
-    public function list($data){
-        
-        if($data){
-            $tempDevices = TempDeviceModel::select('id','company_name','device_name','serial_number')->get();
+    public function list($data)
+    {
+
+        if ($data) {
+            $tempDevices = TempDeviceModel::select('id', 'company_name', 'device_name', 'serial_number', 'status')->get()->toArray();
+
+
+            // $list = [];
+            // $i    = 1;
+            // foreach ($tempDevices as $key) {
+            //     $key['id'] = Crypt::encryptString($key['id']);
+            //     $list[$i] = $key;
+            //     $i++;
+            // }
+
             return $tempDevices;
         }
     }
 
 
-    public function checkDevice($datas){
+    public function checkDevice($datas)
+    {
 
-        $results = TempDeviceModel::where('company_id', $datas['company_id'])
-                                ->where('device_name', $datas['device_name'])
-                                ->where('serial_number', $datas['serial_number'])->exists();
+        $results = TempDeviceModel::where('company_name', $datas['company_name'])
+            ->where('device_name', $datas['device_name'])
+            ->where('serial_number', $datas['serial_number'])->exists();
 
         if ($results) {
-            $response['message'] = trans('api.messages.device.data_exists');
-        }
-       
-        else{
+            $response = trans('api.messages.tempdevice.data_exists');
+        } else {
 
             $data                = new TempDeviceModel();
 
-            $data->company_id  = $datas['company_id'];
+            $data->company_name  = $datas['company_name'];
             $data->device_name   = $datas['device_name'];
             $data->serial_number = $datas['serial_number'];
-        
-            if($data->save()){
-                $response['message'] = trans('api.messages.device.success');
-            }else{
-                $response['message'] = trans('api.messages.device.failed');
+            $data->temp_device_id = $datas['temp_device_id'];
+
+            if ($data->save()) {
+                $response = trans('api.messages.tempdevice.success');
+            } else {
+                $response = trans('api.messages.tempdevice.failed');
             }
-        }     
+        }
         return $response;
     }
 
-    public function getDeviceById($id){
-        if(!empty($id)){
-  
-            $permanentModel = TempDeviceModel::select('id','company_name','device_name','serial_number')->where('id',$id)->first();
-            return $permanentModel;
-        
-        }
+    public function getDeviceById($id)
+    {
+        if (!empty($id)) {
+            // $id = Crypt::decryptString($id);
+            $permanentModel = TempDeviceModel::select('id', 'company_name', 'device_name', 'serial_number', 'temp_device_id')->where('id', $id)->first();
 
+            return $permanentModel;
+        }
     }
 
-     
-    public function updateTempDevice($data){
-             
+
+    public function updateTempDevice($data)
+    {
+
         $tempModel                   = TempDeviceModel::find($data['id']);
 
         $tempModel->company_name     = $data['company_name'];
         $tempModel->device_name      = $data['device_name'];
         $tempModel->serial_number    = $data['serial_number'];
-      
-        if($tempModel->save()){
+
+        if ($tempModel->save()) {
             return $tempModel;
-        }else{
+        } else {
             return false;
         }
     }
 
-    public function deleteById($id){
-        if(!empty($id)){
-            $deleteData = TempDeviceModel::where('id',$id)->delete();
+    public function deleteById($id)
+    {
+        if (!empty($id)) {
+            $deleteData = TempDeviceModel::where('id', $id)->delete();
             return $deleteData;
         }
     }

@@ -14,10 +14,6 @@ class CreateRolesTable extends Migration
      */
     public function up()
     {
-        // Schema::dropIfExists('roles');
-        // Schema::dropIfExists('permissions');
-        // Schema::dropIfExists('permission_role');
-        // Schema::dropIfExists('role_user');
 
         Schema::create('roles', function (Blueprint $table) {
             $table->bigIncrements('id');
@@ -51,7 +47,6 @@ class CreateRolesTable extends Migration
         });
 
         Schema::create('users', function (Blueprint $table) {
-            // $table->id();
             $table->bigIncrements('id');
             $table->string('username');
             $table->string('email');
