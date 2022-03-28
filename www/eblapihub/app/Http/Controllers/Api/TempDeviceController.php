@@ -18,19 +18,35 @@ class TempDeviceController extends ApiController
      */
     public function insertTempData(Request $request){
         
-        $tempData = new TempDeviceModel();
+        $data = json_decode($request->getContent(),true);
+        
 
-        $tempData->company_name = $request->input('company_name');
-        $tempData->device_name = $request->input('device_name') . "_" . $request->input('serial_number');
-        $tempData->serial_number = $request->input('serial_number');
+        $tempModel = new TempDeviceModel();
+        $tempData  =  $tempModel->insertTempDevice($data);
 
-        if($tempData->save()){
-            $response['message'] = "Data Register Successfully";
+        // $tempData = new TempDeviceModel();
+
+        // $tempData->company_name = $request->input('company_name');
+        // $tempData->device_name = $request->input('device_name') . "_" . $request->input('serial_number');
+        // $tempData->serial_number = $request->input('serial_number');
+
+        // if($tempData->save()){
+        //     $response['message'] = "Data Register Successfully";
+        //     $response['data']    = $tempData;
+        // }else{
+        //     $response['message'] = "Not Registered";
+        // }
+        // return response()->json($response);
+
+        if($tempData){
+            $response['message'] = trans('api.messages.device.register');
             $response['data']    = $tempData;
+            return $this->respond($response);
         }else{
-            $response['message'] = "Not Registered";
+            $response['message'] = trans('api.messages.device.failed');
+            $response['data']    = $tempData;
+            return $this->respond($response);
         }
-        return response()->json($response);
     } 
     
 

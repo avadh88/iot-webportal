@@ -34,6 +34,20 @@ class TempDeviceModel extends Model
         }
     }
 
+    public function insertTempDevice($data)
+    {
+        $tempModel                   = TempDeviceModel::find($data['id']);
+
+        $tempModel->company_name = $data['company_name'];
+        $tempModel->device_name = $data['device_name'] . "_" . $data['serial_number'];
+        $tempModel->serial_number = $data['serial_number'];
+
+        if ($tempModel->save()) {
+            return $tempModel;
+        } else {
+            return false;
+        }
+    }
 
     public function checkDevice($datas)
     {
