@@ -156,4 +156,16 @@ class Company extends Model
 
         return $data;
     }
+
+    public function saveCompanyAccess($companyData){
+        $companies   = [];
+        $j = 0;
+
+        foreach ($companyData as $companyId) {
+            $companies[$j] = Company::where('id', $companyId)->value('id');
+            $j++;
+        }
+
+        return $companies;
+    }
 }
