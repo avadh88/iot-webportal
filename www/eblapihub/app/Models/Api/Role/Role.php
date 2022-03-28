@@ -40,34 +40,14 @@ class Role extends Model
 
     public function givePermission($data)
     {
+        $roleModel                   = Role::find($data['id']);
+        $roleModel->role_name         = $data['role_name'];
 
-        $userId   = Role::where('role_name', $data['role_name'])->value('id');
-        $role     = Role::find($userId);
-
-
-        $permissions = [];
-        $companies   = [];
-        $i = 0;
-        $j = 0;
-        if (isset($data['permission'])) {
-            foreach ($data['permission'] as $permission) {
-                $permissions[$i]   = Permission::where('permission_name', $permission)->value('id');
-                $i++;
-            }
+        if ($roleModel->save()) {
+            return $roleModel;
+        }else {
+            return false;
         }
-
-        if (isset($data['companyAccess'])) {
-            foreach ($data['companyAccess'] as $companyId) {
-                $companies[$j] = Company::where('id', $companyId)->value('id');
-                $j++;
-            }
-        }
-
-        $role->allowTo($permissions);
-        $role->allowCompany($companies);
-
-
-        return $role;
     }
 
     public function deleteById($id)
@@ -84,25 +64,25 @@ class Role extends Model
         $roleModel->role_name         = $data['role_name'];
 
         if ($roleModel->save()) {
-            $permissions = [];
-            $companies   = [];
-            $i = 0;
-            $j = 0;
+            // $permissions = [];
+            // $companies   = [];
+            // $i = 0;
+            // $j = 0;
 
-            if (isset($data['permission'])) {
-                foreach ($data['permission'] as $permission) {
-                    $permissions[$i]   = Permission::where('permission_name', $permission)->value('id');
-                    $i++;
-                }
-            }
-            if (isset($data['companyAccess'])) {
-                foreach ($data['companyAccess'] as $companyId) {
-                    $companies[$j] = Company::where('id', $companyId)->value('id');
-                    $j++;
-                }
-            }
-            $roleModel->allowCompany($companies);
-            $roleModel->allowTo($permissions);
+            // if (isset($data['permission'])) {
+            //     foreach ($data['permission'] as $permission) {
+            //         $permissions[$i]   = Permission::where('permission_name', $permission)->value('id');
+            //         $i++;
+            //     }
+            // }
+            // if (isset($data['companyAccess'])) {
+            //     foreach ($data['companyAccess'] as $companyId) {
+            //         $companies[$j] = Company::where('id', $companyId)->value('id');
+            //         $j++;
+            //     }
+            // }
+            // $roleModel->allowCompany($companies);
+            // $roleModel->allowTo($permissions);
             return $roleModel;
         } else {
             return false;

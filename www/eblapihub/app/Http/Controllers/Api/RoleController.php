@@ -2,17 +2,34 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Models\Api\Company\Company;
 use App\Models\Api\Permission\Permission;
 use App\Models\Api\Role\Role;
-use App\Models\User\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator as FacadesValidator;
 
 
 class RoleController extends ApiController
 {
-    //
+
+    /**
+     * The var implementation.
+     *
+     */
+    protected $roleModel, $companyModel, $permissoinModel;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct(Role $roleModel ,Permission $permissoinModel ,Company $companyModel)
+    {
+        $this->roleModel        = $roleModel;
+        $this->companyModel     = $companyModel;
+        $this->permissoinModel  = $permissoinModel;
+    }
+
 
     /**
      * Add new role
@@ -29,23 +46,33 @@ class RoleController extends ApiController
             'role_name'          => 'required|unique:roles',
         ]);
 
+        $response = [];
 
         if ($validator->fails()) {
             $response['message'] = $validator->errors();
             return $this->throwValidation($response);
         } else {
+            $roleData  =  $this->roleModel->addRole($data);
 
-            $userModel = new Role();
-            $userData  =  $userModel->addRole($data);
-            $response = [];
+            if($roleData) {
+                $permissions = $data["permission"];
+                $companyAccess = $data["companyAccess"];
 
-            if ($userData) {
+                if (isset($permissions)) {
+                    $per = $this->permissoinModel->savePermissions($permissions);
+                    $roleData->allowTo($per);
+                }
+                if (isset($companyAccess)) {
+                    $companies = $this->companyModel->saveCompanyAccess($companyAccess);
+                    $roleData->allowCompany($companies);
+                }
+
                 $response['message'] = trans('api.messages.role.create');
-                $response['data']    = $userData;
+                $response['data']    = $roleData;
                 return $this->respond($response);
-            } else {
+            }else{
                 $response['message'] = trans('api.messages.role.failed');
-                $response['data']    = $userData;
+                $response['data']    = $roleData;
                 return $this->respond($response);
             }
         }
@@ -68,20 +95,31 @@ class RoleController extends ApiController
             'role_name'          => 'required|unique:roles,role_name,' . $id,
         ]);
 
+        $response = [];
+
         if ($validator->fails()) {
             $response['message'] = $validator->errors();
             return $this->throwValidation($response);
         } else {
+            $roleData  =  $this->roleModel->givePermission($data);
 
-            $roleModel = new Role();
-            $roleData = $roleModel->givePermission($data);
+            if($roleData) {
+                $permissions = $data["permission"];
+                $companyAccess = $data["companyAccess"];
 
+                if (isset($permissions)) {
+                    $per = $this->permissoinModel->savePermissions($permissions);
+                    $roleData->allowTo($per);
+                }
+                if (isset($companyAccess)) {
+                    $companies = $this->companyModel->saveCompanyAccess($companyAccess);
+                    $roleData->allowCompany($companies);
+                }
 
-            if ($roleData) {
                 $response['message'] = trans('api.messages.role.update');
                 $response['data']    = $roleData;
                 return $this->respond($response);
-            } else {
+            }else{
                 $response['message'] = trans('api.messages.role.failed');
                 $response['data']    = $roleData;
                 return $this->respond($response);
@@ -98,9 +136,7 @@ class RoleController extends ApiController
      */
     public function view(Request $request)
     {
-
-        $roleModel = new Role();
-        $roleData = $roleModel->list($roleModel);
+        $roleData = $this->roleModel->list($this->roleModel);
         $response  = [];
 
         if (count($roleData) > 0) {
@@ -128,9 +164,7 @@ class RoleController extends ApiController
     {
 
         $data = json_decode($request->getContent(), true);
-
-        $roleModel = new Role();
-        $data = $roleModel->fetchPermissionById($id);
+        $data = $this->roleModel->fetchPermissionById($id);
 
         if ($data) {
             $response['message'] = trans('api.messages.fetch.success');
@@ -153,9 +187,7 @@ class RoleController extends ApiController
      */
     public function delete(Request $request, $id)
     {
-
-        $roleModel = new Role();
-        $roleData  = $roleModel->deleteById($id);
+        $roleData  = $this->roleModel->deleteById($id);
 
         if ($roleData) {
             $response['message'] = trans('api.messages.role.delete');
