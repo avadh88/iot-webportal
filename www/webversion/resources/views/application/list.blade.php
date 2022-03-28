@@ -91,7 +91,7 @@
                                                             <td>{{ $i++ }}</td>
                                                             <td>{{ $app->app_name }}</td>
                                                             <td>{{ $app->device_name }}</td>
-                                                            <td>{{ ($app->app_status == 1 ) ? 'Active' : 'Disactive'}} </td>
+                                                            <td>{{ ($app->app_status == 1 ) ? 'Active' : 'Inactive'}} </td>
 
 
                                                             <td>

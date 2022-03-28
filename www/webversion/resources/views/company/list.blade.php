@@ -97,7 +97,7 @@
                                                                     <tr role="row" class="odd">
                                                                         <td>{{ $i++ }}</td>
                                                                         <td>{{ $company->company_name }}</td>
-                                                                        <td>{{ ($company->company_status == 1 ) ? 'Active' : 'Disactive'}} </td>
+                                                                        <td>{{ ($company->company_status == 1 ) ? 'Active' : 'Inactive'}} </td>
                                                                         <td>
                                                                             <img src="{{ $company->company_logo }}" alt="{{ $company->company_logo }}">
                                                                         </td>
