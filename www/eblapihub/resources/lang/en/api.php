@@ -44,6 +44,7 @@ return [
         ],
         'device' => [
             'create'      => 'Device Created Successfully',
+            'register'      => 'Data Register Successfully',
             'failed'      => 'Something Went Wrong, Try Agin',
             'delete'      => 'Deleted Successfully',
             'update'      => 'Device Updated Successfully',  
