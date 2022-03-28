@@ -11,6 +11,22 @@ use Intervention\Image\Facades\Image;
 class CompanyController extends ApiController
 {
 
+     /**
+     * The var implementation.
+     *
+     */
+    protected $companyModel;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct(Company $companyModel)
+    {
+        $this->companyModel     = $companyModel;
+    }
+
     /**
      * Create New Company
      * 
@@ -60,8 +76,7 @@ class CompanyController extends ApiController
             $data['company_mobile']  = $datas['company_mobile'];
             $data['company_status']  = $datas['company_status'];
 
-            $companyModel = new Company();
-            $companyData  =  $companyModel->addCompany($data);
+            $companyData  =  $this->companyModel->addCompany($data);
             $response = [];
 
 
@@ -84,9 +99,7 @@ class CompanyController extends ApiController
      */
     public function list()
     {
-
-        $companyModel = new Company();
-        $companyData  =  $companyModel->companyList();
+        $companyData  =  $this->companyModel->companyList();
         
         $response = [];
 
@@ -111,8 +124,7 @@ class CompanyController extends ApiController
      */
     public function delete($id)
     {
-        $companyModel = new Company();
-        $companyData  = $companyModel->deleteById($id);
+        $companyData  = $this->companyModel->deleteById($id);
 
         if ($companyData) {
             $response['message'] = trans('api.messages.common.delete');
@@ -134,8 +146,7 @@ class CompanyController extends ApiController
      */
     public function edit($id)
     {
-        $companyModel = new Company();
-        $companyData  = $companyModel->getUserById($id);
+        $companyData  = $this->companyModel->getUserById($id);
 
         if ($companyData) {
             $response['message'] = trans('api.messages.fetch.success');
@@ -199,8 +210,7 @@ class CompanyController extends ApiController
             $data['company_status']  = $datas['company_status'];
 
 
-            $companyModel = new Company();
-            $companyData  =  $companyModel->updateCompany($data);
+            $companyData  =  $this->companyModel->updateCompany($data);
             $response = [];
 
             if (($companyData)) {
@@ -223,8 +233,7 @@ class CompanyController extends ApiController
     public function compnaylist()
     {
 
-        $companyModel = new Company();
-        $companyData  =  $companyModel->companyName();
+        $companyData  =  $this->companyModel->companyName();
 
         $response = [];
 
@@ -251,8 +260,7 @@ class CompanyController extends ApiController
     {
         $data = json_decode($request->getContent(), true);
 
-        $companyModel = new Company();
-        $companyData  =  $companyModel->listbyid($data['id']);
+        $companyData  =  $this->companyModel->listbyid($data['id']);
 
         if ($companyData) {
             $response['message'] = trans('api.messages.fetch.success');
