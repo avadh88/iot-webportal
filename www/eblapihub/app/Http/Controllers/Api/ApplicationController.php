@@ -9,6 +9,22 @@ use Illuminate\Support\Facades\Validator;
 class ApplicationController extends ApiController
 {
     /**
+    * The var implementation.
+    *
+    */
+    protected $appModel;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct( Application $appModel )
+    {
+        $this->appModel        = $appModel;
+    }
+
+    /**
      * Create new EMT Application
      * 
      * @param Request $request
@@ -53,8 +69,8 @@ class ApplicationController extends ApiController
             $data['app_status']        = $datas['app_status'];
 
 
-            $appModel = new Application();
-            $appModel  =  $appModel->addApplication($data);
+            // $appModel = new Application();
+            $appModel  =  $this->appModel->addApplication($data);
             $response = [];
 
 
@@ -82,8 +98,8 @@ class ApplicationController extends ApiController
         $data   = json_decode($request->getContent(), true);
         $userId = $data['user_id'];
 
-        $appModel = new Application();
-        $appData  = $appModel->appsList($userId);
+        // $appModel = new Application();
+        $appData  = $this->appModel->appsList($userId);
 
         $response = [];
 
