@@ -52,26 +52,23 @@ class PermanentModel extends Model
         return $response;
     }
 
-    public function list($data)
+    public function list()
     {
+        $permanentDevices = PermanentModel::join('companies', 'companies.id', '=', 'permenent_device.company_id')
+            ->get(['permenent_device.id', 'permenent_device.device_name', 'permenent_device.serial_number', 'permenent_device.status', 'permenent_device.temp_device_id', 'permenent_device.retry', 'companies.company_name'])->toArray();
 
-        if ($data) {
-            $permanentDevices = PermanentModel::join('companies', 'companies.id', '=', 'permenent_device.company_id')
-                ->get(['permenent_device.id', 'permenent_device.device_name', 'permenent_device.serial_number', 'permenent_device.status', 'permenent_device.temp_device_id', 'permenent_device.retry', 'companies.company_name'])->toArray();
+        $list = [];
+        $i    = 1;
 
-            $list = [];
-            $i    = 1;
+        // foreach ($permanentDevices as $key) {
+        //     $key['id'] = Crypt::encryptString($key['id']);
+        //     $list[$i] = $key;
+        //     $i++;
+        // }
+        // return $list;
 
-            // foreach ($permanentDevices as $key) {
-            //     $key['id'] = Crypt::encryptString($key['id']);
-            //     $list[$i] = $key;
-            //     $i++;
-            // }
-            // return $list;
-
-            // $permanentDevices = PermanentModel::select('id','company_id','device_name','serial_number')->get();
-            return $permanentDevices;
-        }
+        // $permanentDevices = PermanentModel::select('id','company_id','device_name','serial_number')->get();
+        return $permanentDevices;
     }
 
     public function deleteById($id)

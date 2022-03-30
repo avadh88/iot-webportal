@@ -9,6 +9,21 @@ use Illuminate\Support\Facades\Validator;
 
 class PermanentController extends ApiController
 {
+    /**
+    * The var implementation.
+    *
+    */
+    protected $permanentModel;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct( PermanentModel $permanentModel )
+    {
+        $this->permanentModel        = $permanentModel;
+    }
 
     /**
      * Show Permanent devices
@@ -20,8 +35,7 @@ class PermanentController extends ApiController
     public function list(Request $request)
     {
 
-        $permanentDevice = new PermanentModel();
-        $permanentData   = $permanentDevice->list($permanentDevice);
+        $permanentData   = $this->permanentModel->list();
         $response = [];
 
         if (count($permanentData) > 0) {
@@ -45,8 +59,7 @@ class PermanentController extends ApiController
      */
     public function delete($id)
     {
-        $deviceModel = new PermanentModel();
-        $deviceData  = $deviceModel->deleteById($id);
+        $deviceData  = $this->permanentModel->deleteById($id);
 
         if ($deviceData) {
             $response['message'] = trans('api.messages.device.delete');
@@ -67,8 +80,7 @@ class PermanentController extends ApiController
      */
     public function edit($id)
     {
-        $deviceModel = new PermanentModel();
-        $deviceData  = $deviceModel->getDeviceById($id);
+        $deviceData  = $this->permanentModel->getDeviceById($id);
 
         if ($deviceData) {
             $response['message'] = trans('api.messages.fetch.success');
@@ -106,8 +118,7 @@ class PermanentController extends ApiController
             return $this->respondUnauthorized($response);
         } else {
 
-            $permanentModel = new PermanentModel();
-            $permanentData  =  $permanentModel->updateDevice($data);
+            $permanentData  =  $this->permanentModel->updateDevice($data);
             $response = [];
 
             if (($permanentData)) {
