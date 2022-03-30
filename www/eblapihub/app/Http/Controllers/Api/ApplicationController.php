@@ -68,8 +68,6 @@ class ApplicationController extends ApiController
             $data['app_name']          = $datas['app_name'];
             $data['app_status']        = $datas['app_status'];
 
-
-            // $appModel = new Application();
             $appModel  =  $this->appModel->addApplication($data);
             $response = [];
 
@@ -98,7 +96,6 @@ class ApplicationController extends ApiController
         $data   = json_decode($request->getContent(), true);
         $userId = $data['user_id'];
 
-        // $appModel = new Application();
         $appData  = $this->appModel->appsList($userId);
 
         $response = [];
@@ -125,8 +122,7 @@ class ApplicationController extends ApiController
     public function edit($id)
     {
 
-        $appModel = new Application();
-        $appModel = $appModel->getDataById($id);
+        $appModel = $this->appModel->getDataById($id);
 
         $response['message'] = trans('api.messages.fetch.success');
         $response['data']    = $appModel;
@@ -142,8 +138,7 @@ class ApplicationController extends ApiController
      */
     public function sendDataToDevice($id)
     {
-        $appModel  = new Application();
-        $appModel  =  $appModel->getAppById($id);
+        $appModel  =  $this->appModel->getAppById($id);
 
 
         if (!empty($appModel)) {
@@ -197,8 +192,7 @@ class ApplicationController extends ApiController
         $data['app_name']          = $datas['app_name'];
         $data['app_status']        = $datas['app_status'];
 
-        $appModel = new Application();
-        $appModel  =  $appModel->updateEMTApplication($data);
+        $appModel  =  $this->appModel->updateEMTApplication($data);
         $response = [];
 
 
@@ -224,8 +218,7 @@ class ApplicationController extends ApiController
      */
     public function delete($id)
     {
-        $appModel = new Application();
-        $appData  = $appModel->deleteEMTApplication($id);
+        $appData  = $this->appModel->deleteEMTApplication($id);
 
         if ($appData) {
             $response['message'] = trans('api.messages.common.delete');
