@@ -9,6 +9,23 @@ use Illuminate\Support\Facades\Validator;
 
 class TempDeviceController extends ApiController
 {
+
+    /**
+    * The var implementation.
+    *
+    */
+    protected $tempModel;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct( TempDeviceModel $tempModel )
+    {
+        $this->tempModel        = $tempModel;
+    }
+
     /**
      * Insert Temp Device
      *
@@ -78,8 +95,7 @@ class TempDeviceController extends ApiController
      */
     public function listDevices(Request $request){
         
-        $tempDevice = new TempDeviceModel();
-        $tempData   = $tempDevice->list($tempDevice);
+        $tempData   = $this->tempModel->list();
         $response = [];
 
         if(count($tempData) > 0 ){
@@ -102,8 +118,7 @@ class TempDeviceController extends ApiController
      * @return \Illuminate\Http\JsonResponse
      */
     public function edit($id){
-        $tempModel = new TempDeviceModel();
-        $tempData  = $tempModel->getDeviceById($id);
+        $tempData  = $this->tempModel->getDeviceById($id);
         
         if($tempData){
             $response['message'] = trans('api.messages.fetch.success');
@@ -132,16 +147,12 @@ class TempDeviceController extends ApiController
             'device_name'        => 'required',
             'serial_number'      => 'required',
         ]);
-        
-
 
         if($validator->fails()){
             $response['message'] = $validator->errors();
             return $this->throwValidation($response);
         } else{
-        
-            $tempModel = new TempDeviceModel();
-            $tempData  =  $tempModel->updateTempDevice($data);
+            $tempData  =  $this->tempModel->updateTempDevice($data);
             $response = [];
 
 
@@ -164,8 +175,7 @@ class TempDeviceController extends ApiController
      * @return void
      */
     public function delete($id){
-        $tempModel = new TempDeviceModel();
-        $tempData  = $tempModel->deleteById($id);
+        $tempData  = $this->tempModel->deleteById($id);
 
         if($tempData){
             $response['message'] = trans('api.messages.device.delete');

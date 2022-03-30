@@ -15,23 +15,10 @@ class TempDeviceModel extends Model
     protected $table = 'temp_devices';
     protected $fillable = ['company_id', 'device_name', 'serial_number', 'temp_device_id'];
 
-    public function list($data)
+    public function list()
     {
-
-        if ($data) {
-            $tempDevices = TempDeviceModel::select('id', 'company_name', 'device_name', 'serial_number', 'status')->get()->toArray();
-
-
-            // $list = [];
-            // $i    = 1;
-            // foreach ($tempDevices as $key) {
-            //     $key['id'] = Crypt::encryptString($key['id']);
-            //     $list[$i] = $key;
-            //     $i++;
-            // }
-
-            return $tempDevices;
-        }
+        $tempDevices = TempDeviceModel::select('id', 'company_name', 'device_name', 'serial_number', 'status')->get()->toArray();
+        return $tempDevices;
     }
 
     public function insertTempDevice($data)
