@@ -13,6 +13,22 @@ use Illuminate\Http\Request;
 class DeviceController extends ApiController
 {
     /**
+    * The var implementation.
+    *
+    */
+    protected $permanentModel;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct( PermanentModel $permanentModel )
+    {
+        $this->permanentModel        = $permanentModel;
+    }
+
+    /**
      * Add device to permenent database
      *
      * @param Request $request
@@ -25,8 +41,7 @@ class DeviceController extends ApiController
 
         $data = json_decode($request->getContent(), true);
 
-        $permanentModel = new PermanentModel();
-        $permanentData = $permanentModel->addToPermanent($data);
+        $permanentData = $this->permanentModel->addToPermanent($data);
 
         if ($permanentData) {
             // event( new DeviceCompanyAddEvent($permanentData->company_email) );
