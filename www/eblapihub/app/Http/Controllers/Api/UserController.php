@@ -6,12 +6,28 @@ use App\Events\UserRegisteredEvent;
 use App\Http\Controllers\Api\ApiController;
 use App\Models\User\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator as FacadesValidator;
 
 class UserController extends ApiController
 {
+   
+    /**
+     * The var implementation.
+     *
+     */
+    protected $userModel;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct(User $userModel)
+    {
+        $this->userModel     = $userModel;
+    }
+
     /**
      * Verify User Detail For Login
      *
@@ -21,7 +37,6 @@ class UserController extends ApiController
      */
     public function verify(Request $request)
     {
-
         $data = json_decode($request->getContent(), true);
 
         $validator = FacadesValidator::make($data, [
@@ -34,17 +49,15 @@ class UserController extends ApiController
                 'message' => trans('api.messages.login.failed')
             ], 404);
         } else {
-            $userModel = new User();
-            $userData  = $userModel->verify($data);
+            $userData  = $this->userModel->verify($data);
 
             if ($userData) {
 
                 if (Hash::check($data['password'], $userData->password)) {
-                    // $datas['user_id']         = Crypt::encryptString( $userData->id );
                     $datas['user_id']         =  $userData->id;
-                    $datas['user_role']       = $userModel->getRoleById($userData->role_id);
-                    $datas['user_permission'] = $userModel->getPermissionById($userData->id);
-                    $datas['company_logo']    = $userModel->getCompanyDetails($userData->company_id);
+                    $datas['user_role']       = $this->userModel->getRoleById($userData->role_id);
+                    $datas['user_permission'] = $this->userModel->getPermissionById($userData->id);
+                    $datas['company_logo']    = $this->userModel->getCompanyDetails($userData->company_id);
 
                     // $role = Role::firstOrCreate(['role_name'=>'administartor']);
                     // $permission = Permission::firstOrCreate(['permission_name'=>'create']);
@@ -93,8 +106,7 @@ class UserController extends ApiController
 
         $data = json_decode($request->getContent(), true);
 
-        $userModel = new User();
-        $userData  =  $userModel->userList();
+        $userData  =  $this->userModel->userList();
         $response = [];
 
         if (count($userData) > 0) {
@@ -139,9 +151,7 @@ class UserController extends ApiController
             $response['message'] = $validator->errors();
             return $this->throwValidation($response);
         } else {
-
-            $userModel = new User();
-            $userData  =  $userModel->addUser($data);
+            $userData  =  $this->userModel->addUser($data);
             $response = [];
 
             if (($userData)) {
@@ -166,9 +176,7 @@ class UserController extends ApiController
      */
     public function delete($id)
     {
-
-        $userModel = new User();
-        $userData  = $userModel->deleteById($id);
+        $userData  = $this->userModel->deleteById($id);
 
         if ($userData) {
             $response['message'] = trans('api.messages.user.delete');
@@ -190,9 +198,7 @@ class UserController extends ApiController
      */
     public function edit($id)
     {
-
-        $userModel = new User();
-        $userData  = $userModel->getUserById($id);
+        $userData  = $this->userModel->getUserById($id);
 
         if ($userData) {
             $response['message'] = trans('api.messages.fetch.success');
@@ -214,8 +220,6 @@ class UserController extends ApiController
      */
     public function update(Request $request)
     {
-
-
         $data = json_decode($request->getContent(), true);
         $id   = $data['id'];
         $validator = FacadesValidator::make($data, [
@@ -235,11 +239,8 @@ class UserController extends ApiController
             $response['message'] = $validator->errors();
             return $this->throwValidation($response);
         } else {
-
-            $userModel = new User();
-            $userData  =  $userModel->updateUser($data);
+            $userData  =  $this->userModel->updateUser($data);
             $response = [];
-
 
             if ($userData) {
                 $response['message'] = trans('api.messages.user.update');
