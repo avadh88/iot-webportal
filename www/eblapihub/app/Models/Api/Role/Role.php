@@ -2,8 +2,6 @@
 
 namespace App\Models\Api\Role;
 
-use App\Models\Api\Company\Company;
-use App\Models\Api\Permission\Permission;
 use App\Models\Api\Role\Traits\Relationship\RoleRelationship;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

@@ -2,10 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Events\DeviceCompanyAddEvent;
-use App\Events\DeviceEvent;
-use App\Http\Controllers\Controller;
-use App\Mail\DeviceRegistered;
 use App\Models\Api\Permanent\PermanentModel;
 
 use Illuminate\Http\Request;

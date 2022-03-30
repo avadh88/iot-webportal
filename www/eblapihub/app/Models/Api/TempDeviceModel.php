@@ -4,7 +4,6 @@ namespace App\Models\Api;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Crypt;
 use Laravel\Passport\HasApiTokens;
 
 class TempDeviceModel extends Model

@@ -2,7 +2,6 @@
 
 namespace App\Models\Api\Company\Traits\Relationship;
 
-use App\Models\Api\Application\Application;
 use App\Models\Api\Permanent\PermanentModel;
 use App\Models\Api\Role\Role;
 

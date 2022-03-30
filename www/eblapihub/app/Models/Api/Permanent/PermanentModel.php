@@ -3,14 +3,12 @@
 namespace App\Models\Api\Permanent;
 
 use App\Events\DeviceCompanyAddEvent;
-use App\Events\DeviceCompanyEditEvent;
 use App\Models\Api\Company\Company;
 use App\Models\Api\Permanent\Traits\Relationship\PermanentRelationship;
 use App\Models\Api\TempDeviceModel;
 use App\Services\RedisService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Crypt;
 use Laravel\Passport\HasApiTokens;
 
 class PermanentModel extends Model

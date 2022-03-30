@@ -9,7 +9,6 @@ use App\Models\Api\Role\Role;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\URL;
 use Laravel\Passport\HasApiTokens;
 

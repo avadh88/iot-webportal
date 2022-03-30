@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Models\Api\DashboardModel;
 use App\Models\Api\Permanent\PermanentModel;
 use App\Models\Api\TempDeviceModel;
 use App\Models\User\User;
-use Illuminate\Http\Request;
-
 class DashboardController extends ApiController
 {
     /**
