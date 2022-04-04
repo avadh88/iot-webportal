@@ -3,7 +3,13 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Add New User</title>
+    <title>
+        @if(isset($data->id))
+            Edit User
+        @else
+            Add New User
+        @endif
+    </title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1' name='viewport'>
     <link rel="shortcut icon" href="{{asset('public/assets/images/favicon.ico')}}"/>
     @include('common/headerlink')
@@ -21,13 +27,23 @@
     <aside class="right-side">
         <section class="content-header fixed_header_menu">
             <h1>
+            @if(isset($data->id))
+                Edit User
+            @else
                 Add New User
+            @endif
             </h1>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item pt-1"><a href="{{ url('user/list')}}"><i class="fa fa-fw fa-home"></i> Users</a>
                 </li>
                 <li class="breadcrumb-item active">
-                    <a href="">Add New User</a>
+                    <a href="#">
+                    @if(isset($data->id))
+                        Edit User
+                    @else
+                        Add New User
+                    @endif
+                    </a>
                 </li>
             </ol>
         </section>
@@ -38,7 +54,12 @@
                         <div class="card border-primary">
                             <div class="card-header bg-primary text-white">
                                 <h3 class="card-title d-inline ">
-                                    <i class="fa fa-fw fa-star-half-empty"></i> Add New User
+                                    <i class="fa fa-fw fa-star-half-empty"></i> 
+                                        @if(isset($data->id))
+                                            Edit User
+                                        @else
+                                            Add New User
+                                        @endif
                                 </h3>
                                 <span class="pull-right">
                                         <i class="fa fa-fw clickable fa-chevron-up"></i>
