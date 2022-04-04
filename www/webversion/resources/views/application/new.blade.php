@@ -129,11 +129,11 @@
                                                 <input type="file" id="app_image" name="app_image" onchange="previewFile(this);" accept="image/bmp">
                                             </div>
 
+                                            <!-- @if(!isset($data->app_image))
                                             <div class="col-lg-3 col-12">
-
-                                                <img id="previewImg" src="" alt="Preview">
+                                                <img id="previewImg" src="" alt>
                                             </div>
-
+                                            @endif -->
 
                                             @if(isset($data->app_image))
 
@@ -143,9 +143,9 @@
                                                     <div id="gallery">
                                                         <div id="gallery-content">
                                                             <div id="gallery-content-center">
-                                                                <a class="fancybox img-responsive" href="{{ $data->app_image }}" data-fancybox-group="gallery" title="">
-                                                                    <img id="emt_img" alt="{{ $data->app_image }}" src="{{ $data->app_image }}" class="all">
-                                                                </a>
+                                                                <!-- <a class="fancybox img-responsive" href="{{ $data->app_image }}" data-fancybox-group="gallery" title=""> -->
+                                                                    <img id="emt_img" alt="{{ $data->app_image }}" src="{{ $data->app_image }}" class="all" height="250px" width="250px">
+                                                                <!-- </a> -->
 
                                                             </div>
                                                         </div>
@@ -154,10 +154,11 @@
                                                 </div>
                                             </div>
 
+                                            @else
+                                            <div class="col-lg-3 col-12">
+                                                <img id="previewImg" src="" alt>
+                                            </div>
 
-
-
-                                            <!-- <img src="{{ $data->app_image }}" alt="{{ $data->app_image }}" height="50px" width="50px"> -->
                                             @endif
                                         </div>
 
