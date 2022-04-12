@@ -2,6 +2,11 @@
 <html lang="en">
 
 <head>
+<link rel="stylesheet" href=
+"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity=
+"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
     <meta charset="UTF-8">
     <title>
         @if(isset($data->id))
@@ -165,7 +170,7 @@
                                                         <div id="gallery-content">
                                                             <div id="gallery-content-center">
                                                                 <!-- <a class="fancybox img-responsive" href="{{ $data->app_image }}" data-fancybox-group="gallery" title=""> -->
-                                                                    <img id="emt_img" alt="{{ $data->app_image }}" src="{{ $data->app_image }}" class="all" height="250px" width="250px">
+                                                                    <img id="emt_img" alt="{{ $data->app_image }}" src="{{ $data->app_image }}" class="all" height="100px" width="100px"  data-toggle="modal" data-target="#exampleModal">
                                                                 <!-- </a> -->
 
                                                             </div>
@@ -217,12 +222,55 @@
                     </div>
                 </div>
 
+                @if(isset($data->app_image))
+                <!-- Modal -->
+                <div class="modal fade"
+                        id="exampleModal"
+                        tabindex="-1"
+                        role="dialog"
+                        aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                            
+                                <!-- Add image inside the body of modal -->
+                                <div class="modal-body">
+                                    <img id="image" src="{{ $data->app_image }}"
+                                        alt="Click on button" 
+                                        height="575px"
+                                        width="575px"/>
+                                </div>
+                
+                                <div class="modal-footer">
+                                    <button type="button"
+                                        class="btn btn-secondary"
+                                        data-dismiss="modal">
+                                        Close
+                                </button>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                @endif
+
+
+
             </section>
         </aside>
     </div>
 
     @include('common/footerlink')
 
+
+
+     <!-- Adding scripts to use bootstrap -->
+    <script src=
+"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity=
+"sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous">
+    </script>  
 </body>
 
 </html>
