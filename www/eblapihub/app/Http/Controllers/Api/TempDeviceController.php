@@ -2,13 +2,29 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Models\Api\TempDeviceModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class TempDeviceController extends ApiController
 {
+
+    /**
+    * The var implementation.
+    *
+    */
+    protected $tempModel;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct( TempDeviceModel $tempModel )
+    {
+        $this->tempModel        = $tempModel;
+    }
+
     /**
      * Insert Temp Device
      *
@@ -18,19 +34,35 @@ class TempDeviceController extends ApiController
      */
     public function insertTempData(Request $request){
         
-        $tempData = new TempDeviceModel();
+        $data = json_decode($request->getContent(),true);
+        
 
-        $tempData->company_name = $request->input('company_name');
-        $tempData->device_name = $request->input('device_name') . "_" . $request->input('serial_number');
-        $tempData->serial_number = $request->input('serial_number');
+        $tempModel = new TempDeviceModel();
+        $tempData  =  $tempModel->insertTempDevice($data);
 
-        if($tempData->save()){
-            $response['message'] = "Data Register Successfully";
+        // $tempData = new TempDeviceModel();
+
+        // $tempData->company_name = $request->input('company_name');
+        // $tempData->device_name = $request->input('device_name') . "_" . $request->input('serial_number');
+        // $tempData->serial_number = $request->input('serial_number');
+
+        // if($tempData->save()){
+        //     $response['message'] = "Data Register Successfully";
+        //     $response['data']    = $tempData;
+        // }else{
+        //     $response['message'] = "Not Registered";
+        // }
+        // return response()->json($response);
+
+        if($tempData){
+            $response['message'] = trans('api.messages.device.register');
             $response['data']    = $tempData;
+            return $this->respond($response);
         }else{
-            $response['message'] = "Not Registered";
+            $response['message'] = trans('api.messages.device.failed');
+            $response['data']    = $tempData;
+            return $this->respond($response);
         }
-        return response()->json($response);
     } 
     
 
@@ -46,7 +78,10 @@ class TempDeviceController extends ApiController
         $tempDevice = new TempDeviceModel();
         $tempData   = $tempDevice->checkDevice($data);
 
-        return response()->json($tempData);
+        $response['message'] = $tempData;
+        return $this->respond($response);
+
+        // return response()->json($tempData);
 
         
     }
@@ -59,8 +94,7 @@ class TempDeviceController extends ApiController
      */
     public function listDevices(Request $request){
         
-        $tempDevice = new TempDeviceModel();
-        $tempData   = $tempDevice->list($tempDevice);
+        $tempData   = $this->tempModel->list();
         $response = [];
 
         if(count($tempData) > 0 ){
@@ -83,8 +117,7 @@ class TempDeviceController extends ApiController
      * @return \Illuminate\Http\JsonResponse
      */
     public function edit($id){
-        $tempModel = new TempDeviceModel();
-        $tempData  = $tempModel->getDeviceById($id);
+        $tempData  = $this->tempModel->getDeviceById($id);
         
         if($tempData){
             $response['message'] = trans('api.messages.fetch.success');
@@ -113,16 +146,12 @@ class TempDeviceController extends ApiController
             'device_name'        => 'required',
             'serial_number'      => 'required',
         ]);
-        
-
 
         if($validator->fails()){
-            $response['message'] = trans('api.messages.device.failed');
-            return $this->respondUnauthorized($response);
+            $response['message'] = $validator->errors();
+            return $this->throwValidation($response);
         } else{
-        
-            $tempModel = new TempDeviceModel();
-            $tempData  =  $tempModel->updateTempDevice($data);
+            $tempData  =  $this->tempModel->updateTempDevice($data);
             $response = [];
 
 
@@ -145,8 +174,7 @@ class TempDeviceController extends ApiController
      * @return void
      */
     public function delete($id){
-        $tempModel = new TempDeviceModel();
-        $tempData  = $tempModel->deleteById($id);
+        $tempData  = $this->tempModel->deleteById($id);
 
         if($tempData){
             $response['message'] = trans('api.messages.device.delete');

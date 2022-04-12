@@ -2,41 +2,72 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Models\Api\Company;
+use App\Models\Api\Company\Company;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+use Intervention\Image\Facades\Image;
 
 class CompanyController extends ApiController
 {
-    public function add(Request $request){
+
+     /**
+     * The var implementation.
+     *
+     */
+    protected $companyModel;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct(Company $companyModel)
+    {
+        $this->companyModel     = $companyModel;
+    }
+
+    /**
+     * Create New Company
+     * 
+     * @param Request $request
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function add(Request $request)
+    {
 
         if ($request->hasFile('company_logo')) {
-            $datas = json_decode($request->form_data,true);
-        }else{
-            $datas = json_decode($request->getContent(),true);
+            $datas = json_decode($request->form_data, true);
+        } else {
+            $datas = json_decode($request->getContent(), true);
         }
-     
 
-        $validator = Validator::make($datas,[
-            'company_name'          => 'required',
-            'company_address'       => 'required',
-            'company_email'         => 'required',
-            'company_mobile'        => 'required',
+        $validator = Validator::make($datas, [
+            'company_name'          => 'required|unique:companies',
+            'company_address'       => 'required|unique:companies',
+            'company_email'         => 'required|unique:companies',
+            'company_mobile'        => 'required|unique:companies',
         ]);
 
-        if($validator->fails()){
-            $response['message'] = trans('api.messages.common.failed');
-            return $this->respondUnauthorized($response);
-        } else{
+        if ($validator->fails()) {
+            $response['message'] = $validator->errors();;
+            return $this->throwValidation($response);
+        } else {
 
             if ($request->hasFile('company_logo')) {
-    
-                $newImageName = time() . '-' . $datas['company_name'] . '.' .$request->company_logo->extension();
-                $request->company_logo->move(public_path('uploads'),$newImageName);
+
+                $thumbnailImage = Image::make($request->file('company_logo')->getRealPath())->resize(50, 50);
+                $data['company_logo']       = $thumbnailImage;
+                $newImageName = time() . '-' . $datas['company_name'] . '.' . $request->company_logo->extension();
+
+                $thumbnailImage->save(public_path('uploads/company/') . $newImageName);
                 $data['company_logo']    = $newImageName;
-            
+            } else {
+                $newImageName = time() . '-' . $datas['company_name'] . '.png';
+
+                File::copy(resource_path('images/ebllogo.png'), public_path('uploads/company/') . $newImageName);
+                $data['company_logo']    = $newImageName;
             }
 
             $data['company_name']    = $datas['company_name'];
@@ -45,101 +76,130 @@ class CompanyController extends ApiController
             $data['company_mobile']  = $datas['company_mobile'];
             $data['company_status']  = $datas['company_status'];
 
-            $companyModel = new Company();
-            $companyData  =  $companyModel->addCompany($data);
+            $companyData  =  $this->companyModel->addCompany($data);
             $response = [];
 
 
-            if(($companyData)){
-                $response['message'] = trans('api.messages.common.success');
+            if (($companyData)) {
+                $response['message'] = trans('api.messages.company.success');
                 $response['data']    = $companyData;
                 return $this->respond($response);
-            }else{
-                $response['message'] = trans('api.messages.common.failed');
+            } else {
+                $response['message'] = trans('api.messages.company.failed');
                 $response['data']    = $companyData;
                 return $this->respond($response);
             }
         }
     }
 
-    public function list(){
-
-        $companyModel = new Company();
-        $companyData  =  $companyModel->companyList();
-
+    /**
+     * Show company list
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function list()
+    {
+        $companyData  =  $this->companyModel->companyList();
+        
         $response = [];
 
 
-        if(count($companyData) > 0){
+        if (count($companyData) > 0) {
             $response['message'] = trans('api.messages.fetch.success');
             $response['data']    = $companyData;
             return $this->respond($response);
-        }else{
+        } else {
             $response['message'] = trans('api.messages.fetch.failed');
             $response['data']    = $companyData;
             return $this->respond($response);
         }
     }
 
-    public function delete($id){
-        $companyModel = new Company();
-        $companyData  = $companyModel->deleteById($id);
+    /**
+     * Delete Company data
+     * 
+     * @param int $id
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function delete($id)
+    {
+        $companyData  = $this->companyModel->deleteById($id);
 
-        if($companyData){
+        if ($companyData) {
             $response['message'] = trans('api.messages.common.delete');
             $response['data']    = $companyData;
             return $this->respond($response);
-        }else{
+        } else {
             $response['message'] = trans('api.messages.common.failed');
             $response['data']    = $companyData;
             return $this->respond($response);
         }
-
     }
 
-    public function edit($id){
-        $companyModel = new Company();
-        $companyData  = $companyModel->getUserById($id);
-        
-        if($companyData){
+    /**
+     * Fetch Company Data for update
+     * 
+     * @param int $id
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function edit($id)
+    {
+        $companyData  = $this->companyModel->getUserById($id);
+
+        if ($companyData) {
             $response['message'] = trans('api.messages.fetch.success');
             $response['data']    = $companyData;
             return $this->respond($response);
-        }else{
+        } else {
             $response['message'] = trans('api.messages.fetch.failed');
             $response['data']    = $companyData;
             return $this->respond($response);
         }
     }
 
-    public function update(Request $request){
+
+    /**
+     * Update Company Data
+     * 
+     * @param Request $request
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request)
+    {
 
         if ($request->hasFile('company_logo')) {
-            $datas = json_decode($request->form_data,true);
-        }else{
-            $datas = json_decode($request->getContent(),true);
+            $datas = json_decode($request->form_data, true);
+        } else {
+            $datas = json_decode($request->getContent(), true);
         }
+        $id = $datas['id'];
 
-        $validator = Validator::make($datas,[
-            'company_name'          => 'required',
-            'company_address'       => 'required',
-            'company_email'         => 'required',
-            'company_mobile'        => 'required',
+        $validator = Validator::make($datas, [
+            'company_name'          => 'required|unique:companies,company_name,' . $id,
+            'company_address'       => 'required|unique:companies,company_address,' . $id,
+            'company_email'         => 'required|unique:companies,company_email,' . $id,
+            'company_mobile'        => 'required|unique:companies,company_mobile,' . $id,
         ]);
 
 
-        if($validator->fails()){
-            
+        if ($validator->fails()) {
+
             $response['message'] = trans('api.messages.common.failed');
             return $this->respondUnauthorized($response);
-        } else{
-        
+        } else {
+
             if ($request->hasFile('company_logo')) {
-    
-                $newImageName = time() . '-' . $datas['company_name'] . '.' .$request->company_logo->extension();
-                $request->company_logo->move(public_path('uploads'),$newImageName);
+
+
+                $thumbnailImage = Image::make($request->file('company_logo')->getRealPath())->resize(50, 50);
+                $data['company_logo']       = $thumbnailImage;
+                $newImageName = time() . '-' . $datas['company_name'] . '.' . $request->company_logo->extension();
+                $thumbnailImage->save(public_path('uploads/company/') . $newImageName);
+
                 $data['company_logo']    = $newImageName;
-            
             }
 
             $data['id']              = $datas['id'];
@@ -150,38 +210,63 @@ class CompanyController extends ApiController
             $data['company_status']  = $datas['company_status'];
 
 
-            $companyModel = new Company();
-            $companyData  =  $companyModel->updateCompany($data);
+            $companyData  =  $this->companyModel->updateCompany($data);
             $response = [];
-            
 
-
-            if(($companyData)){
+            if (($companyData)) {
                 $response['message'] = trans('api.messages.common.update');
                 $response['data']    = $companyData;
                 return $this->respond($response);
-            }else{
+            } else {
                 $response['message'] = trans('api.messages.common.failed');
                 $response['data']    = $companyData;
                 return $this->respond($response);
             }
         }
-
     }
 
-    public function compnaylist(){
+    /**
+     * Fetch company list
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function compnaylist()
+    {
 
-        $companyModel = new Company();
-        $companyData  =  $companyModel->companyName();
+        $companyData  =  $this->companyModel->companyName();
 
         $response = [];
 
 
-        if(count($companyData) > 0){
+        if (count($companyData) > 0) {
             $response['message'] = trans('api.messages.fetch.success');
             $response['data']    = $companyData;
             return $this->respond($response);
-        }else{
+        } else {
+            $response['message'] = trans('api.messages.fetch.failed');
+            $response['data']    = $companyData;
+            return $this->respond($response);
+        }
+    }
+
+    /**
+     * Fetch Company list with related devices
+     * 
+     * @param Request $request
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function listbyid(Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $companyData  =  $this->companyModel->listbyid($data['id']);
+
+        if ($companyData) {
+            $response['message'] = trans('api.messages.fetch.success');
+            $response['data']    = $companyData;
+            return $this->respond($response);
+        } else {
             $response['message'] = trans('api.messages.fetch.failed');
             $response['data']    = $companyData;
             return $this->respond($response);

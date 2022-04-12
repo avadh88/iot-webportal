@@ -27,6 +27,8 @@ docker/config
 docker/data
 docker/logs
 
+www/eblapihub/public/uploads/company/*
+www/eblapihub/public/uploads/bmpImage/*
 www/eblapihub/vendor
 www/eblapihub/storage
 www/eblapihub/tests
@@ -38,13 +40,15 @@ www/eblapihub/webpack.mix.js
 www/eblapihub/README.md
 
 
-
-www/webverion/vendor
-www/webverion/storage
-www/webverion/tests
-www/webverion/.*
-www/webverion/composer.lock
-www/webverion/package-lock.json
-www/webverion/README.md
-
+www/webversion/public
+www/webversion/vendor
+www/webversion/storage
+www/webversion/tests
+www/webversion/.*
+!www/webversion/.env.example
+www/webversion/composer.lock
+www/webversion/package-lock.json
+www/webversion/README.md
+www/webversion/public/*
+www/webversion/public/robots.txt
 

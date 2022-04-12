@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateTempDevicesTable extends Migration
 {
-    protected $connection = 'mysql';
+    protected $connection = 'mysql2';
 
     /**
      * Run the migrations.
@@ -15,12 +15,15 @@ class CreateTempDevicesTable extends Migration
      */
     public function up()
     {
-        Schema::create('temp_devices', function (Blueprint $table) {
+        Schema::connection('mysql2')->dropIfExists('temp_devices');
+
+        Schema::connection('mysql2')->create('temp_devices', function (Blueprint $table) {
             $table->id();
             $table->string('company_name');
             $table->string('device_name');
             $table->string('serial_number');
-            $table->string('flag')->default(0);
+            $table->string('status')->default(0);
+            $table->string('temp_device_id');
             $table->timestamps();
         });
     }
