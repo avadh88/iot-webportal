@@ -74,7 +74,7 @@
 
                 <li id="role">
                     <a href="{{ url('app/new') }}">
-                        <i class="fa fa-fw fa-file-text-o"></i> Create Appliction
+                        <i class="fa fa-fw fa-file-text-o"></i> Create Application
                     </a>
                 </li>
                 </li>
