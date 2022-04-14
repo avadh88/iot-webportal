@@ -8,6 +8,7 @@ $(document).ready(function () {
         document.getElementById('load').disabled = false;
     } else {
         document.getElementById('load').disabled = true;
+        document.getElementById('process').disabled = true;
     }
 
     // $("#app_company_id").select2({
@@ -32,8 +33,10 @@ $(document).ready(function () {
                 .then(function (response) {
                     if(response.data == 55){
                         toastr.success('Image loaded successfully.')
+                        document.getElementById('process').disabled = false;
                     }else if(response.data == 77){
                         toastr.error('Can not load image plase try again.')
+                        document.getElementById('process').disabled = true;
                     }
                     console.log(response.data);
                 }).catch(function (response) {
@@ -54,6 +57,8 @@ $(document).ready(function () {
                     toastr.success('Ready for printing.')
                 }else if(response.data == 77){
                     toastr.error('plase try again.')
+                }else if(response.data == 23){
+                    toastr.info('Already in processig.')
                 }
                 console.log(response);
             }).catch(function (response) {
