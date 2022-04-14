@@ -159,7 +159,8 @@ class Application extends Model
         $redis    = new RedisService();
         $res      = $redis->publishRedis($key, $value);
 
-
-        return $res;
+        $response = $redis->getRedis('emt-app-res-' . $deviceId);
+        return $response;
+        // return $res;
     }
 }
