@@ -250,4 +250,13 @@ class ApplicationController extends ApiController
 
         return $this->respond($emtData);
     }
+
+    public function maxLine(Request $request){
+        $data = json_decode($request->getContent(), true);
+
+        $emtData  = $this->appModel->getMaxLine($data);
+
+        return $this->respond($emtData);
+    }
+
 }

@@ -163,4 +163,22 @@ class Application extends Model
         return $response;
         // return $res;
     }
+
+    public function getMaxLine($data){
+        $id = $data['id'];
+        $deviceId = $data['deviceId'];
+
+        $uniqueId = substr(mt_rand(), 0, 10);
+        $key      = 'cp-event-' . $deviceId;
+        $value    = 'cp-apps--emt--' . $deviceId . ';;max_line_number;;' . microtime(true) . ';;' . $uniqueId;
+        $redis    = new RedisService();
+        $res      = $redis->publishRedis($key, $value);
+
+        $response = $redis->getRedis('emt-app-res-max-line-' . $deviceId);
+        if($response){
+            Application::where('id', $id)->update(['max_line' => $response]);
+        }
+        return $response;
+    }
+
 }
