@@ -55,6 +55,7 @@ $(document).ready(function () {
             .then(function (response) {
                 if(response.data == 55){
                     toastr.success('Ready for printing.')
+                    getMaxLineNumber(emtApplicationId,deviceId);
                 }else if(response.data == 77){
                     toastr.error('plase try again.')
                 }else if(response.data == 23){
@@ -96,6 +97,21 @@ function previewFile(input) {
 
         reader.readAsDataURL(file);
     }
+}
+
+function getMaxLineNumber(emtApplicationId, deviceId){
+    $url = 'http://192.168.1.62:81/eblapihub/api/statistics/app/max-line';
+
+    axios.post($url, {
+        id: emtApplicationId,
+        deviceId: deviceId
+    })
+    .then(function (response) {
+        console.log("max-line" ,  response.data);
+
+    }).catch(function (response) {
+        console.log(response);
+    });
 }
 
 var userId = document.getElementById('user_id').value;
