@@ -112,3 +112,7 @@ Route::get('app/app-data/{id}', [ApplicationController::class, 'sendDataToDevice
 Route::post('app/load-image/imgRedisCall',[ApplicationController::class,'imgRedisCall']);
 Route::post('app/process-image/imgRedisCall',[ApplicationController::class,'imgProcessRedisCall']);
 
+
+Route::prefix('statistics')->group(function () {
+    Route::post('/app/max-line', [ApplicationController::class, 'maxLine']);
+});
