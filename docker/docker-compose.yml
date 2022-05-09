@@ -2,8 +2,10 @@ version: "3"
 
 services:
   webserver:
+    # image: nginx:alpine
     build: 
       context: ./bin/${PHPVERSION}
+      dockerfile: Dockerfile
     container_name: '${COMPOSE_PROJECT_NAME}-${PHPVERSION}'
     restart: 'always'
     ports:
@@ -11,15 +13,40 @@ services:
       - "${HOST_MACHINE_SECURE_HOST_PORT}:443"
     links: 
       - database
-    volumes: 
-      - ${DOCUMENT_ROOT-../www}:/var/www/html
-      - ${PHP_INI-./config/php/php.ini}:/usr/local/etc/php/php.ini
-      - ${VHOSTS_DIR-./config/vhosts}:/etc/apache2/sites-enabled
-      - ${LOG_DIR-./logs/apache2}:/var/log/apache2
     environment:
       APACHE_DOCUMENT_ROOT: ${APACHE_DOCUMENT_ROOT-/var/www/html}
       PMA_PORT: ${HOST_MACHINE_PMA_PORT}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes: 
+      - ${DOCUMENT_ROOT-../www}:/var/www/html
+      - ./bin/nginx/conf/default.conf:/etc/nginx/conf.d/default.conf
+      - ${PHP_INI-./config/php/php.ini}:/usr/local/etc/php/php.ini
+      - ${VHOSTS_DIR-./config/vhosts}:/etc/apache2/sites-enabled
+      # - ${LOG_DIR-./logs/apache2}:/var/log/apache2
+      
+    # webserver:
+    # build: 
+    #   context: ./bin/${PHPVERSION}
+    # container_name: '${COMPOSE_PROJECT_NAME}-${PHPVERSION}'
+    # restart: 'always'
+    # ports:
+    #   - "${HOST_MACHINE_UNSECURE_HOST_PORT}:80"
+    #   - "${HOST_MACHINE_SECURE_HOST_PORT}:443"
+    # links: 
+    #   - database
+    # volumes: 
+    #   - ${DOCUMENT_ROOT-../www}:/var/www/html
+    #   - ${PHP_INI-./config/php/php.ini}:/usr/local/etc/php/php.ini
+    #   - ${VHOSTS_DIR-./config/vhosts}:/etc/apache2/sites-enabled
+    #   - ${LOG_DIR-./logs/apache2}:/var/log/apache2
+    # environment:
+    #   APACHE_DOCUMENT_ROOT: ${APACHE_DOCUMENT_ROOT-/var/www/html}
+    #   PMA_PORT: ${HOST_MACHINE_PMA_PORT}
+    #   MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
   database:
     build:
       context: "./bin/${DATABASE}"

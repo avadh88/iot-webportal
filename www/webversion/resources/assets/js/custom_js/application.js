@@ -8,6 +8,7 @@ $(document).ready(function () {
         document.getElementById('load').disabled = false;
     } else {
         document.getElementById('load').disabled = true;
+        document.getElementById('process').disabled = true;
     }
 
     // $("#app_company_id").select2({
@@ -23,13 +24,20 @@ $(document).ready(function () {
         var checkImg = document.getElementById('emt_img').src;
 
         if (checkImg) {
-            $url = 'http://192.168.1.69:81/eblapihub/api/app/load-image/imgRedisCall';
+            $url = 'http://192.168.1.62:81/eblapihub/api/app/load-image/imgRedisCall';
 
             axios.post($url, {
                 id: emtApplicationId,
                 deviceId: deviceId
             })
                 .then(function (response) {
+                    if(response.data == 55){
+                        toastr.success('Image loaded successfully.')
+                        document.getElementById('process').disabled = false;
+                    }else if(response.data == 77){
+                        toastr.error('Can not load image plase try again.')
+                        document.getElementById('process').disabled = true;
+                    }
                     console.log(response.data);
                 }).catch(function (response) {
                     console.log(response);
@@ -38,13 +46,21 @@ $(document).ready(function () {
     });
 
     document.getElementById('process').addEventListener('click', function (e) {
-        $url = 'http://192.168.1.69:81/eblapihub/api/app/process-image/imgRedisCall';
+        $url = 'http://192.168.1.62:81/eblapihub/api/app/process-image/imgRedisCall';
 
         axios.post($url, {
             id: emtApplicationId,
             deviceId: deviceId
         })
             .then(function (response) {
+                if(response.data == 55){
+                    toastr.success('Ready for printing.')
+                    getMaxLineNumber(emtApplicationId,deviceId);
+                }else if(response.data == 77){
+                    toastr.error('plase try again.')
+                }else if(response.data == 23){
+                    toastr.info('Already in processig.')
+                }
                 console.log(response);
             }).catch(function (response) {
                 console.log(response);
@@ -83,6 +99,21 @@ function previewFile(input) {
     }
 }
 
+function getMaxLineNumber(emtApplicationId, deviceId){
+    $url = 'http://192.168.1.62:81/eblapihub/api/statistics/app/max-line';
+
+    axios.post($url, {
+        id: emtApplicationId,
+        deviceId: deviceId
+    })
+    .then(function (response) {
+        console.log("max-line" ,  response.data);
+
+    }).catch(function (response) {
+        console.log(response);
+    });
+}
+
 var userId = document.getElementById('user_id').value;
 
 // console.log(API_URL);
@@ -96,7 +127,7 @@ var vue = new Vue({
     },
     methods: {
         fetchEmtAppData: function () {
-            axios.post('http://192.168.1.69:81/eblapihub/api/company/listbyid', {
+            axios.post('http://192.168.1.62:81/eblapihub/api/company/listbyid', {
                 id: userId
             }).then(function (response) {
                 vue.companyList = response.data.data;

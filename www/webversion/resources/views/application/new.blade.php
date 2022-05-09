@@ -163,9 +163,9 @@
                                                 <div id="slim">
                                                     <div id="gallery">
                                                         <div id="gallery-content">
-                                                            <div id="gallery-content-center">
+                                                            <div id="gallery-content-center" style="margin-left: 150px" >
                                                                 <!-- <a class="fancybox img-responsive" href="{{ $data->app_image }}" data-fancybox-group="gallery" title=""> -->
-                                                                    <img id="emt_img" alt="{{ $data->app_image }}" src="{{ $data->app_image }}" class="all" height="250px" width="250px">
+                                                                    <img id="emt_img" alt="{{ $data->app_image }}" src="{{ $data->app_image }}" class="all" height="100px" width="100px"  data-bs-toggle="modal" data-bs-target="#myModal">
                                                                 <!-- </a> -->
 
                                                             </div>
@@ -217,6 +217,34 @@
                     </div>
                 </div>
 
+                @if(isset($data->app_image))
+
+                    <div class="modal fade" id="myModal" tabindex="-1"
+                        role="dialog"
+                        aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                            <img id="image" src="{{ $data->app_image }}"
+                                    alt="Click on button" 
+                                    height="575px"
+                                    width="575px"/>
+                            </div>
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                    <button type="button"
+                                        class="btn btn-secondary"
+                                        data-bs-dismiss="modal">
+                                        Close
+                                </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
             </section>
         </aside>
     </div>
